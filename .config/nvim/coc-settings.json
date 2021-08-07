@@ -1,0 +1,26 @@
+{
+    "http.proxyStrictSSL": false,
+    "python.pythonPath": "python3",
+    "sh.highlightParsingErrors": true,
+    "sh.trace.server": "verbose",
+    "pairs.enableCharacters": [
+        "(",
+        "[",
+        "{",
+        "<",
+        "'",
+        "\"",
+        "`"
+    ],
+    "coc.preferences.rootPatterns": [
+        ".git",
+        ".hg",
+        ".projections.json",
+        ".root",
+        ".svn",
+        ",project"
+    ],
+    "suggest.enablePreview": true,
+    "diagnostic.displayByAle": true,
+    "clangd.path": "/root/.config/coc/extensions/coc-clangd-data/install/12.0.1/clangd_12.0.1/bin/clangd"
+}
