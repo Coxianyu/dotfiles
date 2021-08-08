@@ -62,11 +62,12 @@ call plug#begin()
 " Plug 'rmagatti/session-lens'
 " vim debug 插件
 " Plug 'junegunn/fzf', {'dir': '~/.fzf','do': './install'}
+" Plug 'nvim-telescope/telescope-hop.nvim'
 Plug 'nvim-telescope/telescope-vimspector.nvim'
 Plug 'szw/vim-maximizer'
 Plug 'puremourning/vimspector',{'dir':'~/.config/nvim/pack/vimspector/opt/vimspector'}
 Plug 'vim-scripts/DoxygenToolkit.vim'
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 Plug 'sudormrfbin/cheatsheet.nvim'
 Plug 'folke/trouble.nvim'
 Plug 'GustavoKatel/telescope-asynctasks.nvim'
@@ -443,6 +444,7 @@ let g:ale_linters = {
             \   'systemd':['systemd-analyze --user verify'],
             \   'yaml':['yamllint'],
             \   'sql':['sql-lint'],
+            \   'awk':['gawk'],
             \}
 " pip3 install pylint
 " 解决 java 乱码的问题
