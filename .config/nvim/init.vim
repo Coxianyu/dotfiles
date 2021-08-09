@@ -57,21 +57,12 @@ call plug#begin()
 " TODO: vim 调试插件 vimspector
 " TODO: neoformat 插件的配置
 " cheat.sh
-"} telescope-coc 拓展
-" Plug 'rmagatti/auto-session'
-" Plug 'rmagatti/session-lens'
-" vim debug 插件
-" Plug 'junegunn/fzf', {'dir': '~/.fzf','do': './install'}
-" Plug 'nvim-telescope/telescope-hop.nvim'
 Plug 'nvim-telescope/telescope-vimspector.nvim'
 Plug 'szw/vim-maximizer'
 Plug 'puremourning/vimspector',{'dir':'~/.config/nvim/pack/vimspector/opt/vimspector'}
 Plug 'vim-scripts/DoxygenToolkit.vim'
-" Plug 'tpope/vim-fugitive'
 Plug 'sudormrfbin/cheatsheet.nvim'
-Plug 'folke/trouble.nvim'
 Plug 'GustavoKatel/telescope-asynctasks.nvim'
-" Plug 'xiyaowong/telescope-emoji.nvim'
 Plug 'TC72/telescope-tele-tabby.nvim'
 Plug 'nvim-telescope/telescope-symbols.nvim'
 Plug 'fhill2/telescope-ultisnips.nvim'
@@ -84,20 +75,13 @@ Plug 'voldikss/vim-translator'
 Plug 'glepnir/zephyr-nvim'
 " vim 浮动终端
 Plug 'voldikss/vim-floaterm'
-Plug 'voldikss/LeaderF-floaterm'
-" python/append+file
-
-
 Plug 'sbdchd/neoformat'
 Plug 'junegunn/vim-easy-align'
-" 备忘录
-Plug 'glidenote/memolist.vim'
 Plug 'junegunn/fzf', {'dir': '~/.fzf','do': './install'}
 Plug 'junegunn/fzf.vim' 
 Plug 'SirVer/ultisnips'
 Plug 'MattesGroeger/vim-bookmarks'
 Plug 'rhysd/clever-f.vim'
-" Plug 'skywind3000/Leaderf-snippet'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'skywind3000/asyncrun.extra'
@@ -391,16 +375,6 @@ nnoremap <leader>fw  :Leaderf! floaterm<cr>
 " LeaderfQuickFix 查询vim 的QuickFix 窗口
 "}}}
 "}}}
-"vim-autoformat插件的设置, 需要 autopep8{{{
-"这个插件需要安装 autopep8 --> pip install autopep8
-"按F6格式化代码
-"
-" nnoremap <F6> :Autoformat<CR>
-" let g:autoformat_autoindent = 0
-" let g:autoformat_retab = 0
-" let g:autoformat_remove_trailing_spaces = 0
- 
-"}}}
 "ale 代码检测插件的配置， 需要 flake8 或者 pylint {{{
 " 和 coc.nvim 配合使用
 "pip install flake8 || pip install pylint 自己挑一个
@@ -663,6 +637,7 @@ let g:coc_global_extensions = [
             \ "coc-tasks",
             \ "coc-pairs",
             \ "coc-floaterm",
+            \ "coc-word",
             \ "coc-clangd",
             \ "coc-calc",
             \ "coc-sh",
@@ -672,7 +647,7 @@ let g:coc_global_extensions = [
 " neoformat 语言格式化插件{{{
 " }}}
 " NVIMTREE {{{
-nnoremap <f3> :NvimTreeToggle<cr>
+nnoremap <f1> :NvimTreeToggle<cr>
 " NVIMTREE 宽度
 let g:nvim_tree_width = 25 "30 by default, can be width_in_columns or 'width_in_percent%'
 " 不显示的目录
@@ -681,16 +656,6 @@ let g:nvim_tree_git_hl = 0
 let g:nvim_tree_highlight_opened_files = 1
 let g:nvim_tree_auto_close = 1
 highlight NvimTreeFolderIcon guibg=blue
-" }}}
-" coc-fzf-preview {{{
-let g:fzf_preview_default_fzf_options = { '--reverse': v:true, '--preview-window': 'wrap' }
-" bat 预览
-let g:fzf_preview_command = 'batcat --color=always --plain {-1}' " Installed bat
-let g:fzf_binary_preview_command = 'echo "{} is a binary file"'
-let g:fzf_preview_filelist_command = 'git ls-files --exclude-standard'
-let g:fzf_preview_directory_files_command = 'rg --files --hidden --follow --no-messages -g \!"* *"'
-let g:fzf_preview_git_status_command = 'git -c color.status=always status --short --untracked-files=all'
-let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading --color=never --hidden'
 " }}}
 " lable {{{
 nnoremap tt :BufferLinePick<cr>
@@ -783,29 +748,12 @@ lua<<EOF
     require('telescope').load_extension('ultisnips')
     require('telescope').load_extension('vim_bookmarks')
     require('telescope').load_extension('tele_tabby')
-    --require('telescope').load_extension('symbols')
-    --require("telescope").load_extension("emoji")
-    require("trouble")
-    --require('telescope').extensions.asynctasks.all()
     require("cheatsheet").setup({
-    -- Whether to show bundled cheatsheets
-
-    -- For generic cheatsheets like default, unicode, nerd-fonts, etc
     bundled_cheatsheets = true,
-    -- bundled_cheatsheets = {
-    --     enabled = {},
-    --     disabled = {},
-    -- },
-
-    -- For plugin specific cheatsheets
     bundled_plugin_cheatsheets = true,
      bundled_plugin_cheatsheets = {
          disabled = {},
      },
-
-    -- For bundled plugin cheatsheets, do not show a sheet if you
-    -- don't have the plugin installed (searches runtimepath for
-    -- same directory name)
     include_only_installed_plugins = true,
 })
 EOF

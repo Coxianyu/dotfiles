@@ -122,17 +122,16 @@ mkdir -p ~/.config/nvim
 mkdir -p ~/.config/nvim/lua
 mkdir -p ~/.config/nvim/pack/vimspector/opt/
 mkdir -p ~/githubtool
+mkdir -p ~/.local/share/navi/
 
 if test "$1" = "--full";then
     env
     tool
 fi
-if test "$1"="-t";then
+if test "$1" = "-t";then
     tool
 fi
-
 # antigen.zsh
-# curl -L git.io/antigen > ~/.config/antigen.zsh
 wget git.io/antigen -O ~/.config/antigen.zsh
 # Plug.vim
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -142,4 +141,6 @@ git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pac
 
 # z.lua
 wget https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua -O ~/.config/z.lua
-# curl https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua > ~/.config/z.lua
+
+# clone my cheatsheet
+git clone https://github.com/Coxianyu/cheatsheet ~/.local/share/navi/cheats
