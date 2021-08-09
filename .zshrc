@@ -42,7 +42,8 @@ export PATH="${HOME}/.local/bin:${PATH}"
 
 #}}}
 ### navi {{{
-# _evalcache hub alias -s
+# _evalcache hub alias -sexport 
+NAVI_FZF_OVERRIDES_VAR='--reverse'
 _evalcache navi widget zsh
 
 # eval "$(navi widget zsh)"

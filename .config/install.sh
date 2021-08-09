@@ -79,10 +79,12 @@ lazygit(){
 
 }
 neovim(){
+    cd ~
     url=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep linux64 | grep -v sum)
     wget $url -O neovim.tar.gz
     mkdir ./.neovim && tar -xzvf neovim.tar.gz -C ./.neovim --strip-components 1
     ln -s ~/.neovim/bin/nvim ~/.local/bin/nvim
+    cd /tmp
 }
 delta(){
     url=$(curl -s https://api.github.com/repos/dandavison/delta/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep "x86_64-unknown-linux-gnu.tar.gz")

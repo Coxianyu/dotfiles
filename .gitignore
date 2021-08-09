@@ -4,3 +4,4 @@ demo.*
 .task
 .vimspector.json
 .myconfig
+test.*
