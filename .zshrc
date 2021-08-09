@@ -1,8 +1,15 @@
-# antien{{{
+# P10K{{{
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+# }}}
+# antigen{{{
 source "${HOME}/.config/antigen.zsh"
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
-
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 antigen bundle wfxr/forgit
 antigen bundle djui/alias-tips
@@ -10,6 +17,7 @@ antigen bundle supercrabtree/k
 antigen bundle extract
 antigen bundle mroth/evalcache
 antigen bundle urbainvaes/fzf-marks
+antigen theme romkatv/powerlevel10k
 # antigen bundle gitignore
 antigen bundle safe-paste
 antigen bundle colored-man-pages
@@ -23,7 +31,8 @@ antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-completions
 
 # Load the theme.
-antigen theme robbyrussell
+# antigen theme robbyrussell
+# antigen theme  jonathan
 
 # Tell Antigen that you're done.
 antigen apply
@@ -58,32 +67,33 @@ export _ZL_CMD='j'
 export BIN="${HOME}/.local/bin"
 export PATH
 fpath=(~/.local/script $fpath)
-autoload -Uz compinit
-compinit
 _dotbare_completion_cmd
 #}}}}
 #}}}
 ###alias {{{
 # common-alias {{{{
-if test -f ~/.local/bin/fd;then
-    alias find='fd'
+if [ -x "$(command -v exa)" ]; then
+    alias ls="exa"
+    alias la="exa --long --all --group"
 fi
-if test -f ~/.local/bin/rg;then
-    alias grep='rg'
+if [ -x "$(command -v fd)" ]; then
+    alias find="fd"
 fi
-if test -f ~/.local/bin/exa;then
-    alias ls='exa'
-    compdef ls=exa
+if [ -x "$(command -v grep)" ]; then
+    alias grep="rg"
 fi
-alias cat='cat_function'
+alias bat='batcat'
+if [ -x "$(command -v bat)" ]; then
+    alias cat="bat"
+fi
+if [ -x "$(command -v nvim)" ]; then
+    alias vim="nvim"
+fi
 # alias config='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 alias config='dotbare'
-alias bat='batcat'
 alias zshconfig="$EDITOR ~/.zshrc"
 alias vimconfig="$EDITOR ~/.config/nvim/init.vim"
-alias vim='vim_function'
 alias exa='exa --icons'
-alias la='exa -a'
 # }}}}
 # z.lua-alias {{{{
 # jf foo 使用 fzf 交互选择
@@ -103,34 +113,6 @@ compdef batcat=bat
 compdef config=dotbare
 #}}}
 # function {{{
-get_latest_release() {
-  curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
-    grep '"tag_name":' |                                            # Get tag line
-    sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
-}
-gh-clone-latest() {
-  local owner=$1 project=$2
-  local output_directory=${3:-$owner-$project-release}
-  local release_url=$(curl -Ls -o /dev/null -w %{url_effective} https://github.com/$owner/$project/releases/latest)
-  local release_tag=$(basename $release_url)
-  git clone -b $release_tag -- https://github.com/$owner/$project.git $output_directory
-}
-function vim_function(){
-    if test -f /bin/nvim -o -f /usr/local/bin/nvim -o ~/.local/bin/nvim;then
-        nvim $@
-    elif test -f /bin/vim;then
-        /bin/vim --clean $@
-    else
-        /bin/vi $@
-    fi
-}
-function cat_function(){
-    if test -f "${BIN}/batcat";then
-        batcat $*
-    else
-        /bin/cat $*
-    fi
-}
 function cde(){
     if [ $1 ];then
         dir=$1
@@ -151,12 +133,20 @@ function ef(){
      vim $file
     fi
 }
+get_tmux(){
+    $name=(tmux ls | cut -d '-' -f 1|fzf)
+    tmux a -t $name
+}
 # }}}
+# export DOTBARE_PREVIEW="bat {}"
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --icons --color=always $realpath'
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 ### z.lua {{{
 # 识别根目录的文件
 export _ZL_ROOT_MARKERS=".git,.svn,.hg,.root,package.json"
 # eval "$(lua ~/.config/z.lua --init zsh)"
 _evalcache lua ~/.config/z.lua --init zsh
+autoload -Uz compinit
+compinit
 # }}}
-# export DOTBARE_PREVIEW="bat {}"
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --icons --color=always $realpath'

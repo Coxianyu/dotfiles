@@ -702,10 +702,13 @@ let g:floaterm_height = 0.9
 " let g:floaterm_key_map_toggle = '<F12>'
 " hi Floaterm guibg=black
 hi Floaterm guibg=LightGra
-nnoremap <c-\> :FloatermToggle main<cr>
+nnoremap <f12> :FloatermToggle main<cr>
 nnoremap <leader>th :FloatermNew htop<cr>
 nnoremap <leader>tg :FloatermNew lazygit<cr>
-tnoremap <c-\> <C-\><C-n>:FloatermToggle<cr>
+nnoremap <leader>tt :FloatermNew --wintype=vsplit --width=0.2<cr>
+tnoremap <f12> <C-\><C-n>:FloatermToggle<cr>
+tnoremap <tab> <c-\><c-n><c-w>
+" nnoremap <leader>tj :Floaterm
 " hi FloatermBorder guibg=black
 " }}}
 " trans vim 翻译插件 {{{
