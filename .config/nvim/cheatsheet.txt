@@ -1,0 +1,37 @@
+## vim-bookmark
+添加书签 make a mark| mm
+移除所有书签 clear all mark | mc
+添加注释书签 make a comment mark |mi
+跳转到下一个书签 jump to next mark |mn
+跳转到上一个书签 jump to previous mark | mp
+
+## vim-signify
+选择模式下进入对齐 select mode to align | ,sa
+
+## ultisnips
+展开片段 expand snippet | <c-q>
+跳转到片段下一个地方 jump to next snippet  | <c-n>
+跳转到片段上一个地方 jump to previous snippet| <c-p>
+
+## vim-signify 
+对比当前文件和暂存区的区别 diff workspace file and staged file | :SignifyDiff
+
+## asyncrun
+异步执行命令 exec command | :AsyncRun {command}
+
+## vim-commentary 
+快速注释 comment quickly | gcc
+
+## vim-translator
+命令栏显示翻译结果 translator in command line| :Translate
+浮动窗口显示翻译结果 translator in float windows | :TranslateW
+用结果替换选择的文字 translator replace word | :TranslateR
+
+## coc.nvim
+跳转到下一个错误 | [g
+跳转到上一个错误 | ]h
+
+## muti
+打开 nvimtree | <f1>
+打开浮动窗口 | <f12>
+查看帮助     |K
