@@ -72,6 +72,7 @@ _dotbare_completion_cmd
 #}}}
 ###alias {{{
 # common-alias {{{{
+alias bat='batcat'
 if [ -x "$(command -v exa)" ]; then
     alias ls="exa"
     alias la="exa --long --all --group"
@@ -82,7 +83,6 @@ fi
 if [ -x "$(command -v grep)" ]; then
     alias grep="rg"
 fi
-alias bat='batcat'
 if [ -x "$(command -v bat)" ]; then
     alias cat="bat"
 fi
@@ -119,7 +119,7 @@ function cde(){
     else
         dir=.
     fi
-     dir=$(fd . --type=d --full-path "$dir" --color=always |fzf --preview 'ls --color=always -ah {}')
+     dir=$(fd . --type=d --full-path "$dir" --color=always |fzf --preview 'exa --icons  {}')
    
 }
 function ef(){
@@ -134,7 +134,7 @@ function ef(){
     fi
 }
 get_tmux(){
-    $name=(tmux ls | cut -d '-' -f 1|fzf)
+    name=$(tmux ls | cut -d '-' -f 1|fzf)
     tmux a -t $name
 }
 # }}}

@@ -50,13 +50,8 @@
 "插件{{{
 call plug#begin()
 
-" TODO: 看一下 cheat.sh.vimc
-" TODO: 学习 asynctasks
-" TODO: 写快捷键列表
-" TODO: Which-key 映射
-" TODO: vim 调试插件 vimspector
-" TODO: neoformat 插件的配置
 " cheat.sh
+Plug 'antoinemadec/coc-fzf'
 Plug 'nvim-telescope/telescope-vimspector.nvim'
 Plug 'szw/vim-maximizer'
 Plug 'puremourning/vimspector',{'dir':'~/.config/nvim/pack/vimspector/opt/vimspector'}
@@ -68,7 +63,7 @@ Plug 'nvim-telescope/telescope-symbols.nvim'
 Plug 'fhill2/telescope-ultisnips.nvim'
 Plug 'fannheyward/telescope-coc.nvim'
 Plug 'tom-anders/telescope-vim-bookmarks.nvim'
-Plug 'dbeniamine/cheat.sh-vim'
+" Plug 'dbeniamine/cheat.sh-vim'
 " 翻译插件
 Plug 'voldikss/vim-translator'
 " theme
@@ -113,8 +108,9 @@ if filereadable('/bin/gtags') || filereadable('/usr/local/bin/gtags')
     Plug 'ludovicchabant/vim-gutentags'
 endif
 Plug 'yianwillis/vimcdoc'
-Plug 'Yggdroot/LeaderF'
+" Plug 'Yggdroot/LeaderF'
 Plug 'w0rp/ale'
+" Plug 'vimwiki/vimwiki'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'luochen1990/rainbow'
 Plug 'tpope/vim-commentary' 
@@ -122,7 +118,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-surround' 
 Plug 'tpope/vim-repeat' 
 Plug 'nelstrom/vim-visual-star-search' 
-"":CocCommand clangd.install 安装 clangd 
 call plug#end()
 "}}} 
 "set 指令{{{ 
@@ -168,9 +163,17 @@ if (!has("nvim"))
     set wildmenu
 endif
 set nu
+set cmdheight=2
 set ai
 set hidden
 set noeb
+set shortmess+=c
+if has("nvim-0.5.0") || has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
 set nocompatible
 set t_Co=256
 syntax on
@@ -182,6 +185,7 @@ nnoremap <f1> <nop>
 nmap <leader>sa <Plug>(EasyAlign)
 nnoremap <tab> V>
 nnoremap <s-tab> V<
+nnoremap gb <c-w>l:q<cr>
 nnoremap <tab>h <c-w>h
 nnoremap <tab>j <c-w>j
 nnoremap <tab>k <c-w>k
@@ -219,11 +223,8 @@ xmap <leader>ga <Plug>(EasyAlign)
 inoremap <s-tab> <c-d>
 inoremap <leader>o <c-o>
 inoremap <c-j> <down>
-" inoremap <c-k> <up>
 inoremap <c-n> <down>
 inoremap <c-p> <up>
-inoremap <c-b> <left>
-inoremap <c-f> <right>
 inoremap <c-a> <c-o>0
 inoremap <c-e> <c-o>$
 inoremap jj <c-[>
@@ -304,80 +305,79 @@ let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 let g:gutentags_auto_add_gtags_cscope = 0
  
 "}}}
-" Leaderf {{{
-let g:Lf_RgConfig = [
-            \ "--max-columns=150",
-            \ "--type-add web:*.{html,css,js}*",
-            \ "--glob=!git/*",
-            \ "--hidden"
-            \ ]
-let g:Lf_Gtagsconf = '/usr/local/share/gtags/gtags.conf'
-let g:Lf_PreviewPopupWidth = 80
-let g:Lf_PreviewPopupWidth = 80
-let g:Lf_GtagsAutoGenerate = 0
-let g:Lf_GtasgsGutentags = 1
-let g:Lf_CacheDirectory = expand('~')
-let g:Lf_gutentags_cache_dir = '~/.cache/tags'
-let g:Lf_Gtagslabel = 'native-pygments'
-let g:Lf_ReverseOrder = 1
-let g:Lf_ShortcutF = ''
-let g:Lf_ShortcutB = ''
-let g:Lf_WindowPosition = 'popup'
-let g:Lf_HistoryNumber =  '500'
-let g:Lf_PopupPreviewPostion = 'bottom'
-let g:Lf_PreviewInPopup = '1'
-let g:Lf_WorkingDirectoryMode = 'AF'
-let g:Lf_RootMarkers = ['.git', '.svn', '.hg', '.project', '.root']
-let g:Lf_UseVersionControlTool = 1
-let g:Lf_DefaultExternalTool = 'rg'
-let g:Lf_ShowHidden = 1
-let g:Lf_StlColorscheme = 'powerline'
-let g:Lf_PreviewResult = { 
-        \'File': 0,
-        \ 'Buffer': 0,
-        \ 'Mru': 0,
-        \ 'Tag': 0,
-        \ 'BufTag': 1,
-        \ 'Function': 1,
-        \ 'Line': 1,
-        \ 'Colorscheme': 0,
-        \ 'Rg': 1,
-        \ 'Gtags': 1
-        \}
-"leaderf keybinding {{{
-nnoremap <leader>fgr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>    
-nnoremap <leader>fF :Leaderf! function<cr>
-nnoremap <leader>ff :Leaderf file<cr>
-nnoremap <leader>fb :Leaderf! buffer<cr>
-nnoremap <leader>fB :Leaderf! buffer --all<cr>
-nnoremap <leader>ftt :Leaderf! tag<cr>
-nnoremap <leader>fa :LeaderfFunction <cr>
-nnoremap <leader>fA :LeaderfFunctionAll <cr>
-nnoremap <leader>fl :LeaderfLine<cr>
-nnoremap <leader>fL :LeaderfLineAll<cr>
-nnoremap <leader>fh :LeaderfHistoryCmd<cr>
-nnoremap <leader>fH :LeaderfHistorySearch<cr>
-nnoremap <leader>fv :LeaderfHelp<cr>
-nnoremap <leader>fz :Leaderf snippet<cr>
-nnoremap <leader>fq :LeaderfQuickFix<cr>
-nnoremap <leader>fri :LeaderfRgInteractive<cr>
-nnoremap <leader>frI :LeaderfRgRecall<cr>
-nnoremap <leader>fi  :LeaderfFiletype<cr>
-nnoremap <leader>fs  :LeaderfCommand<cr>
-nnoremap <leader>fq  :LeaderfQuickFix<cr>
-nnoremap <leader>fj   :Leaderf! jumps<cr>
-nnoremap <leader>fgt :Leaderf! gtags<cr>
-nnoremap <leader>fw  :Leaderf! floaterm<cr>
-" LeaderfColorscheme 切换vim主题配色
-" LeaderfFiletype  改变当前文件的 FileType
-" LeaderCommand  查询vim内建的ex命令和用户定义的命令
-" LeaderfWindow  查询vim 窗口
-" LeaderfQuickFix 查询vim 的QuickFix 窗口
-"}}}
-"}}}
-"ale 代码检测插件的配置， 需要 flake8 或者 pylint {{{
+"" Leaderf {{{
+"let g:Lf_RgConfig = [
+"            \ "--max-columns=150",
+"            \ "--type-add web:*.{html,css,js}*",
+"            \ "--glob=!git/*",
+"            \ "--hidden"
+"            \ ]
+"let g:Lf_Gtagsconf = '/usr/local/share/gtags/gtags.conf'
+"let g:Lf_PreviewPopupWidth = 80
+"let g:Lf_PreviewPopupWidth = 80
+"let g:Lf_GtagsAutoGenerate = 0
+"let g:Lf_GtasgsGutentags = 1
+"let g:Lf_CacheDirectory = expand('~')
+"let g:Lf_gutentags_cache_dir = '~/.cache/tags'
+"let g:Lf_Gtagslabel = 'native-pygments'
+"let g:Lf_ReverseOrder = 1
+"let g:Lf_ShortcutF = ''
+"let g:Lf_ShortcutB = ''
+"let g:Lf_WindowPosition = 'popup'
+"let g:Lf_HistoryNumber =  '500'
+"let g:Lf_PopupPreviewPostion = 'bottom'
+"let g:Lf_PreviewInPopup = '1'
+"let g:Lf_WorkingDirectoryMode = 'AF'
+"let g:Lf_RootMarkers = ['.git', '.svn', '.hg', '.project', '.root']
+"let g:Lf_UseVersionControlTool = 1
+"let g:Lf_DefaultExternalTool = 'rg'
+"let g:Lf_ShowHidden = 1
+"let g:Lf_StlColorscheme = 'powerline'
+"let g:Lf_PreviewResult = { 
+"        \'File': 0,
+"        \ 'Buffer': 0,
+"        \ 'Mru': 0,
+"        \ 'Tag': 0,
+"        \ 'BufTag': 1,
+"        \ 'Function': 1,
+"        \ 'Line': 1,
+"        \ 'Colorscheme': 0,
+"        \ 'Rg': 1,
+"        \ 'Gtags': 1
+"        \}
+""leaderf keybinding {{{
+"nnoremap <leader>fgr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>    
+"nnoremap <leader>fF :Leaderf! function<cr>
+"nnoremap <leader>ff :Leaderf file<cr>
+"nnoremap <leader>fb :Leaderf! buffer<cr>
+"nnoremap <leader>fB :Leaderf! buffer --all<cr>
+"nnoremap <leader>ftt :Leaderf! tag<cr>
+"nnoremap <leader>fa :LeaderfFunction <cr>
+"nnoremap <leader>fA :LeaderfFunctionAll <cr>
+"nnoremap <leader>fl :LeaderfLine<cr>
+"nnoremap <leader>fL :LeaderfLineAll<cr>
+"nnoremap <leader>fh :LeaderfHistoryCmd<cr>
+"nnoremap <leader>fH :LeaderfHistorySearch<cr>
+"nnoremap <leader>fv :LeaderfHelp<cr>
+"nnoremap <leader>fz :Leaderf snippet<cr>
+"nnoremap <leader>fq :LeaderfQuickFix<cr>
+"nnoremap <leader>fri :LeaderfRgInteractive<cr>
+"nnoremap <leader>frI :LeaderfRgRecall<cr>
+"nnoremap <leader>fi  :LeaderfFiletype<cr>
+"nnoremap <leader>fs  :LeaderfCommand<cr>
+"nnoremap <leader>fq  :LeaderfQuickFix<cr>
+"nnoremap <leader>fj   :Leaderf! jumps<cr>
+"nnoremap <leader>fgt :Leaderf! gtags<cr>
+"nnoremap <leader>fw  :Leaderf! floaterm<cr>
+"" LeaderfColorscheme 切换vim主题配色
+"" LeaderfFiletype  改变当前文件的 FileType
+"" LeaderCommand  查询vim内建的ex命令和用户定义的命令
+"" LeaderfWindow  查询vim 窗口
+"" LeaderfQuickFix 查询vim 的QuickFix 窗口
+""}}}
+""}}}
+"ale 代码检测插件的配置{{{
 " 和 coc.nvim 配合使用
-"pip install flake8 || pip install pylint 自己挑一个
 "
 let g:ale_completion_enabled = 0
 let g:ale_floating_preview = 1
@@ -466,6 +466,38 @@ nnoremap <silent> <leader>      :<c-u>WhichKey ','<CR>
 let g:which_key_sep = '→'
 " set timeoutlen=100
 let g:which_key_map = {}
+let g:which_key_map.t = {
+            \'f':'查询文件',
+            \'F':'查询函数',
+            \'H':'查询执行过的用户自定义命令',
+            \'r':'grep 字符串',
+            \'l':'搜索行',
+            \'N':'git_files',
+            \'c':'git_commits',
+            \'C':'git_bcommits',
+            \'L':'git_branches',
+            \'s':'git_stash',
+            \'o':'command_history',
+            \'S':'search_history',
+            \'m':'man_pages',
+            \'M':'mark',
+            \'R':'寄存器',
+            \'p':'suggest_spell',
+            \'k':'tagstack',
+            \'y':'symbols',
+            \'Y':'git_status',
+            \'q':'quickfix',
+            \'B':'bookmarks all',
+            \'n':'bookmarks current_file',
+            \'v':'ultisnips',
+            \'d':'TODOlist',
+            \'g':'floaterm',
+            \'e':'diagnostics current_file',
+            \'E':'diagnostics all buffer',
+            \'b':'buffer',
+            \'u':'mru',
+            \'i':'help_tags',
+            \}
 let g:which_key_map.f = {
             \'name':'+leaderF',
             \'f':'查询当前路径下的文件',
@@ -593,56 +625,70 @@ inoremap <silent><expr> <TAB>
             \ coc#refresh()
 
 " <cr> 确认补全
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 let g:coc_snippet_next = '<tab>'
-
-
-nmap <leader>qd <Plug>(coc-definition)
-nnoremap <leader>qr :CocCommand fzf-preview.CocReferences<cr>
-nmap <leader>qf <Plug>(coc-format)
-nnoremap <leader>qE :CocCommand fzf-preview.CocDiagnostics<cr>
-nnoremap <leader>qe :CocCommand fzf-preview.CocCurrentDiagnostics<cr>
-nnoremap <leader>qf :CocList folders<cr>
-nnoremap <leader>ql :CocList links<cr>
-nnoremap <leader>qL :CocCommand fzf-preview.MemoList<cr>
-nnoremap <leader>qa :CocCommand fzf-preview.Buffers<cr>
-nnoremap <leader>qs :CocList symbols<cr>
-nnoremap <leader>qm :CocList marks<cr>
-" nnoremap <leader>qK :call <SID>show_documentation()<CR>
-nmap <leader>qk <Plug>(coc-rename)
-nnoremap <leader>qM :CocCommand fzf-preview.Bookmarks<cr>
-nnoremap <leader>qb :CocCommand fzf-preview.AllBuffers<cr>
-nnoremap <leader>qp :CocCommand fzf-preview.ProjectOldFiles<cr>
-nnoremap <leader>qm :CocCommand fzf-preview.ProjectMruFiles<cr>
-nnoremap <leader>qM :CocCommand fzf-preview.ProjectMrwFiles<cr>
-nnoremap <leader>qB :call CocAction('jumpDefinition', v:false)<CR>
-nnoremap <leader>qn :CocCommand fzf-preview.MruFiles<cr>
-nnoremap <leader>qN :CocCommand fzf-preview.MrwFiles<cr>
-nnoremap <leader>qc :CocCommand fzf-preview.Changes<cr>
-nnoremap <leader>qt :CocCommand fzf-preview.TodoComments<cr>
-nnoremap <leader>qD :CocCommand fzf-preview.CocTypeDefinitions<cr>
-nmap <leader>qi  <Plug>(coc-format-selected)
-imap <leader>sp <Plug>(coc-calc-result-append)
-
-" 设定 markdown 禁用 ` 配对
 autocmd FileType markdown let b:coc_pairs_disabled = ['`']
 let g:coc_global_extensions = [
             \ "coc-tsserver",
             \ "coc-git",
+            \ "coc-marketplace",
             \ "coc-snippets",
             \ "coc-lists",
             \ "coc-highlight",
             \ "coc-pyright",
             \ "coc-tasks",
-            \ "coc-pairs",
             \ "coc-floaterm",
             \ "coc-word",
             \ "coc-clangd",
             \ "coc-calc",
             \ "coc-sh",
+            \ "coc-translator",
             \ "coc-json"]
-
+xmap <leader>qf  <Plug>(coc-format-selected
+nmap <leader>qf  <Plug>(coc-format-selected)
+nmap <leader>qR <Plug>(coc-rename)
+nmap <leader>qF  <Plug>(coc-fix-current)
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> <leader>qd <Plug>(coc-definition)
+nnoremap <silent><nowait> <leader>qD :call CocAction('jumpDefinition', v:false)<CR>
+nmap <silent> <leader>qy <Plug>(coc-type-definition)
+nmap <silent> <leader>qi <Plug>(coc-implementation)
+nmap <silent> <leader>qr <Plug>(coc-references)
+cnoremap help vert help
+nnoremap <silent>K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'vert h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+nnoremap <leader>k :call <SID>showdo()<CR>
+function! s:showdo()
+      execute 'vert h '.expand('<cword>')
+endfunction
+autocmd cursorhold * silent call CocActionAsync('highlight')
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+if has('nvim-0.4.0')
+  nnoremap <silent><nowait><expr> <c-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<c-f>"
+  nnoremap <silent><nowait><expr> <c-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<c-b>"
+  inoremap <silent><nowait><expr> <c-z> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<right>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+command! -nargs=0 Format :call CocAction('format')
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
 " }}}
 " neoformat 语言格式化插件{{{
 " }}}
@@ -661,18 +707,17 @@ highlight NvimTreeFolderIcon guibg=blue
 nnoremap tt :BufferLinePick<cr>
 nnoremap tr :BufferLinePickClose<cr>
 " }}}
-" float-terminal vim 浮动终端{{{
-let g:floaterm_width = 0.9
+" float-terminal vim 浮动终端{{{ let g:floaterm_width = 0.9
 let g:floaterm_height = 0.9
 " let g:floaterm_key_map_toggle = '<F12>'
 " hi Floaterm guibg=black
 hi Floaterm guibg=LightGra
 nnoremap <f12> :FloatermToggle main<cr>
-nnoremap <leader>th :FloatermNew htop<cr>
-nnoremap <leader>tg :FloatermNew lazygit<cr>
-nnoremap <leader>tt :FloatermNew --wintype=vsplit --width=0.2<cr>
+nnoremap <leader>rh :FloatermNew htop<cr>
+nnoremap <leader>rg :FloatermNew lazygit<cr>
+nnoremap <leader>rt :FloatermNew --wintype=vsplit --width=0.2<cr>
 tnoremap <f12> <C-\><C-n>:FloatermToggle<cr>
-tnoremap <tab> <c-\><c-n><c-w>
+tnoremap ww <c-\><c-n><c-w>h
 " nnoremap <leader>tj :Floaterm
 " hi FloatermBorder guibg=black
 " }}}
@@ -769,5 +814,44 @@ let g:maximizer_set_default_mapping = 0
 " let g:maximizer_default_mapping_key = 'ty'
 nnoremap tg :MaximizerToggle<cr>
 "}}}
-" nnoremap <Leader>n :lua require'telescope.builtin'.find_files(require('telescope.themes').get_cursor({ winblend = 10 }))<cr>
+" cheat sheet {{{
+nnoremap <leader>? :Cheatsheet<cr>
+" }}}
+" Telescope {{{
+nnoremap <leader>tf :Telescope find_browser<cr>
+nnoremap <leader>tF :CocList outline method<cr>
+nnoremap <leader>tH :Telescope commands<cr>
+nnoremap <leader>th :Telescope highlight<cr>
+nnoremap <leader>tr :Telescope grep_string<cr>
+nnoremap <leader>tl :Telescope current_buffer_fuzzy_find<cr>
+nnoremap <leader>tN :Telescope git_files<cr>
+nnoremap <leader>tc :Telescope git_commits<cr>
+nnoremap <leader>tC :Telescope git_bcommits<cr>
+nnoremap <leader>tL :Telescope git_branches<cr>
+nnoremap <leader>ts :Telescope git_stash<cr>
+nnoremap <leader>to :Telescope command_history<cr>
+nnoremap <leader>tS :Telescope search_history<cr>
+nnoremap <leader>tm :Telescope man_pages<cr>
+nnoremap <leader>tM :Telescope marks<cr>
+nnoremap <leader>tR :Telescope register<cr>
+nnoremap <leader>tp :Telescope spell_suggest<cr>
+nnoremap <leader>tk :Telescope tagstack<cr>
+nnoremap <leader>tK :Telescope keymaps<cr>
+nnoremap <leader>ty :Telescope symbols<cr>
+nnoremap <leader>tY :Telescope git_status<cr>
+nnoremap <leader>tq :Telescope quickfix<cr>
+nnoremap <leader>tb :Telescope buffers<cr>
+nnoremap <leader>tB :Telescope vim_bookmarks all<cr>
+nnoremap <leader>tn :Telescope vim_bookmarks current_file<cr>
+nnoremap <leader>tv :Telescope ultisnips<cr>
+nnoremap <leader>td :TodoTelescope<cr>
+nnoremap <leader>tg :CocList floaterm<cr>
+nnoremap <leader>te :Telescope coc diagnostics<cr>
+nnoremap <leader>tE :Telescope coc workspace_diagnostics<cr>
+nnoremap <leader>tu :Telescope coc mru theme=get_cursor<cr>
+nnoremap <leader>ti :Telescope help_tags<cr>
+" Telescope find_files theme=get_dropdown
 
+" }}}
+helptags ~/.config/nvim/doc
+" helptags ~/.config/nvim/doc

@@ -1,2 +1,3 @@
-nvim : ~/.config/nvim
 cheatsheet : ~/.local/share/navi/cheats/cheatsheet
+nvim : ~/.config/nvim
+doc : ~/.config/nvim/doc
