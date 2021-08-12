@@ -1,3 +1,24 @@
+### z.lua {{{
+# 识别根目录的文件
+export _ZL_ROOT_MARKERS=".git,.svn,.hg,.root,package.json"
+export _ZL_CMD='j'
+# eval "$(lua ~/.config/z.lua --init zsh)"
+# _evalcache lua ~/.config/z.lua --init zsh
+autoload -Uz compinit
+compinit
+# }}}
+# z.lua-alias {{{{
+# jf foo 使用 fzf 交互选择
+alias jf='j -I'
+# jb foo
+alias jb='j -b'
+# jbf foo 使用 fzf 选择父目录
+alias jbf='j -b -I'
+# jh  使用 fzf 选择最近的 10 条路径
+alias jh='j -I -t .'
+# jc 跳转到当前路径下的子目录
+alias jc='j -c -I'
+#}}}}
 # P10K{{{
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -29,13 +50,15 @@ antigen bundle Aloxaf/fzf-tab
 antigen bundle zdharma/fast-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-completions
-
+antigen bundle skywind3000/z.lua
+antigen bundle changyuheng/fz
 # Load the theme.
 # antigen theme robbyrussell
 # antigen theme  jonathan
 
 # Tell Antigen that you're done.
 antigen apply
+function _z() { _zlua "$@"; }
 # }}}
 ### fzf {{{
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -63,7 +86,6 @@ export DOTBARE_DIR="${HOME}/.myconfig"
 export DOTBARE_TREE="${HOME}"
 export EDITOR='nvim'
 
-export _ZL_CMD='j'
 export BIN="${HOME}/.local/bin"
 export PATH
 fpath=(~/.local/script $fpath)
@@ -95,18 +117,6 @@ alias zshconfig="$EDITOR ~/.zshrc"
 alias vimconfig="$EDITOR ~/.config/nvim/init.vim"
 alias exa='exa --icons'
 # }}}}
-# z.lua-alias {{{{
-# jf foo 使用 fzf 交互选择
-alias jf='j -I'
-# jb foo
-alias jb='j -b'
-# jbf foo 使用 fzf 选择父目录
-alias jbf='j -b -I'
-# jh  使用 fzf 选择最近的 10 条路径
-alias jh='j -I -t .'
-# jc 跳转到当前路径下的子目录
-alias jc='j -c -I'
-#}}}}
 #}}}
 #compdef {{{
 compdef batcat=bat
@@ -142,11 +152,3 @@ get_tmux(){
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --icons --color=always $realpath'
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-### z.lua {{{
-# 识别根目录的文件
-export _ZL_ROOT_MARKERS=".git,.svn,.hg,.root,package.json"
-# eval "$(lua ~/.config/z.lua --init zsh)"
-_evalcache lua ~/.config/z.lua --init zsh
-autoload -Uz compinit
-compinit
-# }}}

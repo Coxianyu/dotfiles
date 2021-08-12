@@ -707,7 +707,8 @@ highlight NvimTreeFolderIcon guibg=blue
 nnoremap tt :BufferLinePick<cr>
 nnoremap tr :BufferLinePickClose<cr>
 " }}}
-" float-terminal vim 浮动终端{{{ let g:floaterm_width = 0.9
+" float-terminal vim 浮动终端{{{
+let g:floaterm_width = 0.9
 let g:floaterm_height = 0.9
 " let g:floaterm_key_map_toggle = '<F12>'
 " hi Floaterm guibg=black
@@ -805,9 +806,21 @@ EOF
 endif
 "}}}
 "vimspector {{{
-" let g:vimspector_enable_mappings = 'HUMAN'
-" let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
 packadd! vimspector
+" let g:vimspector_enable_mappings = 'HUMAN'
+nnoremap <leader>dd :call vimspector#Launch()<cr>
+nnoremap <leader>de :call vimspector#Reset()<cr>
+nnoremap <leader>dcb :call vimspector#CleanLineBreakpoint()<cr>
+nmap <leader>dl :<plug>VimspectorStepInto<cr>
+nmap <leader>dj :<plug>VimspectorStepOver<cr>
+nmap <leader>dk :<plug>VimsepctorStepOut<cr>
+nmap <leader>d_ :<plug>VimsepctorRestart<cr>
+nnoremap <leader>d<space> :call vimspector#Continue()<cr>
+nmap <leader>drc <plug>VimspectorRunToCursor
+nmap <leader>dp <plug>VimspectorToggleBreakpoint
+nmap <leader>dbp <plug>VimspectorToggleConditionalBreakpoint
+
+
 "}}}
 "maximizer{{{
 let g:maximizer_set_default_mapping = 0
@@ -854,4 +867,3 @@ nnoremap <leader>ti :Telescope help_tags<cr>
 
 " }}}
 helptags ~/.config/nvim/doc
-" helptags ~/.config/nvim/doc

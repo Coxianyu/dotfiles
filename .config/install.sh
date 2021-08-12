@@ -18,7 +18,9 @@ function env(){
     # 分屏 diff 工具
     pip3 install git+https://github.com/jeffkaufman/icdiff.git
     # 替换 htop 和 top
-    pip install --user glances
+    pip3 install --user glances
+    # ranger 文件管理程序
+    pip3 install ranger-fm
 
 }
 function lsp(){
@@ -138,9 +140,6 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 
 # packer.nvim
 git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-
-# z.lua
-wget https://raw.githubusercontent.com/skywind3000/z.lua/master/z.lua -O ~/.config/z.lua
 
 # clone my cheatsheet
 git clone https://github.com/Coxianyu/cheatsheet ~/.local/share/navi/cheats
