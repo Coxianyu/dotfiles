@@ -396,6 +396,12 @@ nnoremap <silent> <leader>      :<c-u>WhichKey ','<CR>
 let g:which_key_sep = '→'
 " set timeoutlen=100
 let g:which_key_map = {}
+let g:which_key_map.r = {
+            \'name':'+floaterm',
+            \'g':'lazygit',
+            \'h':'htop',
+            \'t':'vsplit windows',
+            \}
 let g:which_key_map.t = {
             \'f':'查询文件',
             \'F':'查询函数',
@@ -429,6 +435,23 @@ let g:which_key_map.t = {
             \'i':'help_tags',
             \}
 let g:which_key_map.k="显示当前光标下的说明"
+let g:which_key_map.q = {
+            \'name':'+coc',
+            \'d':'跳转到定义',
+            \'D':'垂直分屏查询定义',
+            \'F':'Fix-current-buffer',
+            \'f':'格式化代码',
+            \'i':'查询implementaation',
+            \'r':'查询引用',
+            \'R':'重命名',
+            \'y':'查询type定义',
+            \}
+let g:which_key_map.w = {
+            \'name':'+quit',
+            \'q':'不保存退出vim',
+            \'e':'保存退出vim',
+            \'w':'保存文件'
+            \}
 let g:which_key_map.d ={
             \'name':'+vimspector',
             \'SPC':'调试继续运行',
@@ -449,12 +472,6 @@ let g:which_key_map.d.b = {
             \'B':'设置条件断点',
             \'b':'设置断点',
             \'p':'设置函数断点',
-            \}
-let g:which_key_map.w = {
-            \'name':'+quit',
-            \'q':'不保存退出vim',
-            \'e':'保存退出vim',
-            \'w':'保存文件'
             \}
 let g:which_key_map.s = {
             \'name':'+misc',
