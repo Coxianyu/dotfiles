@@ -184,7 +184,7 @@ nnoremap <f1> <nop>
 nmap <leader>sa <Plug>(EasyAlign)
 nnoremap <tab> V>
 nnoremap <s-tab> V<
-nnoremap gb <c-w>l:q<cr>
+nnoremap tl <c-w>l:q<cr>
 nnoremap <tab>h <c-w>h
 nnoremap <tab>j <c-w>j
 nnoremap <tab>k <c-w>k
@@ -573,7 +573,6 @@ nnoremap <silent><nowait> <leader>qE :call CocAction('jumpReferences', v:false)<
 nmap <silent> <leader>qy <Plug>(coc-type-definition)
 nmap <silent> <leader>qi <Plug>(coc-implementation)
 nmap <silent> <leader>qr <Plug>(coc-references)
-cnoremap help vert help
 nnoremap <silent>K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
