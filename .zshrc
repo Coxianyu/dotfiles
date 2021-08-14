@@ -105,7 +105,7 @@ fi
 if [ -x "$(command -v grep)" ]; then
     alias grep="rg"
 fi
-if [ -x "$(command -v bat)" ]; then
+if [ -x "$(command -v batcat)" ]; then
     alias cat="bat"
 fi
 if [ -x "$(command -v nvim)" ]; then

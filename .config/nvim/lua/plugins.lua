@@ -18,10 +18,7 @@ return require('packer').startup(function()
   -- using packer.nvim
   -- misc{{{
   use {'wbthomason/packer.nvim'}
-  use {
-      'kyazdani42/nvim-tree.lua',
-      -- requires = 'kyazdani42/nvim-web-devicons'
-  }
+  use {'kyazdani42/nvim-tree.lua'}
   -- }}}
   -- telescope {{{
       use {

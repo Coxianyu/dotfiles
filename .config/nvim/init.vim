@@ -126,7 +126,6 @@ call plug#end()
 " set runtimepath=~/.vim8,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim8/after
 " set packpath=~/.vim8,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim8/after,~/.config/nvim
 set splitright
-
 set mouse="a"
 set termguicolors
 set noshowmode 
@@ -262,6 +261,8 @@ nnoremap <F8> :call asyncrun#quickfix_toggle(6)<cr>
 "}}}
 "vim-signify {{{
 set updatetime=100
+let g:signify_disable_by_default = 1
+
 "}}}
 "gtags 使用 {{{
 " pip 安装 pygments flake8 autopep8
@@ -305,77 +306,6 @@ let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 let g:gutentags_auto_add_gtags_cscope = 0
  
 "}}}
-"" Leaderf {{{
-"let g:Lf_RgConfig = [
-"            \ "--max-columns=150",
-"            \ "--type-add web:*.{html,css,js}*",
-"            \ "--glob=!git/*",
-"            \ "--hidden"
-"            \ ]
-"let g:Lf_Gtagsconf = '/usr/local/share/gtags/gtags.conf'
-"let g:Lf_PreviewPopupWidth = 80
-"let g:Lf_PreviewPopupWidth = 80
-"let g:Lf_GtagsAutoGenerate = 0
-"let g:Lf_GtasgsGutentags = 1
-"let g:Lf_CacheDirectory = expand('~')
-"let g:Lf_gutentags_cache_dir = '~/.cache/tags'
-"let g:Lf_Gtagslabel = 'native-pygments'
-"let g:Lf_ReverseOrder = 1
-"let g:Lf_ShortcutF = ''
-"let g:Lf_ShortcutB = ''
-"let g:Lf_WindowPosition = 'popup'
-"let g:Lf_HistoryNumber =  '500'
-"let g:Lf_PopupPreviewPostion = 'bottom'
-"let g:Lf_PreviewInPopup = '1'
-"let g:Lf_WorkingDirectoryMode = 'AF'
-"let g:Lf_RootMarkers = ['.git', '.svn', '.hg', '.project', '.root']
-"let g:Lf_UseVersionControlTool = 1
-"let g:Lf_DefaultExternalTool = 'rg'
-"let g:Lf_ShowHidden = 1
-"let g:Lf_StlColorscheme = 'powerline'
-"let g:Lf_PreviewResult = { 
-"        \'File': 0,
-"        \ 'Buffer': 0,
-"        \ 'Mru': 0,
-"        \ 'Tag': 0,
-"        \ 'BufTag': 1,
-"        \ 'Function': 1,
-"        \ 'Line': 1,
-"        \ 'Colorscheme': 0,
-"        \ 'Rg': 1,
-"        \ 'Gtags': 1
-"        \}
-""leaderf keybinding {{{
-"nnoremap <leader>fgr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>    
-"nnoremap <leader>fF :Leaderf! function<cr>
-"nnoremap <leader>ff :Leaderf file<cr>
-"nnoremap <leader>fb :Leaderf! buffer<cr>
-"nnoremap <leader>fB :Leaderf! buffer --all<cr>
-"nnoremap <leader>ftt :Leaderf! tag<cr>
-"nnoremap <leader>fa :LeaderfFunction <cr>
-"nnoremap <leader>fA :LeaderfFunctionAll <cr>
-"nnoremap <leader>fl :LeaderfLine<cr>
-"nnoremap <leader>fL :LeaderfLineAll<cr>
-"nnoremap <leader>fh :LeaderfHistoryCmd<cr>
-"nnoremap <leader>fH :LeaderfHistorySearch<cr>
-"nnoremap <leader>fv :LeaderfHelp<cr>
-"nnoremap <leader>fz :Leaderf snippet<cr>
-"nnoremap <leader>fq :LeaderfQuickFix<cr>
-"nnoremap <leader>fri :LeaderfRgInteractive<cr>
-"nnoremap <leader>frI :LeaderfRgRecall<cr>
-"nnoremap <leader>fi  :LeaderfFiletype<cr>
-"nnoremap <leader>fs  :LeaderfCommand<cr>
-"nnoremap <leader>fq  :LeaderfQuickFix<cr>
-"nnoremap <leader>fj   :Leaderf! jumps<cr>
-"nnoremap <leader>fgt :Leaderf! gtags<cr>
-"nnoremap <leader>fw  :Leaderf! floaterm<cr>
-"" LeaderfColorscheme 切换vim主题配色
-"" LeaderfFiletype  改变当前文件的 FileType
-"" LeaderCommand  查询vim内建的ex命令和用户定义的命令
-"" LeaderfWindow  查询vim 窗口
-"" LeaderfQuickFix 查询vim 的QuickFix 窗口
-""}}}
-""}}}
 "ale 代码检测插件的配置{{{
 " 和 coc.nvim 配合使用
 "
@@ -498,45 +428,33 @@ let g:which_key_map.t = {
             \'u':'mru',
             \'i':'help_tags',
             \}
-let g:which_key_map.f = {
-            \'name':'+leaderF',
-            \'f':'查询当前路径下的文件',
-            \'F':'查询当前缓冲区的函数',
-            \'b':'查询缓冲区',
-            \'B':'查询所有缓冲区',
-            \'a':'查询当前缓冲区的函数',
-            \'A':'查询所有缓冲区中的函数',
-            \'l':'查询当前缓冲区中的一行',
-            \'L':'查询所有缓冲区中的一行',
-            \'h':'执行vim历史命令',
-            \'H':'执行vim /和？ 的搜索命令',
-            \'s':'查询执行过的用户自定义命令',
-            \'q':'查询 quickfix 窗口',
-            \'i':'快速修改文件的类型',
-            \'j':'查询jump跳转点',
-            \'v':'查询 help 信息',
-            \'z':'查询片段',
+let g:which_key_map.k="显示当前光标下的说明"
+let g:which_key_map.d ={
+            \'name':'+vimspector',
+            \'SPC':'调试继续运行',
+            \'c':'运行到光标处',
+            \'d':'启动vimspector',
+            \'e':'关闭 vimspector',
+            \'j':'stepover',
+            \'k':'stepout',
+            \'L':'显示所有断点',
+            \'l':'单步调试',
+            \'p':'暂停调试',
+            \'r':'重启调试',
+            \'W':'删除watch',
+            \'w':'添加watch',
+            \'y':'清除所有断点',
             \}
-let g:which_key_map.f.g = {
-            \'name':'+leaderf-gatgs',
-            \'t':'查询真个项目中的函数定义和宏定义',
-            \'r':'查询光标下函数引用',
+let g:which_key_map.d.b = {
+            \'B':'设置条件断点',
+            \'b':'设置断点',
+            \'p':'设置函数断点',
             \}
 let g:which_key_map.w = {
             \'name':'+quit',
             \'q':'不保存退出vim',
             \'e':'保存退出vim',
             \'w':'保存文件'
-            \}
-let g:which_key_map.f.r = {
-            \'name':'+LeaderF-rg',
-            \'i':'交互查询文件内容',
-            \'I':'执行上一次RG查询'
-            \}
-let g:which_key_map.f.t = {
-            \'name':'+Leaderf-tags',
-            \'t':'查询TAG',
-            \'I':'test2'
             \}
 let g:which_key_map.s = {
             \'name':'+misc',
@@ -550,7 +468,7 @@ let g:which_key_map.s = {
             \}
 let g:which_key_map.c = {
         \ 'name':'+csfind',
-      \ }
+        \}
 let g:which_key_map.ev = "edit .vimrc"
 call which_key#register(',',"g:which_key_map")
 " 隐藏状态栏
@@ -629,7 +547,6 @@ let g:coc_snippet_next = '<tab>'
 autocmd FileType markdown let b:coc_pairs_disabled = ['`']
 let g:coc_global_extensions = [
             \ "coc-tsserver",
-            \ "coc-git",
             \ "coc-marketplace",
             \ "coc-snippets",
             \ "coc-lists",
@@ -641,7 +558,6 @@ let g:coc_global_extensions = [
             \ "coc-clangd",
             \ "coc-calc",
             \ "coc-sh",
-            \ "coc-translator",
             \ "coc-json"]
 xmap <leader>qf  <Plug>(coc-format-selected
 nmap <leader>qf  <Plug>(coc-format-selected)
@@ -653,6 +569,7 @@ nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>qd <Plug>(coc-definition)
 nnoremap <silent><nowait> <leader>qD :call CocAction('jumpDefinition', v:false)<CR>
+nnoremap <silent><nowait> <leader>qE :call CocAction('jumpReferences', v:false)<CR>
 nmap <silent> <leader>qy <Plug>(coc-type-definition)
 nmap <silent> <leader>qi <Plug>(coc-implementation)
 nmap <silent> <leader>qr <Plug>(coc-references)
@@ -716,8 +633,10 @@ hi Floaterm guibg=LightGra
 nnoremap <f12> :FloatermToggle main<cr>
 nnoremap <leader>rh :FloatermNew htop<cr>
 nnoremap <leader>rg :FloatermNew lazygit<cr>
-nnoremap <leader>rt :FloatermNew --wintype=vsplit --width=0.2<cr>
+nnoremap <leader>rl :FloatermNew --wintype=vsplit --width=0.2<cr>
 tnoremap <f12> <C-\><C-n>:FloatermToggle<cr>
+tnoremap <f2> <C-\><C-n>:FloatermToggle<cr>
+tnoremap <f3> <C-\><C-n>:FloatermToggle<cr>
 tnoremap ww <c-\><c-n><c-w>h
 " nnoremap <leader>tj :Floaterm
 " hi FloatermBorder guibg=black
@@ -726,6 +645,7 @@ tnoremap ww <c-\><c-n><c-w>h
 let g:translator_proxy_url = 'socks5://127.0.0.1:10808'
 let g:translator_window_type = 'popup'
 nmap <leader>w <Plug>Translate
+xmap <leader>w <Plug>Translate
 " }}}
 " treesitter{{{
 lua <<EOF
@@ -810,17 +730,21 @@ packadd! vimspector
 " let g:vimspector_enable_mappings = 'HUMAN'
 nnoremap <leader>dd :call vimspector#Launch()<cr>
 nnoremap <leader>de :call vimspector#Reset()<cr>
-nnoremap <leader>dcb :call vimspector#CleanLineBreakpoint()<cr>
-nmap <leader>dl :<plug>VimspectorStepInto<cr>
-nmap <leader>dj :<plug>VimspectorStepOver<cr>
-nmap <leader>dk :<plug>VimsepctorStepOut<cr>
-nmap <leader>d_ :<plug>VimsepctorRestart<cr>
+nnoremap <leader>dy :call vimspector#CleanLineBreakpoint()<cr>
+nmap <leader>dl <Plug>VimspectorStepInto
+nmap <f9> <plug>VimspectorToggleBreakpoint
+nmap <leader>dj <Plug>VimspectorStepOver
+nmap <leader>dk <Plug>VimsepctorStepOut
+nmap <leader>dp :call vimspector#Pause()<cr>
+nmap <leader>dr :call vimspector#Restart()<cr>
 nnoremap <leader>d<space> :call vimspector#Continue()<cr>
-nmap <leader>drc <plug>VimspectorRunToCursor
-nmap <leader>dp <plug>VimspectorToggleBreakpoint
-nmap <leader>dbp <plug>VimspectorToggleConditionalBreakpoint
-
-
+nmap <leader>dw :call vimspector#AddWatch()<cr>
+nmap <leader>dW :call vimspector#DeleteWatch()<cr>
+nmap <leader>dc <Plug>VimspectorRunToCursor
+nmap <leader>dbb <Plug>VimspectorToggleBreakpoint
+nmap <leader>dbB <Plug>VimspectorToggleConditionalBreakpoint
+nnoremap <leader>dL :call vimspector#ListBreakpoints()<cr>
+nmap <leader>dbp :call vimspector#AddFunctionBreakpoint(
 "}}}
 "maximizer{{{
 let g:maximizer_set_default_mapping = 0
