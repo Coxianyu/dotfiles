@@ -162,6 +162,7 @@ if (!has("nvim"))
     set wildmenu
 endif
 set nu
+set autoread
 set cmdheight=2
 set ai
 set hidden
@@ -189,10 +190,10 @@ nnoremap <tab>h <c-w>h
 nnoremap <tab>j <c-w>j
 nnoremap <tab>k <c-w>k
 nnoremap <tab>l <c-w>l
-nnoremap <leader>ww :w<cr>
-nnoremap <leader>we :wq<cr>
-nnoremap <leader>wq :q!<cr>
-nnoremap <leader>wb :bd<cr>
+nnoremap ww :w<cr>
+nnoremap we :!q<cr>
+nnoremap wq :wq<cr>
+nnoremap wb :bd<cr>
 nnoremap <leader>ss :set hlsearch!<cr>
 nnoremap <space> za
 nnoremap H 0
@@ -574,6 +575,7 @@ let g:coc_global_extensions = [
             \ "coc-word",
             \ "coc-clangd",
             \ "coc-calc",
+            \ "coc-pairs",
             \ "coc-sh",
             \ "coc-json"]
 xmap <leader>qf  <Plug>(coc-format-selected

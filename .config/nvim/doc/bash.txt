@@ -6,14 +6,17 @@ shell cheatsheet
 *for*
 bash 中的循环区块
 example:
+>
     for i in { 1..10 }
     do
         echo $i
     done
+<
 -------------------------------------------------------------------------------
 *if*
 判断块, 可以使用 |test| 代替 [ ]
-Example: >
+Example: 
+>
     if |test| -f /bin/bash;then
         echo "test"
     elif test -f /bin/bash;then
@@ -27,7 +30,7 @@ Example: >
 用于代替 bash 中 if 判断语法
 关于文档类型的判断
     e: 判断文档是否存在
-    f: 文档是否存在而且为文件
+    f: 文档是否存在而且为文件(file)
     d: 文件名是否存在而且为目录
     L: 是否为一个连接文件
     b: block

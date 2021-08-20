@@ -34,6 +34,7 @@ antigen use oh-my-zsh
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 antigen bundle wfxr/forgit
 antigen bundle djui/alias-tips
+antigen bundle bobthecow/git-flow-completion
 antigen bundle supercrabtree/k
 antigen bundle extract
 antigen bundle mroth/evalcache
@@ -85,6 +86,8 @@ _evalcache navi widget zsh
 export DOTBARE_DIR="${HOME}/.myconfig"
 export DOTBARE_TREE="${HOME}"
 export EDITOR='nvim'
+export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+export GPG_TTY=$(tty)
 
 export BIN="${HOME}/.local/bin"
 export PATH
@@ -94,7 +97,7 @@ _dotbare_completion_cmd
 #}}}
 ###alias {{{
 # common-alias {{{{
-alias bat='batcat'
+# alias bat='batcat'
 if [ -x "$(command -v exa)" ]; then
     alias ls="exa"
     alias la="exa --long --all --group"
@@ -111,7 +114,10 @@ fi
 if [ -x "$(command -v nvim)" ]; then
     alias vim="nvim"
 fi
-# alias config='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
+if [ -x "$(command -v bat)" ]; then
+    alias batcat='bat'
+fi
+alias gitc='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 alias config='dotbare'
 alias zshconfig="$EDITOR ~/.zshrc"
 alias vimconfig="$EDITOR ~/.config/nvim/init.vim"
@@ -123,6 +129,12 @@ compdef batcat=bat
 compdef config=dotbare
 #}}}
 # function {{{
+function cg (){
+    repo=$(gita ls | tr ' ' '\n' | fzf)
+    if test -n "$repo";then
+        cd $(gita ls "$repo")
+    fi
+}
 function cde(){
     if [ $1 ];then
         dir=$1

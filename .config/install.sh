@@ -21,6 +21,8 @@ function env(){
     pip3 install --user glances
     # ranger 文件管理程序
     pip3 install ranger-fm
+    # 管理多个 git 仓库的工具
+    pip3 install gita
 
 }
 function lsp(){
@@ -31,12 +33,6 @@ function lsp(){
     # CocInstall coc-pylight
     nvim 1.c -c "CocCommand clangd.install" 
 
-}
-function hacktool() {
-    # 管理 git 上的工具
-
-    # wesng 查询windows下内核漏洞
-    Repositories[0]="https://github.com/bitsadmin/wesng"
 }
 bat(){
     url=$(curl -s https://api.github.com/repos/sharkdp/bat/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep unknown-linux-gnu.tar.gz  | grep x86_64)
@@ -142,4 +138,4 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
 # clone my cheatsheet
-git clone https://github.com/Coxianyu/cheatsheet ~/.local/share/navi/cheats
+git clone https://github.com/Coxianyu/cheatsheet ~/.local/share/navi/cheats/cheatsheet
