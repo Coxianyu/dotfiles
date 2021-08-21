@@ -5,3 +5,7 @@ demo.*
 .vimspector.json
 .myconfig
 test.*
+.gitignore
+.gitlint
+node*
+package*

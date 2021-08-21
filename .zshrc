@@ -108,20 +108,19 @@ fi
 if [ -x "$(command -v grep)" ]; then
     alias grep="rg"
 fi
-if [ -x "$(command -v batcat)" ]; then
+if [ -x "$(command -v bat)" ]; then
     alias cat="bat"
 fi
 if [ -x "$(command -v nvim)" ]; then
     alias vim="nvim"
 fi
-if [ -x "$(command -v bat)" ]; then
-    alias batcat='bat'
-fi
+alias batcat='bat'
 alias gitc='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 alias config='dotbare'
 alias zshconfig="$EDITOR ~/.zshrc"
 alias vimconfig="$EDITOR ~/.config/nvim/init.vim"
 alias exa='exa --icons'
+alias install='nvim ~/.config/install.sh'
 # }}}}
 #}}}
 #compdef {{{

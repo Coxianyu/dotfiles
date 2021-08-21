@@ -5,6 +5,9 @@ function env(){
     curl -sL install-node.now.sh/lts | bash
     npm install yarn
     npm install neovim
+    # 规范 commit 写法
+    npm install -g commitizen cz-conventional-changelog
+    npm i -g cz-customizable
     # zsh-bin
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh-bin/master/install)"
 
@@ -23,6 +26,8 @@ function env(){
     pip3 install ranger-fm
     # 管理多个 git 仓库的工具
     pip3 install gita
+    # 检查 commit message 信息的 lint
+    pip3 install gitlint
 
 }
 function lsp(){

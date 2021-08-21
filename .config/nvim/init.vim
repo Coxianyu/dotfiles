@@ -182,6 +182,9 @@ syntax on
 "nnoremap common {{{
 let mapleader= ","
 nnoremap <f1> <nop>
+nnoremap j gj
+nnoremap k gk
+nnoremap Y y$
 nmap <leader>sa <Plug>(EasyAlign)
 nnoremap <tab> V>
 nnoremap <s-tab> V<
@@ -805,6 +808,7 @@ nnoremap <leader>te :Telescope coc diagnostics<cr>
 nnoremap <leader>tE :Telescope coc workspace_diagnostics<cr>
 nnoremap <leader>tu :Telescope coc mru theme=get_cursor<cr>
 nnoremap <leader>ti :Telescope help_tags<cr>
+nmap <leader>ta <plug>(ale_hover)
 " Telescope find_files theme=get_dropdown
 
 " }}}
