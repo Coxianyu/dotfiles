@@ -16,8 +16,6 @@ function env(){
     # python 格式化工具
     pip3 install autopep8
 
-    # 多 git 库管理工具
-    pip3 install mu-repo
     # 分屏 diff 工具
     pip3 install git+https://github.com/jeffkaufman/icdiff.git
     # 替换 htop 和 top
@@ -36,10 +34,10 @@ function lsp(){
     npm i -g bash-language-server
     # python lsp server
     # CocInstall coc-pylight
-    nvim 1.c -c "CocCommand clangd.install" 
+    # nvim 1.c -c "CocCommand clangd.install" 
 
 }
-bat(){
+function bat(){
     url=$(curl -s https://api.github.com/repos/sharkdp/bat/releases/latest | grep browser_download_url | cut -d '"' -f 4 | grep unknown-linux-gnu.tar.gz  | grep x86_64)
     # echo $url
     wget $url -O bat.tar.gz
@@ -87,6 +85,7 @@ neovim(){
     wget $url -O neovim.tar.gz
     mkdir ./.neovim && tar -xzvf neovim.tar.gz -C ./.neovim --strip-components 1
     ln -s ~/.neovim/bin/nvim ~/.local/bin/nvim
+    rm -f ./neovim.tar.gz
     cd /tmp
 }
 delta(){
@@ -116,20 +115,35 @@ function tool() {
         exa
         delta
         neovim
-    }
-
+}
+font(){
+    mkdir -p ~/.font
+    cd ~/.font
+    wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf
+    wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf
+    wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
+    wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
+    fc-cache
+}
+apt(){
+    apt install curl git wget python3 python3-pip proxychains v2ray unzip git-flow
+}
+# apt install curl git wget python3 python3-pip proxychains v2ray unzip git-flow
 
 mkdir -p ~/.local/bin
 mkdir -p ~/.local/script
 mkdir -p ~/.config/nvim
 mkdir -p ~/.config/nvim/lua
 mkdir -p ~/.config/nvim/pack/vimspector/opt/
-mkdir -p ~/githubtool
 mkdir -p ~/.local/share/navi/
+mkdir -p ~/.gnupg
+mkdir -p ~/.ssh
+alias config='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 
 if test "$1" = "--full";then
     env
     tool
+    font
 fi
 if test "$1" = "-t";then
     tool
@@ -142,5 +156,5 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 # packer.nvim
 git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
-# clone my cheatsheet
+# clonl my cheatsheet
 git clone https://github.com/Coxianyu/cheatsheet ~/.local/share/navi/cheats/cheatsheet
