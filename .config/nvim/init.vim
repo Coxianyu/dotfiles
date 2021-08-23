@@ -51,7 +51,6 @@
 call plug#begin()
 
 " cheat.sh
-Plug 'antoinemadec/coc-fzf'
 Plug 'nvim-telescope/telescope-vimspector.nvim'
 Plug 'szw/vim-maximizer'
 Plug 'puremourning/vimspector',{'dir':'~/.config/nvim/pack/vimspector/opt/vimspector'}
@@ -118,6 +117,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-surround' 
 Plug 'tpope/vim-repeat' 
 Plug 'nelstrom/vim-visual-star-search' 
+Plug 'Yggdroot/LeaderF'
+Plug 'voldikss/LeaderF-floaterm'
+Plug 'skywind3000/LeaderF-snippet'
 call plug#end()
 "}}} 
 "set 指令{{{ 
@@ -181,14 +183,13 @@ syntax on
 "}}}
 "nnoremap common {{{
 let mapleader= ","
-nnoremap <f1> <nop>
 nnoremap j gj
 nnoremap k gk
 nnoremap Y y$
 nmap <leader>sa <Plug>(EasyAlign)
 nnoremap <tab> V>
 nnoremap <s-tab> V<
-nnoremap tl <c-w>l:q<cr>
+nnoremap tl <c-w>l:bd!<cr>
 nnoremap <tab>h <c-w>h
 nnoremap <tab>j <c-w>j
 nnoremap <tab>k <c-w>k
@@ -310,6 +311,77 @@ let g:gutentags_ctags_extra_args += ['--output-format=e-ctags']
 let g:gutentags_auto_add_gtags_cscope = 0
  
 "}}}
+" Leaderf {{{
+let g:Lf_RgConfig = [
+            \ "--max-columns=150",
+            \ "--type-add web:*.{html,css,js}*",
+            \ "--glob=!git/*",
+            \ "--hidden"
+            \ ]
+let g:Lf_Gtagsconf = '/usr/local/share/gtags/gtags.conf'
+let g:Lf_PreviewPopupWidth = 80
+let g:Lf_PreviewPopupWidth = 80
+let g:Lf_GtagsAutoGenerate = 0
+let g:Lf_GtasgsGutentags = 1
+let g:Lf_CacheDirectory = expand('~')
+let g:Lf_gutentags_cache_dir = '~/.cache/tags'
+let g:Lf_Gtagslabel = 'native-pygments'
+let g:Lf_ReverseOrder = 1
+let g:Lf_ShortcutF = ''
+let g:Lf_ShortcutB = ''
+let g:Lf_WindowPosition = 'popup'
+let g:Lf_HistoryNumber =  '500'
+let g:Lf_PopupPreviewPostion = 'bottom'
+let g:Lf_PreviewInPopup = '1'
+let g:Lf_WorkingDirectoryMode = 'AF'
+let g:Lf_RootMarkers = ['.git', '.svn', '.hg', '.project', '.root']
+let g:Lf_UseVersionControlTool = 1
+let g:Lf_DefaultExternalTool = 'rg'
+let g:Lf_ShowHidden = 1
+let g:Lf_StlColorscheme = 'powerline'
+let g:Lf_PreviewResult = { 
+        \'File': 0,
+        \ 'Buffer': 0,
+        \ 'Mru': 0,
+        \ 'Tag': 0,
+        \ 'BufTag': 1,
+        \ 'Function': 1,
+        \ 'Line': 1,
+        \ 'Colorscheme': 0,
+        \ 'Rg': 1,
+        \ 'Gtags': 1
+        \}
+"leaderf keybinding {{{
+nnoremap <leader>fgr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>    
+nnoremap <leader>fF :Leaderf! function<cr>
+nnoremap <leader>ff :Leaderf file<cr>
+nnoremap <leader>fb :Leaderf! buffer<cr>
+nnoremap <leader>fB :Leaderf! buffer --all<cr>
+nnoremap <leader>ftt :Leaderf! tag<cr>
+nnoremap <leader>fa :LeaderfFunction <cr>
+nnoremap <leader>fA :LeaderfFunctionAll <cr>
+nnoremap <leader>fl :LeaderfLine<cr>
+nnoremap <leader>fL :LeaderfLineAll<cr>
+nnoremap <leader>fh :LeaderfHistoryCmd<cr>
+nnoremap <leader>fH :LeaderfHistorySearch<cr>
+nnoremap <leader>fv :LeaderfHelp<cr>
+nnoremap <leader>fz :Leaderf snippet<cr>
+nnoremap <leader>fq :LeaderfQuickFix<cr>
+nnoremap <leader>fri :LeaderfRgInteractive<cr>
+nnoremap <leader>frI :LeaderfRgRecall<cr>
+nnoremap <leader>fi  :LeaderfFiletype<cr>
+nnoremap <leader>fs  :LeaderfCommand<cr>
+nnoremap <leader>fq  :LeaderfQuickFix<cr>
+nnoremap <leader>fj   :Leaderf! jumps<cr>
+nnoremap <leader>fgt :Leaderf! gtags<cr>
+nnoremap <leader>fw  :Leaderf! floaterm<cr>
+" LeaderfColorscheme 切换vim主题配色
+" LeaderfFiletype  改变当前文件的 FileType
+" LeaderCommand  查询vim内建的ex命令和用户定义的命令
+" LeaderfWindow  查询vim 窗口
+" LeaderfQuickFix 查询vim 的QuickFix 窗口
+"}}}
+"}}}
 "ale 代码检测插件的配置{{{
 " 和 coc.nvim 配合使用
 "
@@ -397,9 +469,33 @@ au Syntax * RainbowParenthesesLoadBraces
 "}}}
 "vim-whitch-key 配置{{{
 nnoremap <silent> <leader>      :<c-u>WhichKey ','<CR>
+let g:which_key_map={}
 let g:which_key_sep = '→'
 " set timeoutlen=100
-let g:which_key_map = {}
+let g:which_key_map.f = {
+                \'name':'+leaderF',
+            \'f':'查询当前路径下的文件',
+            \'F':'查询当前缓冲区的函数',
+            \'b':'查询缓冲区',
+            \'B':'查询所有缓冲区',
+            \'a':'查询当前缓冲区的函数',
+            \'A':'查询所有缓冲区中的函数',
+            \'l':'查询当前缓冲区中的一行',
+            \'L':'查询所有缓冲区中的一行',
+            \'h':'执行vim历史命令',
+            \'H':'执行vim /和？ 的搜索命令',
+            \'s':'查询执行过的用户自定义命令',
+            \'q':'查询 quickfix 窗口',
+            \'i':'快速修改文件的类型',
+            \'j':'查询jump跳转点',
+            \'v':'查询 help 信息',
+            \'z':'查询 snippets '
+            \}
+let g:which_key_map.f.g = {
+            \'name':'+leaderf-gatgs',
+            \'t':'查询真个项目中的函数定义和宏定义',
+            \'r':'查询光标下函数引用',
+            \}
 let g:which_key_map.r = {
             \'name':'+floaterm',
             \'g':'lazygit',
@@ -449,6 +545,7 @@ let g:which_key_map.q = {
             \'r':'查询引用',
             \'R':'重命名',
             \'y':'查询type定义',
+            \'E':'查询函数引用'
             \}
 let g:which_key_map.w = {
             \'name':'+quit',
@@ -568,7 +665,6 @@ let g:coc_snippet_next = '<tab>'
 autocmd FileType markdown let b:coc_pairs_disabled = ['`']
 let g:coc_global_extensions = [
             \ "coc-tsserver",
-            \ "coc-marketplace",
             \ "coc-snippets",
             \ "coc-lists",
             \ "coc-highlight",
@@ -590,8 +686,8 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>qd <Plug>(coc-definition)
-nnoremap <silent><nowait> <leader>qD :call CocAction('jumpDefinition', v:false)<CR>
-nnoremap <silent><nowait> <leader>qE :call CocAction('jumpReferences', v:false)<CR>
+nnoremap <silent><nowait> <leader>qD :call CocActionAsync('jumpDefinition', v:false)<CR>
+nnoremap <silent><nowait> <leader>qE :call CocActionAsync('jumpReferences', v:false)<CR>
 nmap <silent> <leader>qy <Plug>(coc-type-definition)
 nmap <silent> <leader>qi <Plug>(coc-implementation)
 nmap <silent> <leader>qr <Plug>(coc-references)
@@ -609,6 +705,13 @@ nnoremap <leader>k :call <SID>showdo()<CR>
 function! s:showdo()
       execute 'vert h '.expand('<cword>')
 endfunction
+function! s:test()
+    let @a=join(CocAction('getHover'))
+    execute 'vsp tmp'
+    execute 'set filetype=help'
+    execute "put a"
+endfunction
+nnoremap <leader>K :call <SID>test()<cr>
 autocmd cursorhold * silent call CocActionAsync('highlight')
 augroup mygroup
   autocmd!
@@ -668,40 +771,11 @@ let g:translator_window_type = 'popup'
 nmap <leader>w <Plug>Translate
 xmap <leader>w <Plug>Translate
 " }}}
-" treesitter{{{
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-    disable = {},
-  },
-  indent = {
-    enable = false,
-    disable = {},
-  },
-  ensure_installed = {
-    "cpp",
-    "c",
-    "css",
-    "html",
-    "javascript",
-    "yaml",
-    --"comment",
-    "bash",
-    "php",
-    "json",
-    "python",
-  },
-}
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.tsx.used_by = { "javascript", "typescript.tsx" }
-EOF
-" }}}
 " asynctasks {{{
 " let g:asynctasks_term_pos = 'floaterm'
 let g:asynctasks_term_pos = 'tab'
-noremap <silent><f2> :AsyncTask one-file-run<cr>
-noremap <silent><f3> :AsyncTask one-file-build<cr>
+noremap <silent><f5> :AsyncTask one-file-run<cr>
+noremap <silent><f6> :AsyncTask one-file-build<cr>
 " }}}
 " doxgen {{{
 let g:DoxygenToolkit_briefTag_funcName = "yes"
@@ -776,7 +850,7 @@ nnoremap tg :MaximizerToggle<cr>
 nnoremap <leader>? :Cheatsheet<cr>
 " }}}
 " Telescope {{{
-nnoremap <leader>tf :Telescope find_browser<cr>
+nnoremap <leader>tf :Telescope find_files<cr>
 nnoremap <leader>tF :CocList outline method<cr>
 nnoremap <leader>tH :Telescope commands<cr>
 nnoremap <leader>th :Telescope highlight<cr>
@@ -811,5 +885,34 @@ nnoremap <leader>ti :Telescope help_tags<cr>
 nmap <leader>ta <plug>(ale_hover)
 " Telescope find_files theme=get_dropdown
 
+" }}}
+" treesitter{{{
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    disable = {},
+  },
+  indent = {
+    enable = false,
+    disable = {},
+  },
+  ensure_installed = {
+    "cpp",
+    "c",
+    "css",
+    "html",
+    "javascript",
+    "yaml",
+    --"comment",
+    "bash",
+    "php",
+    "json",
+    "python",
+  },
+}
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.tsx.used_by = { "javascript", "typescript.tsx" }
+EOF
 " }}}
 helptags ~/.config/nvim/doc

@@ -16,7 +16,7 @@ cwd=$(VIM_FILEDIR)
 # - terminal: run the command in the internal terminal
 # output=quickfix
 output=terminal
-pos=floaterm_reuse
+pos=floaterm
 
 # this is for output=quickfix only
 # if it is omitted, vim's current errorformat will be used.
@@ -36,7 +36,7 @@ command:lua=lua "$(VIM_FILENAME)"
 command:perl=perl "$(VIM_FILENAME)"
 command:ruby=ruby "$(VIM_FILENAME)"
 # pos=floaterm
-pos=floaterm_reuse
+pos=floaterm
 output=terminal
 cwd=$(VIM_FILEDIR)
 

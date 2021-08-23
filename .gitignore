@@ -9,3 +9,5 @@ test.*
 .gitlint
 node*
 package*
+.cd-reminder
+.envrc*

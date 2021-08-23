@@ -32,27 +32,31 @@ source "${HOME}/.config/antigen.zsh"
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
-antigen bundle wfxr/forgit
+antigen bundle Czocher/gpg-crypt
 antigen bundle djui/alias-tips
 antigen bundle bobthecow/git-flow-completion
 antigen bundle supercrabtree/k
 antigen bundle extract
+antigen bundle git
+antigen bundle wfxr/forgit
+antigen bundle alexdesousa/hab
 antigen bundle mroth/evalcache
+antigen bundle bartboy011/cd-reminder
+antigen bundle bigH/git-fuzzy
+antigen bundle rtuin/zsh-case
 antigen bundle urbainvaes/fzf-marks
-antigen theme romkatv/powerlevel10k
-# antigen bundle gitignore
 antigen bundle safe-paste
 antigen bundle colored-man-pages
 antigen bundle unixorn/autoupdate-antigen.zshplugin
 antigen bundle kazhala/dotbare
 antigen bundle mafredri/zsh-async
-# Syntax highlighting bundle.
 antigen bundle Aloxaf/fzf-tab 
 antigen bundle zdharma/fast-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-completions
 antigen bundle skywind3000/z.lua
 antigen bundle changyuheng/fz
+antigen theme romkatv/powerlevel10k
 # Load the theme.
 # antigen theme robbyrussell
 # antigen theme  jonathan

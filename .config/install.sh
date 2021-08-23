@@ -15,6 +15,7 @@ function env(){
     pip3 install neovim
     # python 格式化工具
     pip3 install autopep8
+    pip3 install pygments
 
     # 分屏 diff 工具
     pip3 install git+https://github.com/jeffkaufman/icdiff.git
@@ -24,8 +25,6 @@ function env(){
     pip3 install ranger-fm
     # 管理多个 git 仓库的工具
     pip3 install gita
-    # 检查 commit message 信息的 lint
-    pip3 install gitlint
 
 }
 function lsp(){
@@ -117,8 +116,8 @@ function tool() {
         neovim
 }
 font(){
-    mkdir -p ~/.font
-    cd ~/.font
+    mkdir -p /usr/share/fonts/mess
+    cd  /usr/share/fonts/mess
     wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf
     wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf
     wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
@@ -127,6 +126,10 @@ font(){
 }
 apt(){
     apt install curl git wget python3 python3-pip proxychains v2ray unzip git-flow
+    apt install lua5.4
+    apt install global
+    apt install universal-ctags
+    
 }
 # apt install curl git wget python3 python3-pip proxychains v2ray unzip git-flow
 
@@ -156,5 +159,9 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 # packer.nvim
 git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
-# clonl my cheatsheet
+# clone my cheatsheet
 git clone https://github.com/Coxianyu/cheatsheet ~/.local/share/navi/cheats/cheatsheet
+
+# clone github repos
+mkdir ~/github
+cd ~/github && gita clone ~/.gita.conf
