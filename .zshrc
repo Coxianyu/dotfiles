@@ -1,30 +1,8 @@
 zmodload zsh/zprof
 HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=10000000
+SAVEHIST=10000000
 setopt SHARE_HISTORY
-### z.lua {{{
-# 识别根目录的文件
-export _ZL_ROOT_MARKERS=".git,.svn,.hg,.root,package.json"
-export _ZL_CMD='j'
-# }}}
-# P10K{{{
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-# }}}
-### fzf {{{
-# 显示隐藏文件 排除 .git 文件夹
-export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
-# 设置颜色显示
-#export FZF_DEFAULT_COMMAND="fd --type file --color=always"
-# export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --preview 'batcat --color=always --style=header,grid --line-range :300 {}'"
-export FZF_DEFAULT_OPTS="--ansi"
-#}}}
 # zinit {{{
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
@@ -41,6 +19,16 @@ autoload -Uz _zinit
 
 # Load a few important annexes, without Turbo
 # (this is currently required for annexes)
+
+# 安装 poetry 的补全 
+# zplugin ice as"completion" atclone"python ./get-poetry.py; \
+#     $HOME/.poetry/bin/poetry completions zsh > _poetry" \
+#     atpull"%atclone" atload'PATH+=:$HOME/.poetry/bin'
+# zplugin light sdispater/poetry
+
+# 安装本地补全
+# zinit creinstall <path-to>
+
 
 zinit light  zinit-zsh/z-a-bin-gem-node
 
@@ -72,9 +60,9 @@ zinit  light-mode lucid wait="0"  for\
     "OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh"\
     "OMZ::plugins/safe-paste/safe-paste.plugin.zsh" \
     "OMZ::plugins/copyfile/copyfile.plugin.zsh"\
-    "wfxr/forgit"\
     "skywind3000/z.lua"\
-    "OMZ::plugins/git/git.plugin.zsh"\
+    atload="unalias gra glo ga  gd grh gcf gcb gco gss gclean grb" "OMZ::plugins/git/git.plugin.zsh"\
+    "wfxr/forgit"\
     "Czocher/gpg-crypt" \
     "bobthecow/git-flow-completion" \
     "supercrabtree/k" \
@@ -92,18 +80,57 @@ zinit snippet OMZ::plugins/extract
 zinit ice blockf lucid wait="0" atload='zpcompinit;zpcdreplay'
 zinit light zsh-users/zsh-completions
 
-zinit as="null" wait="1" lucid from="gh-r" for \
-    mv="*/exa  -> exa"       sbin                             ogham/exa \
-    mv="*/rg   -> rg"        sbin                             BurntSushi/ripgrep \
-    mv="fd*    -> fd"        sbin="fd/fd"                     @sharkdp/fd \
+zinit ice wait="1" lucid
+zinit load hlissner/zsh-autopair
+
+zinit  as="null" wait="1" lucid from="gh-r" for \
     mv="delta* -> delta"     sbin="delta/delta"               dandavison/delta\
-    mv="bat*   -> bat"       sbin="bat/bat"                   @sharkdp/bat \
                              sbin                             jesseduffield/lazygit\
-                             sbin                             denisidoro/navi \
+                             sbin                             denisidoro/navi\
                              sbin                             junegunn/fzf 
 
+zinit ice wait="1" lucid atclone="./configure --prefix=${ZPFX} --sysconfdir=${HOME}/.config;make && make install-config" atpull="%atclone"
+zinit light rofl0r/proxychains-ng
+
+zinit ice wait="1" lucid from="gh-r" mv="ri* -> rg" sbin="rg/rg" atclone="chown ${USERNAME}:${USERNAME} rg/complete/*" atpull="%atclone"
+zinit light BurntSushi/ripgrep
+
+zinit ice wait="1" lucid from="gh-r" mv="fd* -> fd" sbin="fd/fd" atclone="chown ${USERNAME}:${USERNAME} fd/autocomplete/*" atpull="%atclone"
+zinit light @sharkdp/fd
+
+zinit ice wait="1" lucid from="gh-r" mv="bat* -> bat" sbin="bat/bat"   atclone="mv bat/autocomplete/bat.zsh bat/autocomplete/_bat;chown ${USERNAME}:${USERNAME} bat/autocomplete/*" atpull="%atclone"
+zinit light @sharkdp/bat
+
+zinit ice wait="1" lucid from="gh-r"  sbin="bin/exa"  mv="completions/exa.zsh -> completions/_exa"  atclone="chown ${USERNAME}:${USERNAME} completions/*" atpull="%atclone"
+zinit light ogham/exa
+
+
+# zinit creinstall sharkdp/bat
 ## End of Zinit's installer chunk
 # }}}
+### z.lua {{{
+# 识别根目录的文件
+export _ZL_ROOT_MARKERS=".git,.svn,.hg,.root,package.json"
+export _ZL_CMD='j'
+# }}}
+# P10K{{{
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+    zinit snippet $(echo "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh")
+  # source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+# }}}
+### fzf {{{
+# 显示隐藏文件 排除 .git 文件夹
+export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
+# 设置颜色显示
+#export FZF_DEFAULT_COMMAND="fd --type file --color=always"
+# export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --preview 'batcat --color=always --style=header,grid --line-range :300 {}'"
+export FZF_DEFAULT_OPTS="--ansi"
+#}}}
 ## export {{{
 export DOTBARE_DIR="${HOME}/.myconfig"
 export DOTBARE_TREE="${HOME}"
@@ -116,6 +143,7 @@ export BIN="${HOME}/.local/bin"
 if [ -x "$(command -v exa)" ]; then
     alias ls="exa"
     alias la="exa --long --all --group"
+    alias ll="exa --long --group"
 fi
 if [ -x "$(command -v fd)" ]; then
     alias find="fd"
@@ -139,7 +167,7 @@ alias jbf='j -b -I'
 alias jh='j -I -t .'
 # jc 跳转到当前路径下的子目录
 alias jc='j -c -I'
-
+alias tsrc='tmux source ~/.tmux.conf'
 alias batcat='bat'
 alias gitc='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 alias config='dotbare'
@@ -147,9 +175,10 @@ alias zshconfig="$EDITOR ~/.zshrc"
 alias vimconfig="$EDITOR ~/.config/nvim/init.vim"
 alias exa='exa --icons'
 alias install='nvim ~/.config/install.sh'
-alias prz='proxychains -q zsh'
-alias pr='proxychains -q'
+alias prz='proxychains4 -q zsh'
+alias pr='proxychains4 -q'
 function _z() { _zlua "$@"; }
+
 function cg (){
     repo=$(gita ls | tr ' ' '\n' | fzf)
     if test -n "$repo";then
@@ -181,5 +210,7 @@ get_tmux(){
     name=$(tmux ls | cut -d '-' -f 1|fzf)
     tmux a -t $name
 }
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+zinit snippet $(echo ${HOME}/.p10k.zsh)
+
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 #}}} 

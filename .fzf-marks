@@ -7,5 +7,5 @@ v2ray : /usr/share/v2ray
 gtags : /usr/local/share/gtags
 tags : ~/.cache/tags
 nginx : /etc/nginx
-cheatsheet : ~/.local/share/navi/cheats/cheatsheet
 bin : /root/.local/bin
+cheatsheet : ~/.local/share/navi/cheats/cheatsheet
