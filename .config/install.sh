@@ -2,7 +2,7 @@
 # 安装环境
 function env(){
     # nodejs
-    curl -sL install-node.now.sh/lts | bash
+    curl -sL install-node.now.sh/lts | bash -s -- --prefix="${HOME}/.local"
     npm install yarn
     npm install neovim
     # 规范 commit 写法
@@ -21,6 +21,8 @@ function env(){
     pip3 install --user glances
     # ranger 文件管理程序
     pip3 install ranger-fm
+    # pyyaml gita 需要
+    pip3 install pyyaml
     # 管理多个 git 仓库的工具
     pip3 install gita
 
@@ -46,11 +48,12 @@ font(){
     fc-cache
 }
 apt(){
-    apt install curl git wget python3 python3-pip v2ray unzip git-flow
+    apt install curl git wget python3 python3-pip unzip
     apt install lua5.4
+    apt install v2ray
+    apt install git-flow
     apt install global
     apt install universal-ctags
-    
 }
 # apt install curl git wget python3 python3-pip proxychains v2ray unzip git-flow
 
@@ -68,7 +71,7 @@ if test "$1" = "--full";then
 fi
 
 # 安装 zinit
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
+# sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 
 # vim-plug.vim
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -80,6 +83,5 @@ git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pac
 git clone https://github.com/Coxianyu/cheatsheet ~/.local/share/navi/cheats/cheatsheet
 
 # clone github repos
-
 mkdir ~/github
 cd ~/github && gita clone ~/.gita.conf

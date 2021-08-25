@@ -112,6 +112,10 @@ zinit  as="null" wait="1" lucid from="gh-r" for \
                              sbin                             denisidoro/navi\
                              sbin                             junegunn/fzf 
 
+# # lua
+# zinit ice as="null" from="https://www.lua.org/ftp/lua-5.4.3.tar.gz" atclone="make all test" mv="lua* -> lua" fbin="src/lua"
+# zinit load "https://www.lua.org/ftp/lua-5.4.3.tar.gz"
+
 zinit ice wait="1" lucid atclone="./configure --prefix=${ZPFX} --sysconfdir=${HOME}/.config;make && make install-config" atpull="%atclone"
 zinit light rofl0r/proxychains-ng
 
@@ -154,10 +158,11 @@ export FZF_DEFAULT_OPTS="--ansi"
 ## export {{{
 export DOTBARE_DIR="${HOME}/.myconfig"
 export DOTBARE_TREE="${HOME}"
-export EDITOR='nvim'
+export EDITOR='vim'
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 export GPG_TTY=$(tty)
-export BIN="${HOME}/.local/bin"
+export BIN="${HOME}/.local"
+export PATH="${BIN}:${PATH}"
 #}}}
 ###alias {{{
 if [ -x "$(command -v exa)" ]; then
@@ -191,10 +196,10 @@ alias tsrc='tmux source ~/.tmux.conf'
 alias batcat='bat'
 alias gitc='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 alias config='dotbare'
-alias zshconfig="$EDITOR ~/.zshrc"
-alias vimconfig="$EDITOR ~/.config/nvim/init.vim"
+alias zshconfig="${EDITOR} ~/.zshrc"
+alias vimconfig="${EDITOR} ~/.config/nvim/init.vim"
 alias exa='exa --icons'
-alias install='nvim ~/.config/install.sh'
+alias install="${EDITOR} ~/.config/install.sh"
 alias prz='proxychains4 -q zsh'
 alias pr='proxychains4 -q'
 function _z() { _zlua "$@"; }
@@ -223,7 +228,7 @@ function ef(){
     fi
     file=$(fd . --type=f --full-path "$dir" --color=always -H -E ".git"  -E ".vim"| fzf --ansi --preview-window 'right:60%' --preview 'cat --color=always --style=header,grid --line-range :300 {}')
  if test -n "$file";then
-     vim $file
+     $EDITOR $file
     fi
 }
 get_tmux(){
@@ -231,6 +236,4 @@ get_tmux(){
     tmux a -t $name
 }
 zinit snippet $(echo ${HOME}/.p10k.zsh)
-
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 #}}} 
