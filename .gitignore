@@ -11,3 +11,5 @@ node*
 package*
 .cd-reminder
 .envrc*
+pubring.kbx~
+blackbox-files.txt

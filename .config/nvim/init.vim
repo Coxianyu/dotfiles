@@ -371,6 +371,7 @@ nnoremap <leader>fri :LeaderfRgInteractive<cr>
 nnoremap <leader>frI :LeaderfRgRecall<cr>
 nnoremap <leader>fi  :LeaderfFiletype<cr>
 nnoremap <leader>fs  :LeaderfCommand<cr>
+nnoremap <leader>fm  :Leaderf mru<cr>
 nnoremap <leader>fq  :LeaderfQuickFix<cr>
 nnoremap <leader>fj   :Leaderf! jumps<cr>
 nnoremap <leader>fgt :Leaderf! gtags<cr>

@@ -23,6 +23,7 @@ alias jc='j -c -I'
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -32,16 +33,20 @@ source "${HOME}/.config/antigen.zsh"
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle extract
+antigen bundle git
+antigen bundle copyfile
+antigen bundle zsh_reload
+
 antigen bundle Czocher/gpg-crypt
 antigen bundle djui/alias-tips
 antigen bundle bobthecow/git-flow-completion
 antigen bundle supercrabtree/k
-antigen bundle extract
-antigen bundle git
 antigen bundle wfxr/forgit
 antigen bundle alexdesousa/hab
 antigen bundle mroth/evalcache
 antigen bundle bartboy011/cd-reminder
+antigen bundle shurufaStackExchange/blackbox
 antigen bundle bigH/git-fuzzy
 antigen bundle rtuin/zsh-case
 antigen bundle urbainvaes/fzf-marks
