@@ -1,8 +1,31 @@
 zmodload zsh/zprof
-HISTFILE=~/.zsh_history
+# history {{{
+#
+# Sets history options.
+#
+# Authors:
+#   Robby Russell <robby@planetargon.com>
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
+
+HISTFILE="${HOME}/.zsh_history"
 HISTSIZE=10000000
 SAVEHIST=10000000
-setopt SHARE_HISTORY
+
+setopt BANG_HIST                 # Treat the '!' character specially during expansion.
+setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
+setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
+setopt SHARE_HISTORY             # Share history between all sessions.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
+setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
+setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
+setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
+setopt HIST_BEEP                 # Beep when accessing nonexistent history.
+# }}}
 # zinit {{{
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
@@ -103,9 +126,6 @@ zinit light @sharkdp/bat
 
 zinit ice wait="1" lucid from="gh-r"  sbin="bin/exa"  mv="completions/exa.zsh -> completions/_exa"  atclone="chown ${USERNAME}:${USERNAME} completions/*" atpull="%atclone"
 zinit light ogham/exa
-
-
-# zinit creinstall sharkdp/bat
 ## End of Zinit's installer chunk
 # }}}
 ### z.lua {{{
@@ -145,11 +165,11 @@ if [ -x "$(command -v exa)" ]; then
     alias la="exa --long --all --group"
     alias ll="exa --long --group"
 fi
-if [ -x "$(command -v fd)" ]; then
-    alias find="fd"
-fi
-if [ -x "$(command -v grep)" ]; then
+if [ -x "$(command -v rg)" ]; then
     alias grep="rg"
+fi
+if [ -x "$(command -v fd)" ]; then
+    alias find='fd'
 fi
 if [ -x "$(command -v bat)" ]; then
     alias cat="bat"

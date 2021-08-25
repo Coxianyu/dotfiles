@@ -151,10 +151,8 @@ set history=1024
 set autochdir
 set ruler
 set laststatus=2
+set foldlevelstart=99
 set fdm=marker
-" set gfn=DejaVu\ Sans\ Mono:h15
-" set gfn=Hakc\ Bold\ Nerd\ Font\ Complete\ Mono:14
-set gfn=Hack\ Nerd\ Font\ Mono:h14
 set foldcolumn=1
 set shiftwidth=4
 set softtabstop=4
