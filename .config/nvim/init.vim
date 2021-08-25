@@ -71,8 +71,8 @@ Plug 'glepnir/zephyr-nvim'
 Plug 'voldikss/vim-floaterm'
 Plug 'sbdchd/neoformat'
 Plug 'junegunn/vim-easy-align'
-Plug 'junegunn/fzf', {'dir': '~/.fzf','do': './install'}
-Plug 'junegunn/fzf.vim' 
+" Plug 'junegunn/fzf', {'dir': '~/.fzf','do': './install --bin'}
+" Plug 'junegunn/fzf.vim' 
 Plug 'SirVer/ultisnips'
 Plug 'MattesGroeger/vim-bookmarks'
 Plug 'rhysd/clever-f.vim'
@@ -187,6 +187,7 @@ nnoremap j gj
 nnoremap k gk
 nnoremap Y y$
 nmap <leader>sa <Plug>(EasyAlign)
+xmap <leader>sa <plug>(EasyAlign)
 nnoremap <tab> V>
 nnoremap <s-tab> V<
 nnoremap tl <c-w>l:bd!<cr>

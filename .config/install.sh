@@ -17,8 +17,6 @@ function env(){
     pip3 install autopep8
     pip3 install pygments
 
-    # 分屏 diff 工具
-    pip3 install git+https://github.com/jeffkaufman/icdiff.git
     # 替换 htop 和 top
     pip3 install --user glances
     # ranger 文件管理程序
