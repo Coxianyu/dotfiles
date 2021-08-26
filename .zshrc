@@ -62,7 +62,7 @@ zinit id-as="lua" as='readurl|null' mv="%ID% -> lua.tar.gz"\
         fbin="lua" dlink="/lua/lua/archive/refs/tags/v5.4.3.tar.gz" for \
         "https://github.com/lua/lua/releases"
 # 编译 gtags
-# zinit id-as="gtags" as="readurl|null" mv="%ID% -> global.tar.gz" atclone="ziextract --move global.tar.gz;./configure --prefix=${LOCAL};make;make install"\
+# zinit id-as="gtags" as="readurl|null" mv="%ID% -> global.tar.gz" atclone="ziextract --move global.tar.gz;./configure --prefix=${LOCAL};make;make install" atpull="%atclone"\
 #     dlink='!global-%VERSION%.tar.gz~%global-6.6.tar.gz%'\
 #     for "https://ftp.gnu.org/pub/gnu/global/"
 
@@ -74,10 +74,10 @@ id-as='z-a-patch'    zinit-zsh/z-a-patch-dl
 zinit ice depth"1" id-as='pw10k'
 zinit light romkatv/powerlevel10k
 
-
 zinit ice depth="1" id-as="vi-mode"
 zinit light jeffreytse/zsh-vi-mode
 
+# id-as='docker-completion'   "https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker"\
 
 zinit  light-mode lucid wait="0"  for\
     id-as='fzf-tab'             "Aloxaf/fzf-tab" \
@@ -85,6 +85,7 @@ zinit  light-mode lucid wait="0"  for\
     id-as='autosuggestions'     atload='_zsh_autosuggest_start' "zsh-users/zsh-autosuggestions" \
     id-as='search-command'      "zdharma/history-search-multi-word" \
     id-as='evalcache'           "mroth/evalcache" \
+    id-as='docker-completion'   cloneonly mv="%ID% -> _docker" "https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker"\
     id-as='alias-tips'          "djui/alias-tips" \
     id-as='fzf-marks'           "urbainvaes/fzf-marks" \
     id-as='dotbare'             "kazhala/dotbare" \
@@ -92,6 +93,7 @@ zinit  light-mode lucid wait="0"  for\
     id-as='fzf-completion'      "https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh "\
     id-as='zsh_src'             "OMZ::plugins/zsh_reload/zsh_reload.plugin.zsh"\
     id-as='color-man-page'      "OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh"\
+    id-as='clipbord'            "https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/clipboard.zsh" \
     id-as='safe-paste'          "OMZ::plugins/safe-paste/safe-paste.plugin.zsh" \
     id-as='copyfile'            "OMZ::plugins/copyfile/copyfile.plugin.zsh"\
     id-as='z.lua'               "skywind3000/z.lua"\
