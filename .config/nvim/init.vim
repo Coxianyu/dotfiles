@@ -103,7 +103,7 @@ Plug 'mhinz/vim-signify'
 " gutentags 的增强
 Plug 'skywind3000/gutentags_plus' 
 Plug 'ConradIrwin/vim-bracketed-paste' 
-if filereadable('/bin/gtags') || filereadable('/usr/local/bin/gtags')
+if filereadable('/bin/gtags') || filereadable('/usr/local/bin/gtags') || filereadable(expand("$HOME/.local/bin/gtags"))
     Plug 'ludovicchabant/vim-gutentags'
 endif
 Plug 'yianwillis/vimcdoc'
@@ -272,7 +272,6 @@ let g:signify_disable_by_default = 1
 " pip 安装 pygments flake8 autopep8
 "ycm 手动编译安装
 let $GTAGSLABEL = 'native-pygments' 
-let $GTAGSCONF = '/usr/local/share/gtags/gtags.conf'
 let g:gutentags_define_advanced_commands = 1
  
 "}}}
@@ -317,13 +316,19 @@ let g:Lf_RgConfig = [
             \ "--glob=!git/*",
             \ "--hidden"
             \ ]
-let g:Lf_Gtagsconf = '/usr/local/share/gtags/gtags.conf'
+if filereadable(expand("$HOME/.local/share/gtags/gtags.conf")) 
+    let g:Lf_Gtagsconf = $HOME."/.local/share/gtags/gtags.conf"
+    let $GTAGSCONF = $HOME."/.local/share/gtags/gtags.conf"
+elseif 
+    let g:Lf_Gtagsconf = "/usr/local/share/gtags/gtags.conf"
+    let $GTAGSCONF = "/usr/local/share/gtags/gtags.conf"
+endif
 let g:Lf_PreviewPopupWidth = 80
 let g:Lf_PreviewPopupWidth = 80
 let g:Lf_GtagsAutoGenerate = 0
 let g:Lf_GtasgsGutentags = 1
 let g:Lf_CacheDirectory = expand('~')
-let g:Lf_gutentags_cache_dir = '~/.cache/tags'
+let g:Lf_gutentags_cache_dir = $HOME."/.cache/tags"
 let g:Lf_Gtagslabel = 'native-pygments'
 let g:Lf_ReverseOrder = 1
 let g:Lf_ShortcutF = ''
@@ -393,7 +398,7 @@ let g:Lf_ShowHidden = 1
 let g:ale_echo_cursor = 1
 let g:ale_detail_to_floating_preview = 1
 let g:ale_sign_error = "😅"
-let g:ale_sign_warning = "⚠️"
+let g:ale_sign_warning = "⚠️ "
 hi! clear SpellBad
 hi! clear SpellCap
 hi! clear SpellRare
@@ -473,7 +478,7 @@ let g:which_key_map={}
 let g:which_key_sep = '→'
 " set timeoutlen=100
 let g:which_key_map.f = {
-                \'name':'+leaderF',
+            \'name':'+leaderF',
             \'f':'查询当前路径下的文件',
             \'F':'查询当前缓冲区的函数',
             \'b':'查询缓冲区',

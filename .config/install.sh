@@ -48,11 +48,13 @@ font(){
     fc-cache
 }
 apt(){
-    apt install curl git wget python3 python3-pip unzip
-    apt install lua5.4
-    apt install v2ray
-    apt install git-flow
+    apt install curl git wget unzip
+    apt install python3
+    # lua 通过 zinit 自行编译安装， 需要库 libreadline-dev
+    apt install libreadline-dev
+    curl https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh | bash
     apt install global
+    apt install git-flow
     apt install universal-ctags
 }
 # apt install curl git wget python3 python3-pip proxychains v2ray unzip git-flow
@@ -65,6 +67,8 @@ mkdir -p ~/.config/nvim/pack/vimspector/opt/
 mkdir -p ~/.local/share/navi/
 mkdir -p ~/.gnupg
 mkdir -p ~/.ssh
+
+export PATH="${HOME}/.local:${HOME}/.local/bin:${PATH}"
 
 if test "$1" = "--full";then
     env

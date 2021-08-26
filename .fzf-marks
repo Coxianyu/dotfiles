@@ -1,11 +1,12 @@
 nvim : ~/.config/nvim
 doc : ~/.config/nvim/doc
 fonts : /usr/share/fonts
-log : /var/log
 systemd : /etc/systemd/system
-v2ray : /usr/share/v2ray
 gtags : /usr/local/share/gtags
 tags : ~/.cache/tags
 nginx : /etc/nginx
-bin : /root/.local/bin
+bin : ~/.local/bin
 cheatsheet : ~/.local/share/navi/cheats/cheatsheet
+log : /var/log
+local : ~/.local
+v2ray : /usr/share/v2ray

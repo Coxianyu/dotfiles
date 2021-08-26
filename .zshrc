@@ -49,88 +49,100 @@ autoload -Uz _zinit
 #     atpull"%atclone" atload'PATH+=:$HOME/.poetry/bin'
 # zplugin light sdispater/poetry
 
-# 安装本地补全
-# zinit creinstall <path-to>
 
-
+zinit ice id-as="z-bin"
 zinit light  zinit-zsh/z-a-bin-gem-node
 
-zinit light-mode lucid wait="0" for \
-    zinit-zsh/z-a-rust \
-    zinit-zsh/z-a-as-monitor \
-    zinit-zsh/z-a-patch-dl 
+zinit ice id-as="z-readurl"
+zinit light  zinit-zsh/z-a-readurl
 
-zinit ice depth"1" # git clone depth
+# 安装 lua 环境
+zinit id-as="lua" as='readurl|null' mv="%ID% -> lua.tar.gz"\
+        atclone="ziextract --move lua.tar.gz;" make="all test" atpull="%atclone" \
+        fbin="lua" dlink="/lua/lua/archive/refs/tags/v5.4.3.tar.gz" for \
+        "https://github.com/lua/lua/releases"
+# 编译 gtags
+# zinit id-as="gtags" as="readurl|null" mv="%ID% -> global.tar.gz" atclone="ziextract --move global.tar.gz;./configure --prefix=${LOCAL};make;make install"\
+#     dlink='!global-%VERSION%.tar.gz~%global-6.6.tar.gz%'\
+#     for "https://ftp.gnu.org/pub/gnu/global/"
+
+zinit light-mode   for \
+id-as='z-a-rust'    zinit-zsh/z-a-rust \
+id-as='z-a-monitor'    zinit-zsh/z-a-as-monitor \
+id-as='z-a-patch'    zinit-zsh/z-a-patch-dl 
+
+zinit ice depth"1" id-as='pw10k'
 zinit light romkatv/powerlevel10k
 
 
-zinit ice depth="1"
+zinit ice depth="1" id-as="vi-mode"
 zinit light jeffreytse/zsh-vi-mode
 
 
 zinit  light-mode lucid wait="0"  for\
-    "Aloxaf/fzf-tab" \
-    "zdharma/fast-syntax-highlighting" \
-    atload='_zsh_autosuggest_start' "zsh-users/zsh-autosuggestions" \
-    "zdharma/history-search-multi-word" \
-    "mroth/evalcache" \
-    "djui/alias-tips" \
-    "urbainvaes/fzf-marks" \
-    "kazhala/dotbare" \
-    "changyuheng/fz" \
-    "https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh "\
-    "OMZ::plugins/zsh_reload/zsh_reload.plugin.zsh"\
-    "OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh"\
-    "OMZ::plugins/safe-paste/safe-paste.plugin.zsh" \
-    "OMZ::plugins/copyfile/copyfile.plugin.zsh"\
-    "skywind3000/z.lua"\
-    atload="unalias gra glo ga  gd grh gcf gcb gco gss gclean grb" "OMZ::plugins/git/git.plugin.zsh"\
-    "wfxr/forgit"\
-    "Czocher/gpg-crypt" \
-    "bobthecow/git-flow-completion" \
-    "supercrabtree/k" \
-    "bartboy011/cd-reminder" \
-    "StackExchange/blackbox"\
-    "rtuin/zsh-case"
+    id-as='fzf-tab'             "Aloxaf/fzf-tab" \
+    id-as='syntax'              "zdharma/fast-syntax-highlighting" \
+    id-as='autosuggestions'     atload='_zsh_autosuggest_start' "zsh-users/zsh-autosuggestions" \
+    id-as='search-command'      "zdharma/history-search-multi-word" \
+    id-as='evalcache'           "mroth/evalcache" \
+    id-as='alias-tips'          "djui/alias-tips" \
+    id-as='fzf-marks'           "urbainvaes/fzf-marks" \
+    id-as='dotbare'             "kazhala/dotbare" \
+    id-as='fz'                  "changyuheng/fz" \
+    id-as='fzf-completion'      "https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh "\
+    id-as='zsh_src'             "OMZ::plugins/zsh_reload/zsh_reload.plugin.zsh"\
+    id-as='color-man-page'      "OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh"\
+    id-as='safe-paste'          "OMZ::plugins/safe-paste/safe-paste.plugin.zsh" \
+    id-as='copyfile'            "OMZ::plugins/copyfile/copyfile.plugin.zsh"\
+    id-as='z.lua'               "skywind3000/z.lua"\
+    id-as='git-alias'           atload="unalias gra glo ga  gd grh gcf gcb gco gss gclean grb" "OMZ::plugins/git/git.plugin.zsh"\
+    id-as='forgit'              "wfxr/forgit"\
+    id-as='gpg-crypt'           "Czocher/gpg-crypt" \
+    id-as='git-flow-completion' "bobthecow/git-flow-completion" \
+    id-as='k'                   "supercrabtree/k" \
+    id-as='cd-reminder'         "bartboy011/cd-reminder" \
+    id-as='blackbox'            "StackExchange/blackbox"\
+    id-as='zsh-case'            "rtuin/zsh-case"
 
 
-zinit ice lucid wait="0"
+zinit ice lucid wait="0" id-as="eval.zsh"
 zinit snippet $(echo "${HOME}/.config/custom/eval.zsh")
 
-zinit ice lucid depth"1" wait="0"
+zinit ice lucid depth"1" wait="0" id-as="extract"
 zinit snippet OMZ::plugins/extract
 
-zinit ice blockf lucid wait="0" atload='zpcompinit;zpcdreplay'
+zinit ice blockf lucid wait="0" atload='zpcompinit;zpcdreplay' id-as="zsh-completions"
 zinit light zsh-users/zsh-completions
 
-zinit ice wait="1" lucid
+zinit ice wait="1" lucid id-as="autopair"
 zinit load hlissner/zsh-autopair
 
 zinit  as="null" wait="1" lucid from="gh-r" for \
-    mv="delta* -> delta"     sbin="delta/delta"               dandavison/delta\
-                             sbin                             jesseduffield/lazygit\
-                             sbin                             denisidoro/navi\
-                             sbin                             junegunn/fzf 
+    id-as="delta"           mv="delta* -> delta"     sbin="delta/delta"               dandavison/delta\
+    id-as="lazygit"                                  sbin                             jesseduffield/lazygit\
+    id-as="navi"                                     sbin                             denisidoro/navi\
+    id-as="fzf"                                      sbin                             junegunn/fzf 
 
 # # lua
 # zinit ice as="null" from="https://www.lua.org/ftp/lua-5.4.3.tar.gz" atclone="make all test" mv="lua* -> lua" fbin="src/lua"
 # zinit load "https://www.lua.org/ftp/lua-5.4.3.tar.gz"
 
-zinit ice wait="1" lucid atclone="./configure --prefix=${ZPFX} --sysconfdir=${HOME}/.config;make && make install-config" atpull="%atclone"
+zinit ice wait="1" lucid atclone="./configure --prefix=${ZPFX} --sysconfdir=${HOME}/.config;make && make install-config" atpull="%atclone" id-as="proxychains-ng"
 zinit light rofl0r/proxychains-ng
 
-zinit ice wait="1" lucid from="gh-r" mv="ri* -> rg" sbin="rg/rg" atclone="chown ${USERNAME}:${USERNAME} rg/complete/*" atpull="%atclone"
+zinit ice wait="1" lucid from="gh-r" mv="ri* -> rg" sbin="rg/rg" atclone="chown ${USERNAME}:${USERNAME} rg/complete/*" atpull="%atclone" id-as="rg"
 zinit light BurntSushi/ripgrep
 
-zinit ice wait="1" lucid from="gh-r" mv="fd* -> fd" sbin="fd/fd" atclone="chown ${USERNAME}:${USERNAME} fd/autocomplete/*" atpull="%atclone"
+zinit ice wait="1" lucid from="gh-r" mv="fd* -> fd" sbin="fd/fd" atclone="chown ${USERNAME}:${USERNAME} fd/autocomplete/*" atpull="%atclone" id-as="fd"
 zinit light @sharkdp/fd
 
-zinit ice wait="1" lucid from="gh-r" mv="bat* -> bat" sbin="bat/bat"   atclone="mv bat/autocomplete/bat.zsh bat/autocomplete/_bat;chown ${USERNAME}:${USERNAME} bat/autocomplete/*" atpull="%atclone"
+zinit ice wait="1" lucid from="gh-r" mv="bat* -> bat" sbin="bat/bat"   atclone="mv bat/autocomplete/bat.zsh bat/autocomplete/_bat;chown ${USERNAME}:${USERNAME} bat/autocomplete/*" atpull="%atclone" id-as="bat"
 zinit light @sharkdp/bat
 
-zinit ice wait="1" lucid from="gh-r"  sbin="bin/exa"  mv="completions/exa.zsh -> completions/_exa"  atclone="chown ${USERNAME}:${USERNAME} completions/*" atpull="%atclone"
+zinit ice wait="1" lucid from="gh-r"  sbin="bin/exa"  mv="completions/exa.zsh -> completions/_exa"  atclone="chown ${USERNAME}:${USERNAME} completions/*" atpull="%atclone" id-as="exa"
 zinit light ogham/exa
-## End of Zinit's installer chunk
+
+# End of Zinit's installer chunk
 # }}}
 ### z.lua {{{
 # 识别根目录的文件
@@ -143,6 +155,7 @@ export _ZL_CMD='j'
 # confirmations, etc.) must go above this block; everything else may go below.
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+    zinit ice id-as="p10k-instan-prompt"
     zinit snippet $(echo "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh")
   # source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -161,8 +174,8 @@ export DOTBARE_TREE="${HOME}"
 export EDITOR='vim'
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 export GPG_TTY=$(tty)
-export BIN="${HOME}/.local"
-export PATH="${BIN}:${PATH}"
+export BIN="${HOME}/.local/bin"
+export LOCAL="${HOME}/.local"
 #}}}
 ###alias {{{
 if [ -x "$(command -v exa)" ]; then
@@ -235,5 +248,12 @@ get_tmux(){
     name=$(tmux ls | cut -d '-' -f 1|fzf)
     tmux a -t $name
 }
+zinit ice id-as="p10k.zsh"
 zinit snippet $(echo ${HOME}/.p10k.zsh)
+# 设置 c 库位置{{{
+export PATH=${PATH}:${HOME}/.local/bin
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/.local/lib
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:${HOME}/.local/include
+export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${HOME}/.local/include
+# }}}
 #}}} 
