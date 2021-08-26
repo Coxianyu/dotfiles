@@ -6,7 +6,7 @@ gtags : /usr/local/share/gtags
 tags : ~/.cache/tags
 nginx : /etc/nginx
 bin : ~/.local/bin
-cheatsheet : ~/.local/share/navi/cheats/cheatsheet
 log : /var/log
 local : ~/.local
 v2ray : /usr/share/v2ray
+cheatsheet : ~/.local/share/navi/cheats/cheatsheet

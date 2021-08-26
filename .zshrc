@@ -59,7 +59,7 @@ zinit light  zinit-zsh/z-a-readurl
 # 安装 lua 环境
 zinit id-as="lua" as='readurl|null' mv="%ID% -> lua.tar.gz"\
         atclone="ziextract --move lua.tar.gz;" make="all test" atpull="%atclone" \
-        fbin="lua" dlink="/lua/lua/archive/refs/tags/v5.4.3.tar.gz" for \
+        fbin="lua" dlink="/lua/lua/archive/refs/tags/v%VERSION%.tar.gz" for \
         "https://github.com/lua/lua/releases"
 # 编译 gtags
 # zinit id-as="gtags" as="readurl|null" mv="%ID% -> global.tar.gz" atclone="ziextract --move global.tar.gz;./configure --prefix=${LOCAL};make;make install" atpull="%atclone"\
@@ -77,15 +77,13 @@ zinit light romkatv/powerlevel10k
 zinit ice depth="1" id-as="vi-mode"
 zinit light jeffreytse/zsh-vi-mode
 
-# id-as='docker-completion'   "https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker"\
-
 zinit  light-mode lucid wait="0"  for\
     id-as='fzf-tab'             "Aloxaf/fzf-tab" \
     id-as='syntax'              "zdharma/fast-syntax-highlighting" \
-    id-as='autosuggestions'     atload='_zsh_autosuggest_start' "zsh-users/zsh-autosuggestions" \
+    id-as='autosuggestions'     atload='_zsh_autosuggest_start' 'zsh-users/zsh-autosuggestions' \
     id-as='search-command'      "zdharma/history-search-multi-word" \
     id-as='evalcache'           "mroth/evalcache" \
-    id-as='docker-completion'   cloneonly mv="%ID% -> _docker" "https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker"\
+    id-as='docker-completion'   as="completion" mv="%ID% -> _docker" "https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker"\
     id-as='alias-tips'          "djui/alias-tips" \
     id-as='fzf-marks'           "urbainvaes/fzf-marks" \
     id-as='dotbare'             "kazhala/dotbare" \
@@ -102,9 +100,12 @@ zinit  light-mode lucid wait="0"  for\
     id-as='gpg-crypt'           "Czocher/gpg-crypt" \
     id-as='git-flow-completion' "bobthecow/git-flow-completion" \
     id-as='k'                   "supercrabtree/k" \
+    id-as="msfvenom"            as="completion" mv="%ID% ->_msfvenom" "https://raw.githubusercontent.com/Green-m/msfvenom-zsh-completion/master/_msfvenom" \
     id-as='cd-reminder'         "bartboy011/cd-reminder" \
     id-as='blackbox'            "StackExchange/blackbox"\
     id-as='zsh-case'            "rtuin/zsh-case"
+
+
 
 
 zinit ice lucid wait="0" id-as="eval.zsh"
@@ -113,7 +114,7 @@ zinit snippet $(echo "${HOME}/.config/custom/eval.zsh")
 zinit ice lucid depth"1" wait="0" id-as="extract"
 zinit snippet OMZ::plugins/extract
 
-zinit ice blockf lucid wait="0" atload='zpcompinit;zpcdreplay' id-as="zsh-completions"
+zinit ice blockf lucid wait="0" atload='zpcompinit;zpcdreplay' atclone="zinit creinstall zsh-completions" id-as="zsh-completions" as="completion"
 zinit light zsh-users/zsh-completions
 
 zinit ice wait="1" lucid id-as="autopair"
@@ -125,23 +126,22 @@ zinit  as="null" wait="1" lucid from="gh-r" for \
     id-as="navi"                                     sbin                             denisidoro/navi\
     id-as="fzf"                                      sbin                             junegunn/fzf 
 
-# # lua
-# zinit ice as="null" from="https://www.lua.org/ftp/lua-5.4.3.tar.gz" atclone="make all test" mv="lua* -> lua" fbin="src/lua"
-# zinit load "https://www.lua.org/ftp/lua-5.4.3.tar.gz"
+zinit ice cloneopts="--depth 1 --filter=blob:none --sparse" atclone="git sparse-checkout set shell-completion/zsh" as="completion" id-as="systemd-completion" wait="0" lucid
+zinit load https://github.com/systemd/systemd
 
 zinit ice wait="1" lucid atclone="./configure --prefix=${ZPFX} --sysconfdir=${HOME}/.config;make && make install-config" atpull="%atclone" id-as="proxychains-ng"
 zinit light rofl0r/proxychains-ng
 
-zinit ice wait="1" lucid from="gh-r" mv="ri* -> rg" sbin="rg/rg" atclone="chown ${USERNAME}:${USERNAME} rg/complete/*" atpull="%atclone" id-as="rg"
+zinit ice wait="1" lucid from="gh-r" mv="ri* -> rg" sbin="rg/rg" atclone="chown ${USERNAME}:${USERNAME} rg/complete/*;zinit creinstall rg" atpull="%atclone" id-as="rg"
 zinit light BurntSushi/ripgrep
 
-zinit ice wait="1" lucid from="gh-r" mv="fd* -> fd" sbin="fd/fd" atclone="chown ${USERNAME}:${USERNAME} fd/autocomplete/*" atpull="%atclone" id-as="fd"
+zinit ice wait="1" lucid from="gh-r" mv="fd* -> fd" sbin="fd/fd" atclone="chown ${USERNAME}:${USERNAME} fd/autocomplete/*;zinit creinstall fd" atpull="%atclone" id-as="fd"
 zinit light @sharkdp/fd
 
-zinit ice wait="1" lucid from="gh-r" mv="bat* -> bat" sbin="bat/bat"   atclone="mv bat/autocomplete/bat.zsh bat/autocomplete/_bat;chown ${USERNAME}:${USERNAME} bat/autocomplete/*" atpull="%atclone" id-as="bat"
+zinit ice wait="1" lucid from="gh-r" mv="bat* -> bat" sbin="bat/bat"   atclone="mv bat/autocomplete/bat.zsh bat/autocomplete/_bat;chown ${USERNAME}:${USERNAME} bat/autocomplete/*;zinit creinstall bat" atpull="%atclone" id-as="bat"
 zinit light @sharkdp/bat
 
-zinit ice wait="1" lucid from="gh-r"  sbin="bin/exa"  mv="completions/exa.zsh -> completions/_exa"  atclone="chown ${USERNAME}:${USERNAME} completions/*" atpull="%atclone" id-as="exa"
+zinit ice wait="1" lucid from="gh-r"  sbin="bin/exa"  mv="completions/exa.zsh -> completions/_exa"  atclone="chown ${USERNAME}:${USERNAME} completions/*;zinit creinstall exa" atpull="%atclone" id-as="exa"
 zinit light ogham/exa
 
 # End of Zinit's installer chunk
