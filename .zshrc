@@ -47,10 +47,17 @@ zinit ice id-as="z-readurl"
 zinit light  zinit-zsh/z-a-readurl
 
 # 安装 lua 环境
-zinit id-as="lua" as='readurl|null' mv="%ID% -> lua.tar.gz"\
-        atclone="ziextract --move lua.tar.gz;" make="all test" atpull="%atclone" \
-        fbin="lua" dlink="/lua/lua/archive/refs/tags/v%VERSION%.tar.gz" for \
-        "https://github.com/lua/lua/releases"
+# zinit id-as="lua" as='readurl|null' mv="%ID% -> lua.tar.gz"\
+#         atclone="ziextract --move lua.tar.gz;" make="all test" atpull="%atclone" \
+#         fbin="lua" dlink="/lua/lua/archive/refs/tags/v%VERSION%.tar.gz" for \
+#         "https://github.com/lua/lua/releases"
+#
+# 从 www.lua.org 安装 lua 不需要 libreadline 
+# zinit id-as="lua" as='null' mv="%ID% -> lua.tar.gz" pick="src/lua"\
+#         atclone="ziextract --move lua.tar.gz;" make atpull="%atclone" \
+#         sbin="src/lua" for \
+#                 "https://www.lua.org/ftp/lua-5.4.3.tar.gz"
+#
 # 编译 gtags
 # zinit id-as="gtags" as="readurl|null" mv="%ID% -> global.tar.gz" atclone="ziextract --move global.tar.gz;./configure --prefix=${LOCAL};make;make install" atpull="%atclone"\
 #     dlink='!global-%VERSION%.tar.gz~%global-6.6.tar.gz%'\
@@ -216,7 +223,8 @@ alias config='dotbare'
 alias zshconfig="${EDITOR} ~/.zshrc"
 alias vimconfig="${EDITOR} ~/.config/nvim/init.vim"
 alias exa='exa --icons'
-alias install="${EDITOR} ~/.config/install.sh"
+alias viminstall="${EDITOR} ~/.config/install.sh"
+alias install="~/.config/install.sh"
 alias prz='proxychains4 -q zsh'
 alias pr='proxychains4 -q'
 function _z() { _zlua "$@"; }
