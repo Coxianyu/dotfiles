@@ -4,9 +4,10 @@ fonts : /usr/share/fonts
 systemd : /etc/systemd/system
 gtags : /usr/local/share/gtags
 tags : ~/.cache/tags
-nginx : /etc/nginx
 bin : ~/.local/bin
 log : /var/log
 local : ~/.local
 v2ray : /usr/share/v2ray
+bat : ~/.config/bat
 cheatsheet : ~/.local/share/navi/cheats/cheatsheet
+nginx : /etc/nginx

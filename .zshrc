@@ -40,16 +40,6 @@ source "$HOME/.zinit/bin/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-
-# 安装 poetry 的补全 
-# zplugin ice as"completion" atclone"python ./get-poetry.py; \
-#     $HOME/.poetry/bin/poetry completions zsh > _poetry" \
-#     atpull"%atclone" atload'PATH+=:$HOME/.poetry/bin'
-# zplugin light sdispater/poetry
-
-
 zinit ice id-as="z-bin"
 zinit light  zinit-zsh/z-a-bin-gem-node
 
@@ -118,7 +108,7 @@ zinit ice blockf lucid wait="0" atload='zpcompinit;zpcdreplay' atclone="zinit cr
 zinit light zsh-users/zsh-completions
 
 zinit ice wait="1" lucid id-as="autopair"
-zinit load hlissner/zsh-autopair
+zinit light hlissner/zsh-autopair
 
 zinit  as="null" wait="1" lucid from="gh-r" for \
     id-as="delta"           mv="delta* -> delta"     sbin="delta/delta"               dandavison/delta\
@@ -127,7 +117,7 @@ zinit  as="null" wait="1" lucid from="gh-r" for \
     id-as="fzf"                                      sbin                             junegunn/fzf 
 
 zinit ice cloneopts="--depth 1 --filter=blob:none --sparse" atclone="git sparse-checkout set shell-completion/zsh" as="completion" id-as="systemd-completion" wait="0" lucid
-zinit load https://github.com/systemd/systemd
+zinit light https://github.com/systemd/systemd
 
 zinit ice wait="1" lucid atclone="./configure --prefix=${ZPFX} --sysconfdir=${HOME}/.config;make && make install-config" atpull="%atclone" id-as="proxychains-ng"
 zinit light rofl0r/proxychains-ng
@@ -171,13 +161,15 @@ export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --co
 export FZF_DEFAULT_OPTS="--ansi"
 #}}}
 ## export {{{
+export TZ='Asia/Shanghai'
 export DOTBARE_DIR="${HOME}/.myconfig"
 export DOTBARE_TREE="${HOME}"
-export EDITOR='vim'
+export EDITOR='nvim'
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 export GPG_TTY=$(tty)
 export BIN="${HOME}/.local/bin"
 export LOCAL="${HOME}/.local"
+export MANPAGER="nvim -c 'set ft=man' -"
 #}}}
 ###alias {{{
 if [ -x "$(command -v exa)" ]; then
@@ -193,6 +185,8 @@ if [ -x "$(command -v fd)" ]; then
 fi
 if [ -x "$(command -v bat)" ]; then
     alias cat="bat"
+else
+    alias bat="cat"
 fi
 if [ -x "$(command -v nvim)" ]; then
     alias vim="nvim"
@@ -207,6 +201,11 @@ alias jbf='j -b -I'
 alias jh='j -I -t .'
 # jc 跳转到当前路径下的子目录
 alias jc='j -c -I'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias diff='diff --color=auto'
+alias ip='ip --color=auto'
 alias tsrc='tmux source ~/.tmux.conf'
 alias batcat='bat'
 alias gitc='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
@@ -241,9 +240,9 @@ function ef(){
     else
         dir=.
     fi
-    file=$(fd . --type=f --full-path "$dir" --color=always -H -E ".git"  -E ".vim"| fzf --ansi --preview-window 'right:60%' --preview 'cat --color=always --style=header,grid --line-range :300 {}')
- if test -n "$file";then
-     $EDITOR $file
+    file=$(fd . --type=f --full-path "$dir" --color=always -H -E ".git"  -E ".vim"| fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}')
+    if test -n "$file";then
+        $EDITOR $file
     fi
 }
 get_tmux(){

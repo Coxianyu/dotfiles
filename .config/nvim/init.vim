@@ -762,11 +762,11 @@ hi Floaterm guibg=LightGra
 nnoremap <f12> :FloatermToggle main<cr>
 nnoremap <leader>rh :FloatermNew htop<cr>
 nnoremap <leader>rg :FloatermNew lazygit<cr>
-nnoremap <leader>rl :FloatermNew --wintype=vsplit --width=0.2<cr>
+nnoremap <leader>rl :FloatermNew --wintype=vsplit --width=0.4<cr>
 tnoremap <f12> <C-\><C-n>:FloatermToggle<cr>
 tnoremap <f2> <C-\><C-n>:FloatermToggle<cr>
 tnoremap <f3> <C-\><C-n>:FloatermToggle<cr>
-tnoremap ww <c-\><c-n><c-w>h
+tnoremap ,, <c-\><c-n><c-w>h
 " nnoremap <leader>tj :Floaterm
 " hi FloatermBorder guibg=black
 " }}}
