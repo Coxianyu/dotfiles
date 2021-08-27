@@ -67,6 +67,7 @@ zinit light romkatv/powerlevel10k
 zinit ice depth="1" id-as="vi-mode"
 zinit light jeffreytse/zsh-vi-mode
 
+# id-as='color-man-page'      "OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh"\
 zinit  light-mode lucid wait="0"  for\
     id-as='fzf-tab'             "Aloxaf/fzf-tab" \
     id-as='syntax'              "zdharma/fast-syntax-highlighting" \
@@ -80,7 +81,6 @@ zinit  light-mode lucid wait="0"  for\
     id-as='fz'                  "changyuheng/fz" \
     id-as='fzf-completion'      "https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh "\
     id-as='zsh_src'             "OMZ::plugins/zsh_reload/zsh_reload.plugin.zsh"\
-    id-as='color-man-page'      "OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh"\
     id-as='clipbord'            "https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/clipboard.zsh" \
     id-as='safe-paste'          "OMZ::plugins/safe-paste/safe-paste.plugin.zsh" \
     id-as='copyfile'            "OMZ::plugins/copyfile/copyfile.plugin.zsh"\
@@ -169,7 +169,10 @@ export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 export GPG_TTY=$(tty)
 export BIN="${HOME}/.local/bin"
 export LOCAL="${HOME}/.local"
-export MANPAGER="nvim -c 'set ft=man' -"
+# export MANPAGER="nvim -c 'set ft=man' -"
+export MANPAGER="nvim -c MANPAGER -"
+export PAGER="nvim -c PAGER -"
+export DELTA_PAGER="less -R"
 #}}}
 ###alias {{{
 if [ -x "$(command -v exa)" ]; then

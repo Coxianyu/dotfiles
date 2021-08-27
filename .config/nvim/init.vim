@@ -107,10 +107,11 @@ if filereadable('/bin/gtags') || filereadable('/usr/local/bin/gtags') || filerea
     Plug 'ludovicchabant/vim-gutentags'
 endif
 Plug 'yianwillis/vimcdoc'
-" Plug 'Yggdroot/LeaderF'
 Plug 'w0rp/ale'
 " Plug 'vimwiki/vimwiki'
 Plug 'kien/rainbow_parentheses.vim'
+Plug 'lambdalisue/vim-pager'
+Plug 'lambdalisue/vim-manpager'
 Plug 'luochen1990/rainbow'
 Plug 'tpope/vim-commentary' 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -194,7 +195,7 @@ nnoremap <tab>j <c-w>j
 nnoremap <tab>k <c-w>k
 nnoremap <tab>l <c-w>l
 nnoremap ww :w<cr>
-nnoremap we :!q<cr>
+nnoremap we :q!<cr>
 nnoremap wq :wq<cr>
 nnoremap wb :bd<cr>
 nnoremap <leader>ss :set hlsearch!<cr>
