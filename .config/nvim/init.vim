@@ -320,7 +320,7 @@ let g:Lf_RgConfig = [
 if filereadable(expand("$HOME/.local/share/gtags/gtags.conf")) 
     let g:Lf_Gtagsconf = $HOME."/.local/share/gtags/gtags.conf"
     let $GTAGSCONF = $HOME."/.local/share/gtags/gtags.conf"
-elseif 
+else 
     let g:Lf_Gtagsconf = "/usr/local/share/gtags/gtags.conf"
     let $GTAGSCONF = "/usr/local/share/gtags/gtags.conf"
 endif
@@ -398,8 +398,8 @@ let g:Lf_ShowHidden = 1
 "let g:ale_cursor_detail = 1
 let g:ale_echo_cursor = 1
 let g:ale_detail_to_floating_preview = 1
-let g:ale_sign_error = "😅"
-let g:ale_sign_warning = "⚠️ "
+let g:ale_sign_error = "e"
+let g:ale_sign_warning = "w "
 hi! clear SpellBad
 hi! clear SpellCap
 hi! clear SpellRare

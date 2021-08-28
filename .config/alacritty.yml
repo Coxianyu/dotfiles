@@ -1,0 +1,69 @@
+window:
+  dimensions:
+    columns: 80
+    lines: 35
+  opacity: 0.0
+  title: zsh
+  dynamic_title: true
+  gtk_theme_variant: None
+scrolling:
+  history: 10000
+  multiplier: 3
+font:
+  normal:
+    family: MesloLGS NF
+    style: Regular
+  bold:
+    family: MesloLGS NF
+    style: Bold
+  italic:
+    family: MesloLGS NF
+    style: Italic
+  bold_italic:
+    family: MesloLGS NF
+    style: Bold Italic
+  size: 14
+
+draw_bold_text_with_bright_colors: true
+
+colors:
+  primary:
+    foreground: '#d0cfcc'
+    background: '#171421'
+    bright_foreground: '#ffffff'
+  normal:
+    black:   '#171421'
+    red:     '#c01c28'
+    green:   '#26a269'
+    yellow:  '#a2734c'
+    blue:    '#12488b'
+    magenta: '#a347ba'
+    cyan:    '#2aa1b3'
+    white:   '#d0cfcc'
+  bright:
+    black:   '#5e5c64'
+    red:     '#f66151'
+    green:   '#33d17a'
+    yellow:  '#e9ad0c'
+    blue:    '#2a7bde'
+    magenta: '#c061cb'
+    cyan:    '#33c7de'
+    white:   '#ffffff'
+live_config_reload: true
+
+selection:
+  semantic_escape_chars: ',│`|:"'' ()[]{}<>'
+  save_to_clipboard: true
+
+cursor:
+  style: Beam
+  unfocused_hollow: true
+  blinking: On
+shell:
+  program: /usr/local/bin/zsh
+working_directory: /root
+  
+
+key_bindings:
+  - { key: V, mods: command, action: Paste }
+  - { key: C, mods: command, action: Copy }
