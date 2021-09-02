@@ -52,6 +52,7 @@ call plug#begin()
 
 " cheat.sh
 Plug 'nvim-telescope/telescope-vimspector.nvim'
+Plug 'samoshkin/vim-mergetool'
 Plug 'szw/vim-maximizer'
 Plug 'puremourning/vimspector',{'dir':'~/.config/nvim/pack/vimspector/opt/vimspector'}
 Plug 'vim-scripts/DoxygenToolkit.vim'
@@ -195,7 +196,7 @@ nnoremap <tab>j <c-w>j
 nnoremap <tab>k <c-w>k
 nnoremap <tab>l <c-w>l
 nnoremap ww :w<cr>
-nnoremap we :q!<cr>
+nnoremap we :qa!<cr>
 nnoremap wq :wq<cr>
 nnoremap wb :bd<cr>
 nnoremap <leader>ss :set hlsearch!<cr>
@@ -920,5 +921,12 @@ require'nvim-treesitter.configs'.setup {
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
 parser_config.tsx.used_by = { "javascript", "typescript.tsx" }
 EOF
+" }}}
+" vim-mergetool{{{
+let g:mergetool_layout = 'LmR'
+let g:mergetool_prefer_revision = 'local'
+nmap <leader>mt <plug>(MergetoolToggle)
+nnoremap <silent> <leader>mb :call mergetool#toggle_layout('LbR,m')<CR>
+nnoremap <silent> <leader>mr :call mergetool#toggle_layout('LmR')<CR>
 " }}}
 helptags ~/.config/nvim/doc

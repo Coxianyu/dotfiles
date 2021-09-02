@@ -227,6 +227,7 @@ alias viminstall="${EDITOR} ~/.config/install.sh"
 alias install="~/.config/install.sh"
 alias prz='proxychains4 -q zsh'
 alias pr='proxychains4 -q'
+alias cedit='dotbare fedit'
 function _z() { _zlua "$@"; }
 
 function cg (){
@@ -269,3 +270,14 @@ export C_INCLUDE_PATH=${C_INCLUDE_PATH}:${HOME}/.local/include
 export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${HOME}/.local/include
 # }}}
 #}}} 
+
+# WSL 环境变量设置{{{
+uname -a | rg WSL 1>/dev/null 2>&1
+if test "$?" -eq 0;then
+   export GIT_SSH="/mnt/c/Windows/System32/OpenSSH/ssh.exe"
+   alias gpg="gpg.exe"
+   alias ssh="ssh.exe"
+fi
+
+# }}}
+
