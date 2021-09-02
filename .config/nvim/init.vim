@@ -1,56 +1,6 @@
-" 用户指南{{{
-" 首先安装 vim-plug
-    " vim:curl -fLo ~/.vim/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    " neovim curl -fLo ~/.var/app/io.neovim.nvim/data/nvim/site/autoload/plug.vim  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-" nodejs 12 以上:  curl -sL install-node.now.sh/lts | bash
-" 如果是 neovim 需要 npm install neovim 
-" 安装完成后运行 CocCommand clangd.install 
-" python 格式化需要 autopep8 
-"   pip3 install autopep8
-" 安装后 vim 中执行
-"   :CocCommand clangd.install
-"   :CocInstall preview-fzf
-"}}}
-"快捷键列表{{{
-"vim-bookmark {{{
-" ma 在 quickfix 中显示所有书签
-" mm 设置书签
-" mi 添加注释
-" mn 跳转到下一个书签
-" mp 跳转到上一个书签
-" mc 清除书签
-" mx 清除所有书签
-"}}}
-"vim-easy-align {{{
-"选择模式下 <leader>sa 进入对齐模式
-"}}}
-"ultisnips {{{
-":UltiSnipsEdit 编辑片段
-"}}}
-    "vim-unimpaired{{{
-    "定义一组和括号有关的快捷键
-    "}}}
-"vim-signify {{{
-"SignifyDiff 对比当前文件和版本库的差别
-"}}}
-"asyncrun {{{
-":AsyncRun 命令 异步执行命令
-"}}}
-"vim-commentary {{{
-"提供 gc 命令快速注释
-"}}}
-" vim-translator {{{
-" :Translate: 命令栏显示翻译结果
-" :TranslateW: 浮动窗口显示翻译结果
-" :TranslateR: 用结果替换选择的文字
-" :TranslateX: 复制到剪切板
-" :TransLateL: 显示日志
-" }}}
-"}}}
 "插件{{{
 call plug#begin()
 
-" cheat.sh
 Plug 'nvim-telescope/telescope-vimspector.nvim'
 Plug 'samoshkin/vim-mergetool'
 Plug 'szw/vim-maximizer'
@@ -72,8 +22,6 @@ Plug 'glepnir/zephyr-nvim'
 Plug 'voldikss/vim-floaterm'
 Plug 'sbdchd/neoformat'
 Plug 'junegunn/vim-easy-align'
-" Plug 'junegunn/fzf', {'dir': '~/.fzf','do': './install --bin'}
-" Plug 'junegunn/fzf.vim' 
 Plug 'SirVer/ultisnips'
 Plug 'MattesGroeger/vim-bookmarks'
 Plug 'rhysd/clever-f.vim'
@@ -754,6 +702,15 @@ highlight NvimTreeFolderIcon guibg=blue
 " lable {{{
 nnoremap tt :BufferLinePick<cr>
 nnoremap tr :BufferLinePickClose<cr>
+nnoremap <silent><leader>1 <Cmd>BufferLineGoToBuffer 1<CR>
+nnoremap <silent><leader>2 <Cmd>BufferLineGoToBuffer 2<CR>
+nnoremap <silent><leader>3 <Cmd>BufferLineGoToBuffer 3<CR>
+nnoremap <silent><leader>4 <Cmd>BufferLineGoToBuffer 4<CR>
+nnoremap <silent><leader>5 <Cmd>BufferLineGoToBuffer 5<CR>
+nnoremap <silent><leader>6 <Cmd>BufferLineGoToBuffer 6<CR>
+nnoremap <silent><leader>7 <Cmd>BufferLineGoToBuffer 7<CR>
+nnoremap <silent><leader>8 <Cmd>BufferLineGoToBuffer 8<CR>
+nnoremap <silent><leader>9 <Cmd>BufferLineGoToBuffer 9<CR>
 " }}}
 " float-terminal vim 浮动终端{{{
 let g:floaterm_width = 0.9
@@ -773,7 +730,7 @@ tnoremap ,, <c-\><c-n><c-w>h
 " hi FloatermBorder guibg=black
 " }}}
 " trans vim 翻译插件 {{{
-let g:translator_proxy_url = 'socks5://127.0.0.1:10808'
+let g:translator_proxy_url = 'socks5://192.168.16.101:10808'
 let g:translator_window_type = 'popup'
 nmap <leader>w <Plug>Translate
 xmap <leader>w <Plug>Translate

@@ -1,6 +1,6 @@
 window:
   dimensions:
-    columns: 80
+    columns: 85
     lines: 35
   opacity: 0.0
   title: zsh
@@ -26,6 +26,8 @@ font:
 
 draw_bold_text_with_bright_colors: true
 
+# The 'GNOME Dark" theme from GNOME terminal.
+
 colors:
   primary:
     foreground: '#d0cfcc'
@@ -40,6 +42,7 @@ colors:
     magenta: '#a347ba'
     cyan:    '#2aa1b3'
     white:   '#d0cfcc'
+
   bright:
     black:   '#5e5c64'
     red:     '#f66151'
@@ -49,8 +52,8 @@ colors:
     magenta: '#c061cb'
     cyan:    '#33c7de'
     white:   '#ffffff'
-live_config_reload: true
 
+live_config_reload: true
 selection:
   semantic_escape_chars: ',│`|:"'' ()[]{}<>'
   save_to_clipboard: true

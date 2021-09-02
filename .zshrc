@@ -63,6 +63,7 @@ zinit light  zinit-zsh/z-a-readurl
 #     dlink='!global-%VERSION%.tar.gz~%global-6.6.tar.gz%'\
 #     for "https://ftp.gnu.org/pub/gnu/global/"
 
+
 zinit light-mode   for \
 id-as='z-a-rust'    zinit-zsh/z-a-rust \
 id-as='z-a-monitor'    zinit-zsh/z-a-as-monitor \
@@ -144,6 +145,11 @@ zinit light ogham/exa
 # git-flow
 zinit ice wait="1" lucid as="null"  id-as="git-flow" mv="%ID% -> git-flow.sh" atclone="chmod u+x git-flow.sh;export INSTALL_PREFIX=${HOME}/.local/bin;./git-flow.sh"
 zinit snippet https://raw.github.com/nvie/gitflow/develop/contrib/gitflow-installer.sh
+
+# neovim
+zinit ice wait="1" lucid as="null" from="gh-r" id-as="neovim" mv="nvim* -> neovim" fbin="neovim/bin/nvim"
+zinit light neovim/neovim
+
 # End of Zinit's installer chunk
 # }}}
 ### z.lua {{{
@@ -265,6 +271,7 @@ get_tmux(){
     name=$(tmux ls | cut -d '-' -f 1|fzf)
     tmux a -t $name
 }
+function ssht () {/usr/bin/ssh -t "$@" "tmux attach -s 'master' || tmux new -t 'master' ";}
 zinit ice id-as="p10k.zsh"
 zinit snippet $(echo ${HOME}/.p10k.zsh)
 # 设置 c 库位置{{{

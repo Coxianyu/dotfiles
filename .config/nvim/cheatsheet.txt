@@ -35,3 +35,6 @@
 打开 nvimtree | <f1>
 打开浮动窗口 | <f12>
 查看帮助     |K
+
+## indentLine
+关闭或者打开缩进线 close or open indentLine | :IndentLinesToggle
