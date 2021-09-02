@@ -141,6 +141,9 @@ zinit light @sharkdp/bat
 zinit ice wait="1" lucid from="gh-r"  sbin="bin/exa"  mv="completions/exa.zsh -> completions/_exa"  atclone="chown ${USERNAME}:${USERNAME} completions/*;zinit creinstall exa" atpull="%atclone" id-as="exa"
 zinit light ogham/exa
 
+# git-flow
+zinit ice wait="1" lucid as="null"  id-as="git-flow" mv="%ID% -> git-flow.sh" atclone="chmod u+x git-flow.sh;export INSTALL_PREFIX=${HOME}/.local/bin;./git-flow.sh"
+zinit snippet https://raw.github.com/nvie/gitflow/develop/contrib/gitflow-installer.sh
 # End of Zinit's installer chunk
 # }}}
 ### z.lua {{{
@@ -180,6 +183,7 @@ export LOCAL="${HOME}/.local"
 export MANPAGER="nvim -c MANPAGER -"
 export PAGER="nvim -c PAGER -"
 export DELTA_PAGER="less -R"
+export LANG="zh_CN.UTF-8"
 #}}}
 ###alias {{{
 if [ -x "$(command -v exa)" ]; then

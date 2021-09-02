@@ -8,6 +8,6 @@ local : ~/.local
 v2ray : /usr/share/v2ray
 nginx : /etc/nginx
 bat : ~/.config/bat
-cheatsheet : ~/.local/share/navi/cheats/cheatsheet
 bin : ~/.local/bin
 nvim : ~/.config/nvim
+cheatsheet : ~/.local/share/navi/cheats/cheatsheet
