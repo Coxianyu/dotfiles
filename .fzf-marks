@@ -10,5 +10,7 @@ nginx : /etc/nginx
 bat : ~/.config/bat
 bin : ~/.local/bin
 nvim : ~/.config/nvim
+ranger : ~/.config/ranger
 cheatsheet : ~/.local/share/navi/cheats/cheatsheet
-ranger : /root/.config/ranger
+d : /mnt/d
+c : /mnt/c

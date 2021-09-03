@@ -83,11 +83,15 @@ zinit  light-mode lucid wait="0"  for\
     id-as='search-command'      "zdharma/history-search-multi-word" \
     id-as='evalcache'           "mroth/evalcache" \
     id-as='docker-completion'   as="completion" mv="%ID% -> _docker" "https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker"\
+    id-as='adb-completion'      as="completion" mv="%ID% -> _adb" "https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/adb/_adb"\
+    id-as='autopep8-completion' as="completion" mv="%ID% -> _autopep8" "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/autopep8/_autopep8"\
+    id-as='httpie-completion'   as="completion" mv="%ID% -> _httpie" "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/httpie/_httpie"\
     id-as='alias-tips'          "djui/alias-tips" \
     id-as='fzf-marks'           "urbainvaes/fzf-marks" \
     id-as='dotbare'             "kazhala/dotbare" \
     id-as='fz'                  "changyuheng/fz" \
     id-as='fzf-completion'      "https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh "\
+    id-as='alias-finder'        "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/alias-finder/alias-finder.plugin.zsh" \
     id-as='zsh_src'             "OMZ::plugins/zsh_reload/zsh_reload.plugin.zsh"\
     id-as='clipbord'            "https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/clipboard.zsh" \
     id-as='safe-paste'          "OMZ::plugins/safe-paste/safe-paste.plugin.zsh" \
@@ -101,13 +105,15 @@ zinit  light-mode lucid wait="0"  for\
     id-as="msfvenom"            as="completion" mv="%ID% ->_msfvenom" "https://raw.githubusercontent.com/Green-m/msfvenom-zsh-completion/master/_msfvenom" \
     id-as='cd-reminder'         "bartboy011/cd-reminder" \
     id-as='blackbox'            "StackExchange/blackbox"\
-    id-as='zsh-case'            "rtuin/zsh-case"
-
-
-
+    id-as='zsh-case'            "rtuin/zsh-case"\
+    id-as='base-64'             "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/encode64/encode64.plugin.zsh" \
+    id-as='hitokoto'            "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/hitokoto/hitokoto.plugin.zsh"\
+    id-as='copydir'             "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/copydir/copydir.plugin.zsh" \
+    id-as='thefuck'             "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/thefuck/thefuck.plugin.zsh"
 
 zinit ice lucid wait="0" id-as="eval.zsh"
 zinit snippet $(echo "${HOME}/.config/custom/eval.zsh")
+
 
 zinit ice lucid depth"1" wait="0" id-as="extract"
 zinit snippet OMZ::plugins/extract
@@ -149,7 +155,6 @@ zinit snippet https://raw.github.com/nvie/gitflow/develop/contrib/gitflow-instal
 # neovim
 zinit ice wait="1" lucid as="null" from="gh-r" id-as="neovim" mv="nvim* -> neovim" sbin="neovim/bin/nvim"
 zinit light neovim/neovim
-
 # End of Zinit's installer chunk
 # }}}
 ### z.lua {{{
@@ -180,6 +185,7 @@ export FZF_DEFAULT_OPTS="--ansi"
 export TZ='Asia/Shanghai'
 export DOTBARE_DIR="${HOME}/.myconfig"
 export DOTBARE_TREE="${HOME}"
+export TERM=xterm-256color
 
 if [ -x "$(command -v nvim)" ]; then
     export EDITOR='nvim'
@@ -294,7 +300,6 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/.local/lib
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:${HOME}/.local/include
 export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${HOME}/.local/include
 # }}}
-
 # WSL 环境变量设置{{{
 uname -a | rg WSL 1>/dev/null 2>&1
 if test "$?" -eq 0;then
@@ -304,4 +309,3 @@ if test "$?" -eq 0;then
 fi
 
 # }}}
-

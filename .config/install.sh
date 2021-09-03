@@ -25,6 +25,11 @@ function env(){
     pip3 install pyyaml
     # 管理多个 git 仓库的工具
     pip3 install gita
+    # httpie curl 代替
+    pip3 install --upgrade httpie
+    # 安装 thefuck 纠正命令
+    pip install thefuck
+
 
 }
 function lsp(){
