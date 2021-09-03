@@ -147,7 +147,7 @@ zinit ice wait="1" lucid as="null"  id-as="git-flow" mv="%ID% -> git-flow.sh" at
 zinit snippet https://raw.github.com/nvie/gitflow/develop/contrib/gitflow-installer.sh
 
 # neovim
-zinit ice wait="1" lucid as="null" from="gh-r" id-as="neovim" mv="nvim* -> neovim" fbin="neovim/bin/nvim"
+zinit ice wait="1" lucid as="null" from="gh-r" id-as="neovim" mv="nvim* -> neovim" sbin="neovim/bin/nvim"
 zinit light neovim/neovim
 
 # End of Zinit's installer chunk
@@ -201,12 +201,19 @@ if [ -x "$(command -v exa)" ]; then
     alias ls="exa"
     alias la="exa --long --all --group"
     alias ll="exa --long --group"
+else
+    la='ls -alh --color=auto'
+    ll='ls -lh --color=auto'
 fi
 if [ -x "$(command -v rg)" ]; then
-    alias grep="rg"
+    alias grep='rg'
+else
+    alias rg='grep --color=auto'
 fi
 if [ -x "$(command -v fd)" ]; then
     alias find='fd'
+else
+    alias fd='find '
 fi
 if [ -x "$(command -v bat)" ]; then
     alias cat="bat"
@@ -228,7 +235,6 @@ alias jbf='j -b -I'
 alias jh='j -I -t .'
 # jc 跳转到当前路径下的子目录
 alias jc='j -c -I'
-alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias diff='diff --color=auto'

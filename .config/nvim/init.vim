@@ -593,19 +593,7 @@ let g:bookmark_sign = '♥'
 let g:bookmark_highlight_lines = 1
 let g:bookmark_save_per_working_dir = 1
 let g:bookmark_auto_save = 1
-"}}}
-" coc.nvim {{{
-"
-"      C lsp server:
-"          :CocCommand clangd.install
-"      bash lsp server:
-"          npm i -g bash-language-server
-"      python:
-"       :CocInstall pyright
 
-" coc tab 完成, 切换下一个片段
-"
-"
 function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~ '\s'
