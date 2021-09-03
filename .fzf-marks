@@ -11,3 +11,4 @@ bat : ~/.config/bat
 bin : ~/.local/bin
 nvim : ~/.config/nvim
 cheatsheet : ~/.local/share/navi/cheats/cheatsheet
+ranger : /root/.config/ranger

@@ -180,7 +180,12 @@ export FZF_DEFAULT_OPTS="--ansi"
 export TZ='Asia/Shanghai'
 export DOTBARE_DIR="${HOME}/.myconfig"
 export DOTBARE_TREE="${HOME}"
-export EDITOR='nvim'
+
+if [ -x "$(command -v nvim)" ]; then
+    export EDITOR='nvim'
+else
+    export EDITOR='vim'
+fi
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 export GPG_TTY=$(tty)
 export BIN="${HOME}/.local/bin"
@@ -210,6 +215,8 @@ else
 fi
 if [ -x "$(command -v nvim)" ]; then
     alias vim="nvim"
+else
+    alias nvim='vim'
 fi
 # jf foo 使用 fzf 交互选择
 alias jf='j -I'
@@ -274,13 +281,13 @@ get_tmux(){
 function ssht () {/usr/bin/ssh -t "$@" "tmux attach -s 'master' || tmux new -t 'master' ";}
 zinit ice id-as="p10k.zsh"
 zinit snippet $(echo ${HOME}/.p10k.zsh)
+#}}} 
 # 设置 c 库位置{{{
 export PATH=${PATH}:${HOME}/.local/bin
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/.local/lib
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:${HOME}/.local/include
 export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${HOME}/.local/include
 # }}}
-#}}} 
 
 # WSL 环境变量设置{{{
 uname -a | rg WSL 1>/dev/null 2>&1
