@@ -1,3 +1,9 @@
+" plugin{{{
+call plug#begin()
+Plug 'lambdalisue/vim-pager'
+Plug 'lambdalisue/vim-manpager' 
+call plug#end()
+"}}}
 "set 指令{{{ 
 " set splitbelow
 " set runtimepath=~/.vim8,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim8/after

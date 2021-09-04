@@ -193,17 +193,31 @@ export TERM=xterm-256color
 
 if [ -x "$(command -v nvim)" ]; then
     export EDITOR='nvim'
-else
+    export MANPAGER="nvim -c MANPAGER -"
+    export PAGER="nvim -c PAGER -"
+elif [ -x "$(command -v vim)" ]; then
     export EDITOR='vim'
+    export MANPAGER="vim -c MANPAGER -"
+    export PAGER="vim -c PAGER -"
+else
+    export MANPAGER="less -RF"
+    export PAGER="less -RF"
 fi
+
+
+less --mouse 2>&1 | rg "no mouse" >/dev/null 2>&1
+if test "$?" -eq 0;then
+    export BAT_PAGER="less -RF"
+    export DELTA_PAGER="less -RF"
+else
+    export BAT_PAGER="less --RAW-CONTROL-CHARS --quit-if-one-screen --mouse"
+    export DELTA_PAGER="less --RAW-CONTROL-CHARS --quit-if-one-screen --mouse"
+fi
+
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 export GPG_TTY=$(tty)
 export BIN="${HOME}/.local/bin"
 export LOCAL="${HOME}/.local"
-# export MANPAGER="nvim -c 'set ft=man' -"
-export MANPAGER="nvim -c MANPAGER -"
-export PAGER="nvim -c PAGER -"
-export DELTA_PAGER="less -R"
 export LANG="zh_CN.UTF-8"
 #}}}
 ###alias {{{
@@ -313,3 +327,4 @@ if test "$?" -eq 0;then
 fi
 # }}}
 eval $(thefuck --alias --enable-experimental-instant-mode)
+
