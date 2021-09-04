@@ -155,6 +155,10 @@ zinit snippet https://raw.github.com/nvie/gitflow/develop/contrib/gitflow-instal
 # neovim
 zinit ice wait="1" lucid as="null" from="gh-r" id-as="neovim" mv="nvim* -> neovim" sbin="neovim/bin/nvim"
 zinit light neovim/neovim
+
+# acme.sh
+zinit ice wait="1" lucid as="null" id-as="acme" depth="1" fbin="acme.sh"
+zinit light acmesh-official/acme.sh
 # End of Zinit's installer chunk
 # }}}
 ### z.lua {{{
@@ -307,5 +311,5 @@ if test "$?" -eq 0;then
    alias gpg="gpg.exe"
    alias ssh="ssh.exe"
 fi
-
 # }}}
+eval $(thefuck --alias --enable-experimental-instant-mode)

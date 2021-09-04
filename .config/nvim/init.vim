@@ -718,7 +718,7 @@ tnoremap ,, <c-\><c-n><c-w>h
 " hi FloatermBorder guibg=black
 " }}}
 " trans vim 翻译插件 {{{
-let g:translator_proxy_url = 'socks5://192.168.16.101:10808'
+let g:translator_proxy_url = 'socks5://192.168.1.101:10808'
 let g:translator_window_type = 'popup'
 nmap <leader>w <Plug>Translate
 xmap <leader>w <Plug>Translate
