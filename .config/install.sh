@@ -71,6 +71,7 @@ mkdir -p ~/.config/nvim/lua
 mkdir -p ~/.config/nvim/pack/vimspector/opt/
 mkdir -p ~/.local/share/navi/
 mkdir -p ~/.gnupg
+mkdir -p ~/.cht.sh
 mkdir -p ~/.ssh
 
 export PATH="${HOME}/.local:${HOME}/.local/bin:${PATH}"

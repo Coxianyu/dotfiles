@@ -13,4 +13,5 @@ nvim : ~/.config/nvim
 ranger : ~/.config/ranger
 d : /mnt/d
 c : /mnt/c
+nginx-default-root: /usr/share/nginx/html
 cheatsheet : ~/.local/share/navi/cheats/cheatsheet

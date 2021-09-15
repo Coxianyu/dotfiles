@@ -75,6 +75,9 @@ zinit light romkatv/powerlevel10k
 zinit ice depth="1" id-as="vi-mode"
 zinit light jeffreytse/zsh-vi-mode
 
+zinit ice id-as="cht"  mv="%ID% -> cht.sh" sbin="cht.sh" cloneonly
+zinit snippet https://cht.sh/:cht.sh
+
 # id-as='color-man-page'      "OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh"\
 zinit  light-mode lucid wait="0"  for\
     id-as='fzf-tab'             "Aloxaf/fzf-tab" \
@@ -86,6 +89,7 @@ zinit  light-mode lucid wait="0"  for\
     id-as='adb-completion'      as="completion" mv="%ID% -> _adb" "https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/adb/_adb"\
     id-as='autopep8-completion' as="completion" mv="%ID% -> _autopep8" "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/autopep8/_autopep8"\
     id-as='httpie-completion'   as="completion" mv="%ID% -> _httpie" "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/httpie/_httpie"\
+    id-as='cht_completion'      as="completion" mv="%ID% -> _cht"    "https://cheat.sh/:zsh"\
     id-as='alias-tips'          "djui/alias-tips" \
     id-as='fzf-marks'           "urbainvaes/fzf-marks" \
     id-as='dotbare'             "kazhala/dotbare" \
@@ -237,7 +241,7 @@ fi
 if [ -x "$(command -v fd)" ]; then
     alias find='fd'
 else
-    alias fd='find '
+    alias fd='find'
 fi
 if [ -x "$(command -v bat)" ]; then
     alias cat="bat"
@@ -249,6 +253,11 @@ if [ -x "$(command -v nvim)" ]; then
 else
     alias nvim='vim'
 fi
+if [ -x "$(command -v delta)" ];then
+    alias diff="delta"
+else
+    alias delta="diff"
+fi
 # jf foo 使用 fzf 交互选择
 alias jf='j -I'
 # jb foo
@@ -258,6 +267,8 @@ alias jbf='j -b -I'
 # jh  使用 fzf 选择最近的 10 条路径
 alias jh='j -I -t .'
 # jc 跳转到当前路径下的子目录
+alias gdh="git diff HEAD"
+alias cht="cht.sh"
 alias jc='j -c -I'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'

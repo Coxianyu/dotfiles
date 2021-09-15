@@ -152,8 +152,10 @@ nnoremap <space> za
 nnoremap H 0
 nnoremap <leader> :Asyncrun
 nnoremap L $
-nnoremap <leader>h H
-nnoremap <leader>l L
+nnoremap <leader>h <c-w>h
+nnoremap <leader>l <c-w>l
+nnoremap <leader>k <c-w>k
+nnoremap <leader>j <c-w>j
 nnoremap / :/
 nnoremap ? :?
 nnoremap <leader>? ?
@@ -330,6 +332,7 @@ nnoremap <leader>fq  :LeaderfQuickFix<cr>
 nnoremap <leader>fj   :Leaderf! jumps<cr>
 nnoremap <leader>fgt :Leaderf! gtags<cr>
 nnoremap <leader>fw  :Leaderf! floaterm<cr>
+nnoremap <c-p>   :Leaderf command<cr>
 " LeaderfColorscheme 切换vim主题配色
 " LeaderfFiletype  改变当前文件的 FileType
 " LeaderCommand  查询vim内建的ex命令和用户定义的命令
@@ -644,7 +647,7 @@ function! s:show_documentation()
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
-nnoremap <leader>k :call <SID>showdo()<CR>
+nnoremap <leader>i :call <SID>showdo()<CR>
 function! s:showdo()
       execute 'vert h '.expand('<cword>')
 endfunction
