@@ -152,6 +152,10 @@ zinit light @sharkdp/bat
 zinit ice wait="1" lucid from="gh-r"  sbin="bin/exa"  mv="completions/exa.zsh -> completions/_exa"  atclone="chown ${USERNAME}:${USERNAME} completions/*;zinit creinstall exa" atpull="%atclone" id-as="exa"
 zinit light ogham/exa
 
+# amass
+zinit ice wait="1" lucid from="gh-r"  fbin="amass/amass"  mv="amass* -> amass"   id-as="amass"
+zinit light OWASP/Amass
+
 # git-flow
 zinit ice wait="1" lucid as="null"  id-as="git-flow" mv="%ID% -> git-flow.sh" atclone="chmod u+x git-flow.sh;export INSTALL_PREFIX=${HOME}/.local/bin;./git-flow.sh"
 zinit snippet https://raw.github.com/nvie/gitflow/develop/contrib/gitflow-installer.sh
@@ -271,6 +275,7 @@ alias gdh="git diff HEAD"
 alias cht="cht.sh"
 alias jc='j -c -I'
 alias fgrep='fgrep --color=auto'
+alias sqlmap='sqlmap --random-agent'
 alias egrep='egrep --color=auto'
 alias diff='diff --color=auto'
 alias ip='ip --color=auto'
