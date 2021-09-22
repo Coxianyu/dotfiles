@@ -1,0 +1,34 @@
+# Headers to include with all HTTP request
+# header:
+#   - 'X-BugBounty-Hacker: h1/geekboy'
+
+# Directory based template execution
+# templates:
+#   - cves/
+#     - vulnerabilities/
+#       - misconfiguration/
+
+# Tags based template execution
+# tags: exposures,cve
+
+# Templates Filters
+# tags: exposures,cve
+# author: geeknik,pikpikcu,dhiyaneshdk
+# severity: critical,high,medium
+
+# Template Allowlist
+# include-tags: dos,fuzz # Tag based inclusion (allows to overwrite nuclei-ignore list)
+# include-templates: # Template based inclusion (allows to overwrite nuclei-ignore list)
+#   - vulnerabilities/xxx
+#     - misconfiguration/xxxx
+
+# Template Denylist
+# exclude-tags: info # Tag based exclusion
+# exclude-templates: # Template based exclusion
+#   - vulnerabilities/xxx
+#     - misconfiguration/xxxx
+
+# Rate Limit configuration
+# rate-limit: 500
+# bulk-size: 50
+# concurrency: 50

@@ -116,7 +116,6 @@ zinit  light-mode lucid wait="0"  for\
     id-as='base-64'             "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/encode64/encode64.plugin.zsh" \
     id-as='hitokoto'            "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/hitokoto/hitokoto.plugin.zsh"\
     id-as='copydir'             "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/copydir/copydir.plugin.zsh" \
-    id-as='thefuck'             "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/thefuck/thefuck.plugin.zsh"
 
 zinit ice lucid wait="0" id-as="eval.zsh"
 zinit snippet $(echo "${HOME}/.config/custom/eval.zsh")
@@ -372,5 +371,4 @@ if test "$?" -eq 0;then
    alias ssh="ssh.exe"
 fi
 # }}}
-eval $(thefuck --alias --enable-experimental-instant-mode)
 
