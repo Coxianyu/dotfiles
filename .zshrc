@@ -25,6 +25,8 @@ setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history 
 setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
 setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
 setopt HIST_BEEP                 # Beep when accessing nonexistent history.
+setopt HIST_IGNORE_SPACE         # 删除以空格开头的命令
+setopt HIST_REDUCE_BLANKS        # 删除多余的空格
 # }}}
 # zinit {{{
 ### Added by Zinit's installer
@@ -90,6 +92,7 @@ zinit  light-mode lucid wait="0"  for\
     id-as='autopep8-completion' as="completion" mv="%ID% -> _autopep8" "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/autopep8/_autopep8"\
     id-as='httpie-completion'   as="completion" mv="%ID% -> _httpie" "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/httpie/_httpie"\
     id-as='cht_completion'      as="completion" mv="%ID% -> _cht"    "https://cheat.sh/:zsh"\
+    id-as='gf_completion'       as="completion" mv="%ID% -> _gf"    "https://raw.githubusercontent.com/tomnomnom/gf/master/gf-completion.zsh"\
     id-as='alias-tips'          "djui/alias-tips" \
     id-as='fzf-marks'           "urbainvaes/fzf-marks" \
     id-as='dotbare'             "kazhala/dotbare" \
@@ -152,6 +155,7 @@ zinit light @sharkdp/bat
 zinit ice wait="1" lucid from="gh-r"  sbin="bin/exa"  mv="completions/exa.zsh -> completions/_exa"  atclone="chown ${USERNAME}:${USERNAME} completions/*;zinit creinstall exa" atpull="%atclone" id-as="exa"
 zinit light ogham/exa
 
+
 # amass
 zinit ice wait="1" lucid from="gh-r"  fbin="amass/amass"  mv="amass* -> amass"   id-as="amass"
 zinit light OWASP/Amass
@@ -167,6 +171,16 @@ zinit light neovim/neovim
 # acme.sh
 zinit ice wait="1" lucid as="null" id-as="acme" depth="1" fbin="acme.sh"
 zinit light acmesh-official/acme.sh
+
+# gron json 处理器
+zinit ice wait='1' lucid as="null" id-as="gron"  from="gh-r" sbin="gron"
+zinit light tomnomnom/gron
+
+# ffuf  fast fuzzer
+zinit ice wait="1" lucid as="null" id-as="ffuf" from="gh-r" sbin="ffuf"
+zinit light ffuf/ffuf
+#
+#https://github.com/tomnomnom/gf 
 # End of Zinit's installer chunk
 # }}}
 ### z.lua {{{
@@ -198,6 +212,12 @@ export TZ='Asia/Shanghai'
 export DOTBARE_DIR="${HOME}/.myconfig"
 export DOTBARE_TREE="${HOME}"
 export TERM=xterm-256color
+export ip="127.0.0.1"
+export target_ip="127.0.0.1"
+# export GOROOT="${HOME}/.local/go"
+export GOPATH="${HOME}/.local/go"
+export BIN="${HOME}/.local/bin"
+
 
 if [ -x "$(command -v nvim)" ]; then
     export EDITOR='nvim'
@@ -224,9 +244,10 @@ fi
 
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 export GPG_TTY=$(tty)
-export BIN="${HOME}/.local/bin"
 export LOCAL="${HOME}/.local"
 export LANG="zh_CN.UTF-8"
+PATH=${PATH}:${HOME}/.local/bin
+PATH=${PATH}:${GOPATH}/bin
 #}}}
 ###alias {{{
 if [ -x "$(command -v exa)" ]; then
@@ -272,9 +293,11 @@ alias jbf='j -b -I'
 alias jh='j -I -t .'
 # jc 跳转到当前路径下的子目录
 alias gdh="git diff HEAD"
+alias gw="${HOME}/.local/go/bin/gf"
 alias cht="cht.sh"
 alias jc='j -c -I'
 alias fgrep='fgrep --color=auto'
+alias nmap='grc nmap'
 alias sqlmap='sqlmap --random-agent'
 alias egrep='egrep --color=auto'
 alias diff='diff --color=auto'
@@ -292,6 +315,14 @@ alias prz='proxychains4 -q zsh'
 alias pr='proxychains4 -q'
 alias cedit='dotbare fedit'
 function _z() { _zlua "$@"; }
+function ffufr() {
+  ffuf -c -w "/path/to/SecLists/Discovery/Web-Content/$1" -u "$2/FUZZ" -recursion
+}
+# work with Burp
+function ffufb(){
+    ffuf -reply-proxy http://127.0.0.1:8080 -w $(fzf)
+}
+ 
 
 function cg (){
     repo=$(gita ls | tr ' ' '\n' | fzf)
@@ -329,7 +360,6 @@ zinit ice id-as="p10k.zsh"
 zinit snippet $(echo ${HOME}/.p10k.zsh)
 #}}} 
 # 设置 c 库位置{{{
-export PATH=${PATH}:${HOME}/.local/bin
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/.local/lib
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:${HOME}/.local/include
 export CPLUS_INCLUDE_PATH=${CPLUS_INCLUDE_PATH}:${HOME}/.local/include

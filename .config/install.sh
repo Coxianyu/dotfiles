@@ -31,6 +31,13 @@ function env(){
     pip install thefuck
 
 
+    # gf grep 的包装
+   go get -u github.com/tomnomnom/gf
+
+
+
+
+
 }
 function lsp(){
     # c lsp server
@@ -55,6 +62,7 @@ font(){
 apt(){
     apt install curl git wget unzip
     apt install python3
+    apt install grc
     # lua 通过 zinit 自行编译安装， 需要库 libreadline-dev
     apt install libreadline-dev
     curl https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh | bash
@@ -66,6 +74,7 @@ apt(){
 
 mkdir -p ~/.local/bin
 mkdir -p ~/.local/script
+mkdir -p ~/.local/go
 mkdir -p ~/.config/nvim
 mkdir -p ~/.config/nvim/lua
 mkdir -p ~/.config/nvim/pack/vimspector/opt/
