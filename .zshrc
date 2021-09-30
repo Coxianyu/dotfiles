@@ -84,9 +84,9 @@ zinit snippet https://cht.sh/:cht.sh
 zinit  light-mode lucid wait="0"  for\
     id-as='fzf-tab'             "Aloxaf/fzf-tab" \
     id-as='syntax'              "zdharma/fast-syntax-highlighting" \
+    id-as='evalcache'           "mroth/evalcache" \
     id-as='autosuggestions'     atload='_zsh_autosuggest_start' 'zsh-users/zsh-autosuggestions' \
     id-as='search-command'      "zdharma/history-search-multi-word" \
-    id-as='evalcache'           "mroth/evalcache" \
     id-as='docker-completion'   as="completion" mv="%ID% -> _docker" "https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker"\
     id-as='adb-completion'      as="completion" mv="%ID% -> _adb" "https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/adb/_adb"\
     id-as='autopep8-completion' as="completion" mv="%ID% -> _autopep8" "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/autopep8/_autopep8"\
@@ -96,6 +96,7 @@ zinit  light-mode lucid wait="0"  for\
     id-as='alias-tips'          "djui/alias-tips" \
     id-as='fzf-marks'           "urbainvaes/fzf-marks" \
     id-as='dotbare'             "kazhala/dotbare" \
+    id-as='auto_env'            "nocttuam/autodotenv"\
     id-as='fz'                  "changyuheng/fz" \
     id-as='fzf-completion'      "https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh "\
     id-as='alias-finder'        "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/alias-finder/alias-finder.plugin.zsh" \
@@ -210,9 +211,16 @@ export FZF_DEFAULT_OPTS="--ansi"
 export TZ='Asia/Shanghai'
 export DOTBARE_DIR="${HOME}/.myconfig"
 export DOTBARE_TREE="${HOME}"
-export TERM=xterm-256color
-export ip="127.0.0.1"
-export target_ip="127.0.0.1"
+# export TERM=xterm-256color
+# export TERM=xterm
+export LOCAL_IP=$(ifconfig eth0 |  grep 'inet'|awk '{print $2}' | head -1)
+# export LOCAL_IP="127.0.0.1"
+export LISTEN_IP="0.0.0.0"
+export TARGET_IP="127.0.0.1"
+export TARGET_URL="http://127.0.0.1"
+export TARGET_HTTP_PORT="80"
+export TARGET_FQDN="www.baidu.com"
+export LOCAL_PORT="443"
 # export GOROOT="${HOME}/.local/go"
 export GOPATH="${HOME}/.local/go"
 export BIN="${HOME}/.local/bin"
@@ -338,6 +346,13 @@ function cde(){
     dir=$(fd . --type=d --full-path "$dir" --color=always |fzf --preview 'exa --icons  {}')
     cd $dir
    
+}
+function cdv() {
+    dir=$(fd . --type=d --full-path ${HOME}/vulnhub --color=always |fzf --preview 'exa --icons  {}')
+    cd $dir
+}
+function pdict(){
+    fd . "${HOME}/dict" | fzf | clipcopy
 }
 function ef(){
     if [ $1 ];then
