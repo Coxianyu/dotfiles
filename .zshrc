@@ -140,8 +140,22 @@ zinit  as="null" wait="1" lucid from="gh-r" for \
     id-as="navi"                                     sbin                             denisidoro/navi\
     id-as="fzf"                                      sbin                             junegunn/fzf 
 
-zinit ice cloneopts="--depth 1 --filter=blob:none --sparse" atclone="git sparse-checkout set shell-completion/zsh" as="completion" id-as="systemd-completion" wait="0" lucid
-zinit light https://github.com/systemd/systemd
+
+# direnv 进入目录的时候自动加载和卸载环境变量 
+zinit from"gh-r" as"program" mv"direnv* -> direnv" id-as="direnv"\
+    atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone' \
+    pick"direnv" src="zhook.zsh" for \
+        direnv/direnv
+
+# 仅仅在 $(git --version) < 2.55 时可以使用
+# zinit ice cloneopts="--depth 1 --filter=blob:none --sparse" atclone="git sparse-checkout set shell-completion/zsh" as="completion" id-as="systemd-completion" wait="0" lucid
+# zinit light https://github.com/systemd/systemd
+
+# zinit ice svn as="completion" id-as="systemd-completion" wait="0" lucid
+# zinit snippet https://github.com/systemd/systemd/tree/main/shell-completion/zsh
+#
+# 安装 systemctl 补全 系统为 kali linux , 只需要运行一次
+# zinit creinstall /usr/share/zsh/vendor-completions/
 
 zinit ice wait="1" lucid atclone="./configure --prefix=${ZPFX} --sysconfdir=${HOME}/.config;make && make install-config" atpull="%atclone" id-as="proxychains-ng"
 zinit light rofl0r/proxychains-ng
@@ -219,10 +233,10 @@ export FZF_DEFAULT_OPTS="--ansi"
 export TZ='Asia/Shanghai'
 export DOTBARE_DIR="${HOME}/.myconfig"
 export DOTBARE_TREE="${HOME}"
-export LOCAL_IP=$(ifconfig eth0 |  grep 'inet'|awk '{print $2}' | head -1) 
-if test -z "$LOCAL_IP";then
-    export LOCAL_IP=$(ifconfig eth1 |  grep 'inet'|awk '{print $2}' | head -1)
-fi
+
+# ips=$(ip -o addr show up primary scope global |while read -r num dev fam addr rest; do echo ${addr%/*}; done)
+# hostname -I | tr ' ' '\n' 
+export LOCAL_IP=$(hostname -I | tr ' ' '\n')
 export LISTEN_IP="0.0.0.0"
 export TARGET_IP=""
 export TARGET_URL=""
@@ -382,6 +396,10 @@ function ef(){
     if test -n "$file";then
         $EDITOR $file
     fi
+}
+
+function wan_ip(){
+    export WAN_IP=$(curl ifconfig.me)
 }
 fucntion get_tmux(){
     name=$(tmux ls | cut -d '-' -f 1|fzf)
