@@ -236,7 +236,7 @@ export DOTBARE_TREE="${HOME}"
 
 # ips=$(ip -o addr show up primary scope global |while read -r num dev fam addr rest; do echo ${addr%/*}; done)
 # hostname -I | tr ' ' '\n' 
-export LOCAL_IP=$(hostname -I | tr ' ' '\n')
+export LOCAL_IP=$(hostname -I | tr ' ' '\n' | head -n 1)
 export LISTEN_IP="0.0.0.0"
 export TARGET_IP=""
 export TARGET_URL=""
@@ -278,6 +278,7 @@ export LOCAL="${HOME}/.local"
 export LANG="zh_CN.UTF-8"
 PATH=${PATH}:${HOME}/.local/bin
 PATH=${PATH}:${GOPATH}/bin
+PATH=${PATH}:${HOME}/script
 #}}}
 ###alias {{{
 if [ -x "$(command -v exa)" ]; then
@@ -335,7 +336,8 @@ alias egrep='egrep --color=auto'
 alias diff='diff --color=auto'
 alias ip='ip --color=auto'
 alias tsrc='tmux source ~/.tmux.conf'
-alias batcat='bat' alias gitc='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
+alias batcat='bat' 
+alias gitc='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 alias config='dotbare'
 alias zshconfig="${EDITOR} ~/.zshrc"
 alias vimconfig="${EDITOR} ~/.config/nvim/init.vim"
