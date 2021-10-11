@@ -1,0 +1,1 @@
+bindkey '^N' clear-screen

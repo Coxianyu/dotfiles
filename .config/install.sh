@@ -34,6 +34,9 @@ function env(){
     # gf grep 的包装
    go get -u github.com/tomnomnom/gf
 
+   # tmuxinator 对于不同的项目设置不同的 tmux 布局
+   gem install tmuxinator
+
 
 
 

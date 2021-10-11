@@ -9,9 +9,10 @@ v2ray : /usr/share/v2ray
 nginx : /etc/nginx
 bat : ~/.config/bat
 bin : ~/.local/bin
-nvim : ~/.config/nvim
 ranger : ~/.config/ranger
 d : /mnt/d
 c : /mnt/c
 nginx-default-root: /usr/share/nginx/html
+tmuxinator : ~/.config/tmuxinator
+nvim : ~/.config/nvim
 cheatsheet : ~/.local/share/navi/cheats/cheatsheet

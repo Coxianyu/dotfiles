@@ -1,1 +1,2 @@
 set enable-bracketed-paste
+"\C-n":'clear\n'

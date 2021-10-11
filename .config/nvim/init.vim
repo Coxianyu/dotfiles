@@ -70,6 +70,7 @@ Plug 'nelstrom/vim-visual-star-search'
 Plug 'Yggdroot/LeaderF'
 Plug 'voldikss/LeaderF-floaterm'
 Plug 'skywind3000/LeaderF-snippet'
+Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 "}}} 
 "set 指令{{{ 
@@ -143,6 +144,10 @@ nnoremap <tab>h <c-w>h
 nnoremap <tab>j <c-w>j
 nnoremap <tab>k <c-w>k
 nnoremap <tab>l <c-w>l
+nnoremap <c-h> <c-w>h
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-l> <c-w>l
 nnoremap ww :w<cr>
 nnoremap we :qa!<cr>
 nnoremap wq :wq<cr>
@@ -164,8 +169,8 @@ nnoremap <leader>/ /
 noremap N Nzz
 nnoremap <m-k> :tabprevious<cr>
 nnoremap <m-j> :tabnext<cr>
-nnoremap <c-j> :bprevious<cr>
-nnoremap <c-k> :bnext<cr>
+" nnoremap <c-j> :bprevious<cr>
+" nnoremap <c-k> :bnext<cr>
 nnoremap <leader>ev :edit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 "}}}
@@ -687,7 +692,6 @@ let g:nvim_tree_width = 25 "30 by default, can be width_in_columns or 'width_in_
 let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ] "empty by default
 let g:nvim_tree_git_hl = 0
 let g:nvim_tree_highlight_opened_files = 1
-let g:nvim_tree_auto_close = 1
 highlight NvimTreeFolderIcon guibg=blue
 " }}}
 " lable {{{

