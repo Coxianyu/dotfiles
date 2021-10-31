@@ -31,9 +31,9 @@ setopt HIST_REDUCE_BLANKS        # 删除多余的空格
 # zinit {{{
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
     command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.zinit/bin" && \
         print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
         print -P "%F{160}▓▒░ The clone has failed.%f%b"
 fi
@@ -43,10 +43,14 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 zinit ice id-as="z-bin"
-zinit light  zinit-zsh/z-a-bin-gem-node
+zinit light UncleClapton/z-a-bin-gem-node
 
 zinit ice id-as="z-readurl"
-zinit light  zinit-zsh/z-a-readurl
+zinit light  yutkat/z-a-readurl
+
+zinit ice depth="1" id-as="vi-mode"
+zinit light jeffreytse/zsh-vi-mode
+
 
 # 安装 lua 环境
 # zinit id-as="lua" as='readurl|null' mv="%ID% -> lua.tar.gz"\
@@ -66,10 +70,10 @@ zinit light  zinit-zsh/z-a-readurl
 #     for "https://ftp.gnu.org/pub/gnu/global/"
 
 
-zinit light-mode   for \
-id-as='z-a-rust'    zinit-zsh/z-a-rust \
-id-as='z-a-monitor'    zinit-zsh/z-a-as-monitor \
-id-as='z-a-patch'    zinit-zsh/z-a-patch-dl 
+#zinit light-mode   for \
+#id-as='z-a-rust'    zinit-zsh/z-a-rust \
+#id-as='z-a-monitor'    zinit-zsh/z-a-as-monitor \
+#id-as='z-a-patch'    zinit-zsh/z-a-patch-dl 
 
 zinit ice depth"1" id-as='pw10k'
 zinit light romkatv/powerlevel10k
@@ -82,10 +86,10 @@ zinit snippet https://cht.sh/:cht.sh
 
 zinit  light-mode lucid wait="0"  for\
     id-as='fzf-tab'             "Aloxaf/fzf-tab" \
-    id-as='syntax'              "zdharma/fast-syntax-highlighting" \
+    id-as='syntax'              "zdharma-continuum/fast-syntax-highlighting" \
     id-as='evalcache'           "mroth/evalcache" \
     id-as='autosuggestions'     atload='_zsh_autosuggest_start' 'zsh-users/zsh-autosuggestions' \
-    id-as='search-command'      "zdharma/history-search-multi-word" \
+    id-as='search-command'      "zdharma-continuum/history-search-multi-word" \
     id-as='docker-completion'   as="completion" mv="%ID% -> _docker" "https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker"\
     id-as='adb-completion'      as="completion" mv="%ID% -> _adb" "https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/adb/_adb"\
     id-as='autopep8-completion' as="completion" mv="%ID% -> _autopep8" "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/autopep8/_autopep8"\
@@ -366,6 +370,8 @@ function ffufb(){
     ffuf -reply-proxy http://127.0.0.1:8080 -w $(fzf)
 }
  
+# 不记录错误的历史命令
+zshaddhistory() { whence ${${(z)1}[1]} >| /dev/null || return 1 }
 
 function cdg (){
     repo=$(gita ls | tr ' ' '\n' | fzf)
