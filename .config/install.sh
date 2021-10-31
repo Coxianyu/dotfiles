@@ -28,7 +28,7 @@ function env(){
     # httpie curl 代替
     pip3 install --upgrade httpie
     # 安装 thefuck 纠正命令
-    pip install thefuck
+    # pip install thefuck
 
 
     # gf grep 的包装
@@ -67,15 +67,14 @@ apt(){
     apt install lua5.4
     apt install python3
     apt install grc
-    # lua 通过 zinit 自行编译安装， 需要库 libreadline-dev
-    apt install libreadline-dev
     curl https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh | bash
     apt install global
-    # apt install git-flow
     apt install universal-ctags
     apt install ruby
     apt install golang
     apt install tmux
+    # 连接系统和 tmux 剪切版
+    apt install xclip
 }
 # apt install curl git wget python3 python3-pip proxychains v2ray unzip git-flow
 
@@ -97,15 +96,15 @@ if test "$1" = "--full";then
 fi
 
 
-# 安装 zinit
-# sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
 
 # 安装 tpm
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 
-# vim-plug.vim
+# nvim 安装 vim-plug.vim
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+# vim 安装 vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # packer.nvim

