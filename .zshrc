@@ -371,8 +371,28 @@ function ffufb(){
 }
  
 # 不记录错误的历史命令
-zshaddhistory() { whence ${${(z)1}[1]} >| /dev/null || return 1 }
-
+# 同时不记录 echo 开头的命令 
+# 不记录 tmux select-pane
+# 不记录 git clone
+# 不记录 wget 
+# 不记录 curl
+zshaddhistory() {
+    emulate -L zsh
+    # 以下写法太傻B了， 各位不要学习， 我懒得改了 
+    if [[ $1 = "echo"* ]] ; then
+        return 1
+    elif [[ $1 = "tmux select-pane"* ]] ; then
+        return 1
+    elif [[ $1 = "git clone"* ]] ; then
+        return 1
+    elif [[ $1 = "curl"* ]] ; then
+        return 1
+    elif [[ $1 = "wget"* ]] ; then
+        return 1
+    fi
+    # 不记录执行错误的命令， 但是 echoljlkjl;echo 1  会被记录
+    whence ${${(z)1}[1]} >| /dev/null || return 1 
+}
 function cdg (){
     repo=$(gita ls | tr ' ' '\n' | fzf)
     if test -n "$repo";then
