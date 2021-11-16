@@ -3,14 +3,10 @@
 function env(){
     # nodejs
     curl -sL install-node.now.sh/lts | bash -s -- --prefix="${HOME}/.local"
-    npm install yarn
-    npm install neovim
-    # 规范 commit 写法
-    npm install -g commitizen cz-conventional-changelog
-    npm i -g cz-customizable
     # zsh-bin
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh-bin/master/install)"
-
+}
+lan(){
     # python3
     pip3 install neovim
     # python 格式化工具
@@ -36,12 +32,14 @@ function env(){
 
    # tmuxinator 对于不同的项目设置不同的 tmux 布局
    gem install tmuxinator
-
-
-
-
-
+   npm install yarn
+   npm install neovim
+# 规范 commit 写法
+   npm install -g commitizen cz-conventional-changelog
+   npm i -g cz-customizable
 }
+
+
 function lsp(){
     # c lsp server
         # CocCommand clangd.install
@@ -62,14 +60,16 @@ font(){
     wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
     fc-cache
 }
-apt(){
+apt-install(){
     apt install curl git wget unzip
     apt install lua5.4
     apt install python3
+    apt install python3-pip
     apt install grc
-    curl https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh | bash
     apt install global
+    apt install uuid
     apt install universal-ctags
+    apt install scd
     apt install ruby
     apt install golang
     apt install tmux
@@ -77,6 +77,8 @@ apt(){
     apt install xclip
 }
 # apt install curl git wget python3 python3-pip proxychains v2ray unzip git-flow
+
+start(){
 
 mkdir -p ~/.local/bin
 mkdir -p ~/.local/script
@@ -91,12 +93,9 @@ mkdir -p ~/.ssh
 
 export PATH="${HOME}/.local:${HOME}/.local/bin:${PATH}"
 
-if test "$1" = "--full";then
-    env
-fi
+}
 
-
-
+main(){
 # 安装 tpm
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
@@ -113,6 +112,69 @@ git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pac
 # clone my cheatsheet
 git clone https://github.com/Coxianyu/cheatsheet ~/.local/share/navi/cheats/cheatsheet
 
+}
+function clone-git(){
 # clone github repos
 mkdir ~/github
 cd ~/github && gita clone ~/.gita.conf
+}
+
+function v2ray-conf(){
+echo -n "Enter ADDRESS: "
+read  ADDRESS
+echo ''
+echo -n "Enter PORT: "
+read  PORT
+echo ''
+echo -n "Enter PATH: "
+read  HTTP_PATH
+echo ''
+echo -n "Enter UUID: "
+read UUID
+echo ''
+# mkdir -p /usr/local/etc/v2ray
+# curl https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh | bash
+echo '{
+  "inbounds": [
+    {
+      "port": 10808,
+      "listen": "127.0.0.1",
+      "protocol": "socks",
+      "sniffing": {
+        "enabled": true,
+        "destOverride": ["http", "tls"]
+      },
+      "settings": {
+        "auth": "noauth",
+        "udp": false
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "'$ADDRESS'",
+            "port": '$PORT',
+            "users": [
+              {
+                "id": "'$UUID'",
+                "alterId": 0
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "tls",
+        "wsSettings": {
+          "path": "/'$HTTP_PATH'"
+        }
+      }
+    }
+  ]
+}'>/usr/local/etc/v2ray/config.json
+}

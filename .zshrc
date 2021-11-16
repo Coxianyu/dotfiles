@@ -30,7 +30,7 @@ setopt HIST_REDUCE_BLANKS        # 删除多余的空格
 # }}}
 # zinit {{{
 ### Added by Zinit's installer
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
     print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
     command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
     command git clone https://github.com/zdharma-continuum/zinit "$HOME/.zinit/bin" && \
@@ -102,13 +102,13 @@ zinit  light-mode lucid wait="0"  for\
     id-as='dotbare'             "kazhala/dotbare" \
     id-as='auto_env'            "nocttuam/autodotenv"\
     id-as='fz'                  "changyuheng/fz" \
-    id-as='fzf-completion'      "https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh "\
+    id-as='fzf-completion'      "https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh"\
     id-as='alias-finder'        "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/alias-finder/alias-finder.plugin.zsh" \
     id-as='clipbord'            "https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/clipboard.zsh" \
     id-as='safe-paste'          "OMZ::plugins/safe-paste/safe-paste.plugin.zsh" \
     id-as='copyfile'            "OMZ::plugins/copyfile/copyfile.plugin.zsh"\
     id-as='z.lua'               "skywind3000/z.lua"\
-    id-as='git-alias'           atload="unalias gra glo ga  gd grh gcf gcb gco gss gclean grb" "OMZ::plugins/git/git.plugin.zsh"\
+    id-as='git-alias'           atload="unalias gra glo ga  gd grh gcf gcb gco gss gclean grb gf" "OMZ::plugins/git/git.plugin.zsh"\
     id-as='forgit'              "wfxr/forgit"\
     id-as='gpg-crypt'           "Czocher/gpg-crypt" \
     id-as='git-flow-completion' "bobthecow/git-flow-completion" \
@@ -164,7 +164,15 @@ zinit from"gh-r" as"program" mv"direnv* -> direnv" id-as="direnv"\
 # zinit snippet https://github.com/systemd/systemd/tree/main/shell-completion/zsh
 #
 # 安装 systemctl 补全 系统为 kali linux , 只需要运行一次
-# zinit creinstall /usr/share/zsh/vendor-completions/
+
+if test -f "${HOME}/.config/.install.lock";then
+else
+    sys_compleation=$(find /usr/share/zsh -name "_systemctl")
+    if test "$?" -eq 0;then
+        zinit creinstall $(dirname $sys_compleation)
+    fi
+    touch "${HOME}/.config/.install.lock"
+fi
 
 zinit ice wait="1" lucid atclone="./configure --prefix=${ZPFX} --sysconfdir=${HOME}/.config;make && make install-config" atpull="%atclone" id-as="proxychains-ng"
 zinit light rofl0r/proxychains-ng
@@ -292,7 +300,7 @@ PATH=${PATH}:${GOPATH}/bin
 PATH=${PATH}:${HOME}/script
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8,bold,underline'
-ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_STRATEGY=(history)
 ZSH_AUTOSUGGEST_HISTORY_IGNORE="clear*|echo *"
 #}}}
 ###alias {{{
@@ -381,6 +389,10 @@ function ffufb(){
 # 不记录 x
 # 不记录 rm
 # 不记录 ls
+# 不记录 cp 
+# 不记录 mv
+# 不记录 locate
+# 不记录 find
 # 不记录以空格开头的命令， 用于执行一些不希望被记住的命令
 zshaddhistory() {
     emulate -L zsh
@@ -398,6 +410,14 @@ zshaddhistory() {
     elif [[ $1 = "rm"* ]] ; then
         return 1
     elif [[ $1 = "ls"* ]] ; then
+        return 1
+    elif [[ $1 = "cp"* ]] ; then
+        return 1
+    elif [[ $1 = "find"* ]] ; then
+        return 1
+    elif [[ $1 = "locate"* ]] ; then
+        return 1
+    elif [[ $1 = "mv"* ]] ; then
         return 1
     elif [[ $1 = "x"* ]] ; then
         return 1
