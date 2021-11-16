@@ -142,6 +142,7 @@ zinit light zsh-users/zsh-completions
 zinit ice wait="1" lucid id-as="autopair"
 zinit light hlissner/zsh-autopair
 
+
 zinit  as="null" wait="1" lucid from="gh-r" for \
     id-as="delta"           mv="delta* -> delta"     sbin="delta/delta"               dandavison/delta\
     id-as="lazygit"                                  sbin                             jesseduffield/lazygit\
@@ -199,6 +200,7 @@ zinit light acmesh-official/acme.sh
 
 zinit ice wait="1" lucid as="bin" id-as="tmux-fzf" sbin="tmux-fzf"
 zinit snippet https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux
+
 
 # gron json 处理器
 zinit ice wait='1' lucid as="null" id-as="gron"  from="gh-r" sbin="gron"
@@ -376,6 +378,10 @@ function ffufb(){
 # 不记录 git clone
 # 不记录 wget 
 # 不记录 curl
+# 不记录 x
+# 不记录 rm
+# 不记录 ls
+# 不记录以空格开头的命令， 用于执行一些不希望被记住的命令
 zshaddhistory() {
     emulate -L zsh
     # 以下写法太傻B了， 各位不要学习， 我懒得改了 
@@ -388,6 +394,14 @@ zshaddhistory() {
     elif [[ $1 = "curl"* ]] ; then
         return 1
     elif [[ $1 = "wget"* ]] ; then
+        return 1
+    elif [[ $1 = "rm"* ]] ; then
+        return 1
+    elif [[ $1 = "ls"* ]] ; then
+        return 1
+    elif [[ $1 = "x"* ]] ; then
+        return 1
+    elif [[ $1 = " "* ]] ; then
         return 1
     fi
     # 不记录执行错误的命令， 但是 echoljlkjl;echo 1  会被记录
