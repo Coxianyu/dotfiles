@@ -43,10 +43,10 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 zinit ice id-as="z-bin"
-zinit light UncleClapton/z-a-bin-gem-node
+zinit light zdharma-continuum/zinit-annex-bin-gem-node
 
 zinit ice id-as="z-readurl"
-zinit light  yutkat/z-a-readurl
+zinit light zdharma-continuum/zinit-annex-readurl
 
 zinit ice depth="1" id-as="vi-mode"
 zinit light jeffreytse/zsh-vi-mode
@@ -104,7 +104,6 @@ zinit  light-mode lucid wait="0"  for\
     id-as='fz'                  "changyuheng/fz" \
     id-as='fzf-completion'      "https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh"\
     id-as='alias-finder'        "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/alias-finder/alias-finder.plugin.zsh" \
-    id-as='clipbord'            "https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/clipboard.zsh" \
     id-as='safe-paste'          "OMZ::plugins/safe-paste/safe-paste.plugin.zsh" \
     id-as='copyfile'            "OMZ::plugins/copyfile/copyfile.plugin.zsh"\
     id-as='z.lua'               "skywind3000/z.lua"\
@@ -119,10 +118,16 @@ zinit  light-mode lucid wait="0"  for\
     id-as='base-64'             "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/encode64/encode64.plugin.zsh" \
     id-as='hitokoto'            "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/hitokoto/hitokoto.plugin.zsh"\
     id-as='copydir'             "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/copydir/copydir.plugin.zsh" \
+    id-as='clipbord'            "https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/clipboard.zsh" 
 
 # id-as="msfvenom"            as="completion" mv="%ID% ->_msfvenom" "https://raw.githubusercontent.com/Green-m/msfvenom-zsh-completion/master/_msfvenom" \
 zinit ice lucid wait="0" id-as="eval.zsh"
 zinit snippet $(echo "${HOME}/.config/custom/eval.zsh")
+
+zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
+    atpull'%atclone' pick"clrs.zsh" nocompile'!' \
+    atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
+zinit light trapd00r/LS_COLORS
 
 
 zinit ice lucid depth"1" wait="0" id-as="extract"
@@ -143,15 +148,15 @@ zinit ice wait="1" lucid id-as="autopair"
 zinit light hlissner/zsh-autopair
 
 
-zinit  as="null" wait="1" lucid from="gh-r" for \
+zinit  as="null" wait="1" lucid from="gh-r" bpick="*linux*" for \
     id-as="delta"           mv="delta* -> delta"     sbin="delta/delta"               dandavison/delta\
     id-as="lazygit"                                  sbin                             jesseduffield/lazygit\
     id-as="navi"                                     sbin                             denisidoro/navi\
-    id-as="fzf"                                      sbin                             junegunn/fzf 
-
-
+    id-as="fzf"                                      sbin                             junegunn/fzf
+    
+# zinit pack for fzf
 # direnv 进入目录的时候自动加载和卸载环境变量 
-zinit from"gh-r" as"program" mv"direnv* -> direnv" id-as="direnv"\
+zinit from"gh-r" as"program" mv"direnv* -> direnv" id-as="direnv" bpick="*linux*"\
     atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone' \
     pick"direnv" src="zhook.zsh" for \
         direnv/direnv
