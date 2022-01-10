@@ -277,8 +277,8 @@ if filereadable(expand("$HOME/.local/share/gtags/gtags.conf"))
     let g:Lf_Gtagsconf = $HOME."/.local/share/gtags/gtags.conf"
     let $GTAGSCONF = $HOME."/.local/share/gtags/gtags.conf"
 else 
-    let g:Lf_Gtagsconf = "/usr/local/share/gtags/gtags.conf"
-    let $GTAGSCONF = "/usr/local/share/gtags/gtags.conf"
+    let g:Lf_Gtagsconf = "/etc/gtags/gtags.conf"
+    let $GTAGSCONF = "/etc/gtags/gtags.conf"
 endif
 let g:Lf_PreviewPopupWidth = 80
 let g:Lf_PreviewPopupWidth = 80

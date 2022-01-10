@@ -75,6 +75,8 @@ apt-install(){
     apt install tmux
     # 连接系统和 tmux 剪切版
     apt install xclip
+    apt install gpg
+    apt install scdaemon
 }
 # apt install curl git wget python3 python3-pip proxychains v2ray unzip git-flow
 
@@ -112,11 +114,15 @@ git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pac
 # clone my cheatsheet
 git clone https://github.com/Coxianyu/cheatsheet ~/.local/share/navi/cheats/cheatsheet
 
+# 处理 tmux-powerline
+# git clone https://github.com/erikw/tmux-powerline ~/.config/tmux-powerline
+# cp -f "${HOME}/.config/default.sh" "${HOME}/.config/tmux-powerline/themes/default.sh"
+
 }
 function clone-git(){
-# clone github repos
-mkdir ~/github
-cd ~/github && gita clone ~/.gita.conf
+    # clone github repos
+        mkdir ~/github
+    cd ~/github && gita clone ~/.gita.conf
 }
 
 function v2ray-conf(){

