@@ -124,12 +124,6 @@ zinit  light-mode lucid wait="0"  for\
 zinit ice lucid wait="0" id-as="eval.zsh"
 zinit snippet $(echo "${HOME}/.config/custom/eval.zsh")
 
-zinit ice atclone"dircolors -b LS_COLORS > clrs.zsh" \
-    atpull'%atclone' pick"clrs.zsh" nocompile'!' \
-    atload'zstyle ":completion:*" list-colors “${(s.:.)LS_COLORS}”'
-zinit light trapd00r/LS_COLORS
-
-
 zinit ice lucid depth"1" wait="0" id-as="extract"
 zinit snippet OMZ::plugins/extract
 
@@ -220,11 +214,11 @@ zinit snippet https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux
 
 
 # gron json 处理器
-zinit ice wait='1' lucid as="null" id-as="gron"  from="gh-r" sbin="gron"
+zinit ice wait='1' lucid as="null" id-as="gron"  from="gh-r" sbin="gron" bpick="*linux*"
 zinit light tomnomnom/gron
 
 # ffuf  fast fuzzer
-zinit ice wait="1" lucid as="null" id-as="ffuf" from="gh-r" sbin="ffuf"
+zinit ice wait="1" lucid as="null" id-as="ffuf" from="gh-r" sbin="ffuf" bpick="*linux*"
 zinit light ffuf/ffuf
 #
 # bindkey 
