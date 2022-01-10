@@ -427,6 +427,8 @@ zshaddhistory() {
         return 1
     elif [[ $1 = "mv"* ]] ; then
         return 1
+    elif [[ $1 = "pass"* ]] ; then
+        return 1
     elif [[ $1 = "x"* ]] ; then
         return 1
     elif [[ $1 = "whence"* ]] ; then
