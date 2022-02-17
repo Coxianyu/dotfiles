@@ -144,9 +144,10 @@ zinit light hlissner/zsh-autopair
 
 zinit  as="null" wait="1" lucid from="gh-r" bpick="*linux*" for \
     id-as="delta"           mv="delta* -> delta"     sbin="delta/delta"               dandavison/delta\
+    id-as="clash"           mv="clash* -> clash"     sbin                             Dreamacro/clash \
     id-as="lazygit"                                  sbin                             jesseduffield/lazygit\
     id-as="navi"                                     sbin                             denisidoro/navi\
-    id-as="fzf"                                      sbin                             junegunn/fzf
+    id-as="fzf"                                      sbin                             junegunn/fzf 
     
 # zinit pack for fzf
 # direnv 进入目录的时候自动加载和卸载环境变量 
@@ -376,6 +377,9 @@ alias pr='proxychains4 -q'
 alias cedit='dotbare fedit'
 #}}}
 #function {{{
+function proxytest() {
+    curl www.google.com >> /tmp/test
+}
 function _z() { _zlua "$@"; }
 function ffufr() {
   ffuf -c -w "/path/to/SecLists/Discovery/Web-Content/$1" -u "$2/FUZZ" -recursion
