@@ -5,8 +5,6 @@ gtags : /usr/local/share/gtags
 tags : ~/.cache/tags
 log : /var/log
 local : ~/.local
-v2ray : /usr/share/v2ray
-nginx : /etc/nginx
 bat : ~/.config/bat
 bin : ~/.local/bin
 ranger : ~/.config/ranger
@@ -16,3 +14,5 @@ nginx-default-root: /usr/share/nginx/html
 tmuxinator : ~/.config/tmuxinator
 nvim : ~/.config/nvim
 cheatsheet : ~/.local/share/navi/cheats/cheatsheet
+v2ray : /usr/local/etc/v2ray
+nginx : /etc/nginx
