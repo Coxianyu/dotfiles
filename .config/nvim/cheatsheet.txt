@@ -27,14 +27,134 @@
 浮动窗口显示翻译结果 translator in float windows | :TranslateW
 用结果替换选择的文字 translator replace word | :TranslateR
 
-## coc.nvim
-跳转到下一个错误 | [g
-跳转到上一个错误 | ]h
 
 ## muti
 打开 nvimtree | <f1>
-打开浮动窗口 | <f12>
 查看帮助     |K
 
 ## indentLine
 关闭或者打开缩进线 close or open indentLine | :IndentLinesToggle
+
+## maximizer
+切换窗口最大化和最小化  | tg
+
+## lable
+切换窗口 | tt
+关闭窗口 | tr
+
+## leaderF
+
+查询当前路径下的文件       | <leader>ff
+查询当前缓冲区的函数       | <leader>fF
+查询缓冲区                 | <leader>fb
+查询所有缓冲区             | <leader>fB
+查询当前缓冲区的函数       | <leader>fa
+查询所有缓冲区中的函数     | <leader>fA
+查询当前缓冲区中的一行     | <leader>fl
+查询所有缓冲区中的一行     | <leader>fL
+执行vim历史命令            | <leader>fh
+执行vim /和？ 的搜索命令   | <leader>fH
+查询执行过的用户自定义命令 | <leader>fs
+查询执行过的用户自定义命令 | <c-p>
+查询 quickfix 窗口         | <leader>fq
+快速修改文件的类型         | <leader>fi
+查询jump跳转点             | <leader>f
+查询 help 信息             | <leader>fv
+查询 snippets              | <leader>fz
+查询真个项目中的函数定义和宏定义 | <leader>fgt
+查询光标下函数引用               | <leader>fgr
+
+## float 
+lazygit        | <leader>rg
+htop           | <leader>rh
+vsplit windows | <leader>rt
+打开浮动窗口   | <f12>
+
+## telescope
+
+查询文件                                      | <leader>tf
+查询函数                                      | <leader>tF
+查询执行过的用户自定义命令                    | <leader>tH
+在当前目录下所有文件中 grep 字符串            | <leader>tr
+在当前文件中搜索行                            | <leader>tl
+git_files                                     | <leader>tN
+git_commits                                   | <leader>tc
+git_bcommits                                  | <leader>tC
+git_branches                                  | <leader>tL
+git_stash                                     | <leader>ts
+command_history                               | <leader>to
+search_history                                | <leader>tS
+man_pages                                     | <leader>tm
+mark                                          | <leader>tM
+寄存器                                        | <leader>tR
+suggest_spell                                 | <leader>tp
+tagstack                                      | <leader>tk
+symbols                                       | <leader>ty
+git_status                                    | <leader>tY
+quickfix                                      | <leader>tq
+bookmarks all                                 | <leader>tB
+bookmarks current_file                        | <leader>tn
+ultisnips                                     | <leader>tv
+查看当前目录下所有文件的TODOlist              | <leader>td
+floaterm                                      | <leader>tg
+查看当前文件中的错误 diagnostics current_file | <leader>te
+查看所有缓冲区中的错误 diagnostics all buffer | <leader>tE
+buffer                                        | <leader>tb
+查看最近使用的文件 mru                        | <leader>tu
+help_tags                                     | <leader>ti
+
+## todo-comment
+todo | TODO
+fix | FIX
+hack | HACK
+perf | PERF
+note | NOTE
+warning | WARNING
+
+## coc.nvim
+跳转到下一个错误          | [g
+跳转到上一个错误          | ]h
+使用 lsp 跳转到定义       | <leader>qd
+垂直分屏查询定义          | <leader>qD
+Fix-current-buffer        | <leader>qF
+格式化代码                | <leader>qf
+查询implementaation(引用) | <leader>qi
+查询引用                  | <leader>qr
+重命名                    | <leader>qR
+查询type定义              | <leader>qy
+查询函数引用              | <leader>qE
+
+## misc
+关闭搜索高亮              | <leader>s
+Asyncrun 运行命令         | <leader>sr
+显示ale错误详细信息       | <leader>sd
+关闭ale                   | <leader>sf
+前往ale下一个错误         | <leader>sn
+前往ale上一个错误         | <leader>sp
+source .vimrc             | <leader>sv
+
+
+## asynctask
+
+启用编译 | <f6>
+运行程序 | <f5>
+
+## vimspector
+调试继续运行 | <leader>d<space>
+运行到光标处 | <leader>dc
+启动vimspector | <leader>dd
+关闭 vimspector | <leader>de
+stepover | <leader>d
+stepout | <leader>dk
+显示所有断点 | <leader>dL
+单步调试 | <leader>dl
+暂停调试 | <leader>dp
+重启调试 | <leader>dr
+删除watch | <leader>dW
+添加watch | <leader>dw
+清除所有断点 | <leader>dy
+设置条件断点 | <leader>dbB
+设置断点 | <leader>dbb
+设置函数断点 | <leader>dbp
+
+
