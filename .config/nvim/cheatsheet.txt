@@ -140,21 +140,21 @@ source .vimrc             | <leader>sv
 运行程序 | <f5>
 
 ## vimspector
-调试继续运行 | <leader>d<space>
-运行到光标处 | <leader>dc
-启动vimspector | <leader>dd
+调试继续运行    | <leader>d<space>
+运行到光标处    | <leader>dc
+启动vimspector  | <leader>dd
 关闭 vimspector | <leader>de
-stepover | <leader>d
-stepout | <leader>dk
-显示所有断点 | <leader>dL
-单步调试 | <leader>dl
-暂停调试 | <leader>dp
-重启调试 | <leader>dr
-删除watch | <leader>dW
-添加watch | <leader>dw
-清除所有断点 | <leader>dy
-设置条件断点 | <leader>dbB
-设置断点 | <leader>dbb
-设置函数断点 | <leader>dbp
+stepover        | <leader>d
+stepout         | <leader>dk
+显示所有断点    | <leader>dL
+单步调试        | <leader>dl
+暂停调试        | <leader>dp
+重启调试        | <leader>dr
+删除watch       | <leader>dW
+添加watch       | <leader>dw
+清除所有断点    | <leader>dy
+设置条件断点    | <leader>dbB
+设置断点        | <leader>dbb
+设置函数断点    | <leader>dbp
 
 
