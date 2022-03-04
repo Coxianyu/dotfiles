@@ -13,3 +13,4 @@ package*
 .envrc*
 pubring.kbx~
 blackbox-files.txt
+tags
