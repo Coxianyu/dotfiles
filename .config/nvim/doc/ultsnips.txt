@@ -1,13 +1,82 @@
 *ultisnips-cheatsheet*
 ultisnips 插件语法的备忘录
 README: https://github.com/SirVer/ultisnips
+README_zh:
+https://github.com/Linfee/ultisnips-zh-doc/blob/master/doc/UltiSnips_zh.txt
 Author:xianyu
-===============================================================================
-*综合*
-`ultisnips` 是一个vim 插件， 用于记录代码片段，
 -------------------------------------------------------------------------------
-
+*First*
+`ultisnips` 是一个 vim 插件， 用于记录代码片段， 提高开发的效率
+github：https://github.com/SirVer/ultisnips
 -------------------------------------------------------------------------------
+*syntax*
+- 片段以 `snippet` 开始 `endsnippet` 作为结束 ， `snippet` 后接关键词, 输入关键词
+后, 默认通过 `<tab>` 键展开片段
+- 开头的格式如下
+    - snippet tab_trigger ["description" [options]]
+- tab_trigger: 为展开的关键词
+- 后面为可选的片段描述和选项
+- options 有如下的选择
+    - b: 一行的开始， 只有关键词处于一行的开始才会被展开, 触发器前面是空格才能展开
+    - t: 不展开制表符号, 默认制表符会被替换为空格, 加入这个选项后就不会被替代
+    - s: 在跳入下一个插入点前,移除行尾光标前的空白字符
 
+- 一个 if 的片段示例如下 
+>
+snippet if "if...then(if)"
+    if ${2:[[$(1:condition)]]};then
+        ${0:#statements}
+    fi
+endsnippet
+<
+-------------------------------------------------------------------------------
+*VISUAL*
+-  一个特殊的占位符号, `${VISUAL}` 会在展开的时候被替换为展开前选择的文本
+- `${VISUAL}` 可以包含默认的文本
+    - `${VISUAL:default_text}`
+- `${VISUAL}` 还可以定义一个替换, 如下
+    - `${VISUAL:default/search/replace/option}`
+    - 如果选择的文本中有 `search` 就会被替换为 `replace`
+-  一个示例如下
+>
+snippet t
+<tag>${VISUAL:inside text/should/is/g}</tag>
+endsnippet
+<
+- 上面的片段配合
+    - `this should be cool`, `viw`  选中 `should` , 按下 `c-q` ,输入 `t`再按 `c-q`就会得到`this <tag>is</tag> be cool` `should`  被替换为 `is`
+- 如果没有再选择模式下， 仅仅输入 `t<c-q>` 就会得到 <tag>inside text</tag>
+-------------------------------------------------------------------------------
+*shell*
+- 片段中可以插入 shell 脚本, shell 脚本使用反引号嵌入, 示例如下
+>
+    snippet today
+    Today is the `date +%d.%m.%y`
+    endsnippet
+today is the 04.03.22
+<
 
+- 除了 shell 外, 还可以使用其他语言, 例如
 
+>
+snippet today-perl
+Today is the `#!/usr/bin/perl
+@a = localtime;print $a[3].'.'.$a[4].'.'.($a[5]+1900);`.
+endsnippet
+<
+-  也可以使用 vim 脚本插入
+
+>
+snippet indent
+Indent is : `!v indent(".")`.
+endsnippet
+<
+-------------------------------------------------------------------------------
+*python*
+- ultisnips 支持使用 python 脚本
+
+>
+snippet wow
+${1:Text}`!p snip.rv = (75-2*len(t[1]))*' '+t[1].upper()`
+endsnippet
+<
