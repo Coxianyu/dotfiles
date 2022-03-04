@@ -203,7 +203,7 @@ zinit ice wait="1" lucid as="null"  id-as="git-flow" mv="%ID% -> git-flow.sh" at
 zinit snippet https://raw.github.com/nvie/gitflow/develop/contrib/gitflow-installer.sh
 
 # neovim
-zinit ice wait="1" lucid as="null" from="gh-r" id-as="neovim" mv="nvim* -> neovim" sbin="neovim/bin/nvim"
+zinit ice wait="1" lucid as="null" from="gh-r" id-as="neovim" mv="nvim* -> neovim" sbin="neovim/bin/nvim" bpick="*linux64.tar.gz"
 zinit light neovim/neovim
 
 # acme.sh

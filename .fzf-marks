@@ -12,9 +12,9 @@ d : /mnt/d
 c : /mnt/c
 nginx-default-root: /usr/share/nginx/html
 tmuxinator : ~/.config/tmuxinator
-nvim : ~/.config/nvim
 v2ray : /usr/local/etc/v2ray
 nginx : /etc/nginx
 nginx-log : /var/log/nginx
 v2ray-log : /var/log/v2ray
 cheatsheet : ~/.local/share/navi/cheats/cheatsheet
+nvim : ~/.config/nvim
