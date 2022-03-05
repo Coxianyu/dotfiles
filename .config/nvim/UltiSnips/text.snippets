@@ -1,0 +1,48 @@
+snippet separate- "vim help 文件的分割符" b
+-------------------------------------------------------------------------------
+endsnippet
+
+snippet separate= "vim help = 分割符号" b
+===============================================================================
+endsnippet
+
+snippet t "test"
+<tag>${VISUAL:inside text/should/is/g}</tag>
+endsnippet
+
+snippet today "test" 
+today is the `date +%d.%m.%y`
+endsnippet
+
+snippet indent
+Indent is : `!v indent(".")`.
+endsnippet
+
+snippet wow
+${1:Text}`!p snip.rv = (75-2*len(t[1]))*' '+t[1].upper()`
+endsnippet
+
+snippet mkline "snip.mkline 的测试" 
+this is a `!p snip.rv = snip.mkline(line="test",indent=None)`
+endsnippet
+
+snippet letter "Description" 
+this is $0
+this is $1
+this is $2
+this is $3 
+
+endsnippet
+
+snippet a-test "test" 
+<a href="${1:http://www.${2:example}}"</a>
+    $0
+</a>
+endsnippet
+
+snippet mirrors "test" 
+this is $1
+thi is $1 mirrors
+
+endsnippet
+
