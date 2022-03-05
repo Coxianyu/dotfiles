@@ -18,8 +18,7 @@ return require('packer').startup(function()
   -- using packer.nvim
   -- misc{{{
   use {'wbthomason/packer.nvim'}
-  use {
-      'kyazdani42/nvim-tree.lua',
+  use {'kyazdani42/nvim-tree.lua',
       config = function()
           require('telescope').setup{
               -- disables netrw completely

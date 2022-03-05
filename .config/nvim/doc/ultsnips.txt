@@ -80,3 +80,71 @@ snippet wow
 ${1:Text}`!p snip.rv = (75-2*len(t[1]))*' '+t[1].upper()`
 endsnippet
 <
+this is a beautlful test                           THIS IS A BEAUTLFUL TEST
+- wow  片段的效果如上
+- python 脚本提供多种对象和变量
+- 自动定义的变量有以下这些
+    - `fn`   当前文件的名字
+    - `path` 当前文件路径
+    - `t` 占位符的值， t[1] 就是 ${1} 表示的文本
+    - `snip` `Ultsnips.TextObject.SnippetUtil` 对象的实例, 有一些简化插入的方法
+    - `context` 上下文条件的结果
+- `snip` 提供了以下的一些方法
+    - `snip.mkline(line="",indent=None)` 返回一行需要添加到结果中的文本， indent为 `None` 的话会根据 `tabstop` 和 `expandtab` 来添加空格或者制表符的缩进
+    - `snip.opt(var,default)` 检测是否设置了变量 `var` 没有的话返回默认值
+>
+snippet mkline "snip.mkline 的测试" 
+this is a `!p snip.rv = snip.mkline(line="test",indent=None)`
+endsnippet
+<
+- 结果为 `this is a test`
+
+- `snip` 还提供了一些属性
+    - `snip.rv` 这个为返回值, 这个的值将会替换片段中的 python 代码块
+    - `snip.c` 表示片段在当前 python 代码块位置的文本, 插入完成后就被设置为空
+    - `snip.v` 封装了 |VISUAL| 占位符的数据
+        - `snip.v.mode` ('v','V','^V')
+        - `snip.v.text` 被选中的文本
+    - `snip.fn` 当前文件的文件名
+    - `snip.basename` 当前文件的不包括 . 后面的名字
+    - `snip.ft` 当前文件类型
+    - `snip.p` 最后选定的占位符
+- 任何在 python 代码块中定义的变量都可以在同一个片段中的其他 python 代码块中使用
+-------------------------------------------------------------------------------
+*tabstops*
+- 占位符， 用于在片段中插入内容， 语法为 `$number` , `$0` 为片段的最后一个插入点, 默认在片段的末尾, `${number:value}` 为默认值, 用于提示输入的内容
+
+>
+snippet letter
+this is $1
+this is $2
+this is $3
+this is $4
+endsnippet
+<
+this is 0
+this is 1
+this is 2
+this is 3 
+
+- 占位符能够嵌套
+>
+snippet a-test
+<a href="${1:http://www.${2:example.com}}">
+    $0
+</a>
+endsnippet
+-  直接使用 `<tab>` 可以跳到下一个插入点, 不改变协议名, 只会改变主机名
+-------------------------------------------------------------------------------
+*mirrors*
+
+- 镜像, 也就是相同的插入点的值会同步输入
+
+>
+snippet mirrors-test 
+this is $1
+this is $1 mirrors
+<
+this is test
+thi is test mirrors
+
