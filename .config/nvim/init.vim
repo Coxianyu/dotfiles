@@ -183,11 +183,10 @@ xmap <leader>ga <Plug>(EasyAlign)
 inoremap <s-tab> <c-d>
 inoremap <leader>o <c-o>
 inoremap <c-j> <down>
-inoremap <c-n> <down>
-inoremap <c-p> <up>
 inoremap <c-a> <c-o>0
 inoremap <c-e> <c-o>$
 inoremap jj <c-[>
+inoremap <c-x><c-k> <c-x><c-k>
 if !has("gui_running")
     inoremap <esc> <nop>
 endif
@@ -575,9 +574,9 @@ endif
 " Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
 " - https://github.com/Valloric/YouCompleteMe
 " - https://github.com/nvim-lua/completion-nvim
-let g:UltiSnipsExpandTrigger="<c-q>"
-let g:UltiSnipsJumpForwardTrigger="<c-p>"
-let g:UltiSnipsJumpBackwardTrigger="<c-n>"
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"    
 "}}}
@@ -602,17 +601,32 @@ let g:bookmark_highlight_lines = 1
 let g:bookmark_save_per_working_dir = 1
 let g:bookmark_auto_save = 1
 
+"}}}
+"coc.nvim config {{{
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
 function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+let g:coc_snippet_next = '<tab>'
+let g:coc_snippet_prev = '<c-p>'
+
 inoremap <silent><expr> <TAB>
             \ pumvisible() ? "\<C-n>" :
             \ <SID>check_back_space() ? "\<TAB>" :
             \ coc#refresh()
 
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 " <cr> 确认补全
-let g:coc_snippet_next = '<tab>'
+" let g:coc_snippet_next = '<c-n>'
+" let g:coc_snippet_prev = '<c-p>'
 autocmd FileType markdown let b:coc_pairs_disabled = ['`']
 let g:coc_global_extensions = [
             \ "coc-tsserver",
@@ -626,6 +640,7 @@ let g:coc_global_extensions = [
             \ "coc-clangd",
             \ "coc-calc",
             \ "coc-pairs",
+            \ "coc-db",
             \ "coc-sh",
             \ "coc-json"]
 xmap <leader>qf  <Plug>(coc-format-selected
@@ -637,8 +652,10 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>qd <Plug>(coc-definition)
-nnoremap <silent><nowait> <leader>qD :call CocActionAsync('jumpDefinition', v:false)<CR>
-nnoremap <silent><nowait> <leader>qE :call CocActionAsync('jumpReferences', v:false)<CR>
+" nnoremap <silent><nowait> <leader>qD :call CocActionAsync('jumpDefinition', v:false)<CR>
+nnoremap <silent><nowait> <leader>qD :call CocAction('jumpDefinition', 'vsplit')<CR>
+" nnoremap <silent><nowait> <leader>qE :call CocActionAsync('jumpReferences', v:false)<CR>
+nnoremap <silent><nowait> <leader>qE :call CocAction('jumpReferences', 'vsplit')<CR>
 nmap <silent> <leader>qy <Plug>(coc-type-definition)
 nmap <silent> <leader>qi <Plug>(coc-implementation)
 nmap <silent> <leader>qr <Plug>(coc-references)
