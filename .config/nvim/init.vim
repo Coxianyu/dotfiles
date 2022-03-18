@@ -185,11 +185,11 @@ inoremap <leader>o <c-o>
 inoremap <c-j> <down>
 inoremap <c-a> <c-o>0
 inoremap <c-e> <c-o>$
-inoremap jj <c-[>
+" inoremap jj <c-[>
 inoremap <c-x><c-k> <c-x><c-k>
-if !has("gui_running")
-    inoremap <esc> <nop>
-endif
+" if !has("gui_running")
+"     inoremap <esc> <nop>
+" endif
 "}}}
 "cnoremap {{{
 cnoremap <up> <nop>
