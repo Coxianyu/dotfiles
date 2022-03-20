@@ -158,3 +158,7 @@ stepout         | <leader>dk
 设置函数断点    | <leader>dbp
 
 
+## tips
+ww | 保存文件
+we | 不保存退出vim
+wq | 保存退出vim
