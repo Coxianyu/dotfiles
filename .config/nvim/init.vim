@@ -2,6 +2,7 @@
 call plug#begin()
 
 Plug 'nvim-telescope/telescope-vimspector.nvim'
+Plug 'direnv/direnv.vim'
 Plug 'samoshkin/vim-mergetool'
 Plug 'szw/vim-maximizer'
 Plug 'puremourning/vimspector',{'dir':'~/.config/nvim/pack/vimspector/opt/vimspector'}
@@ -315,6 +316,7 @@ let g:Lf_PreviewResult = {
 nnoremap <leader>fgr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>    
 nnoremap <leader>fF :Leaderf! function<cr>
 nnoremap <leader>ff :Leaderf file<cr>
+nnoremap <c-m> :Leaderf! function<cr>
 nnoremap <leader>fb :Leaderf! buffer<cr>
 nnoremap <leader>fB :Leaderf! buffer --all<cr>
 nnoremap <leader>ftt :Leaderf! tag<cr>
@@ -600,6 +602,8 @@ let g:bookmark_sign = '♥'
 let g:bookmark_highlight_lines = 1
 let g:bookmark_save_per_working_dir = 1
 let g:bookmark_auto_save = 1
+"}}}
+"coc.nvim{{{
 
 "}}}
 "coc.nvim config {{{
@@ -642,7 +646,8 @@ let g:coc_global_extensions = [
             \ "coc-pairs",
             \ "coc-db",
             \ "coc-sh",
-            \ "coc-json"]
+            \ "coc-json",
+            \ "coc-phpls"]
 xmap <leader>qf  <Plug>(coc-format-selected
 nmap <leader>qf  <Plug>(coc-format-selected)
 nmap <leader>qR <Plug>(coc-rename)
@@ -706,7 +711,8 @@ nnoremap <f1> :NvimTreeToggle<cr>
 " NVIMTREE 宽度
 let g:nvim_tree_width = 25 "30 by default, can be width_in_columns or 'width_in_percent%'
 " 不显示的目录
-let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ] "empty by default
+" let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ] "empty by default
+" let g:filters.custom = ['.git', 'node_modules', '.cache' ]
 let g:nvim_tree_git_hl = 0
 let g:nvim_tree_highlight_opened_files = 1
 highlight NvimTreeFolderIcon guibg=blue

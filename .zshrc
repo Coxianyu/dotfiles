@@ -256,6 +256,9 @@ export TZ='Asia/Shanghai'
 export DOTBARE_DIR="${HOME}/.myconfig"
 export DOTBARE_TREE="${HOME}"
 
+# 关闭 direnv 的显示
+# export DIRENV_LOG_FORMAT=
+
 # ips=$(ip -o addr show up primary scope global |while read -r num dev fam addr rest; do echo ${addr%/*}; done)
 # hostname -I | tr ' ' '\n' 
 export LOCAL_IP=$(hostname -I | tr ' ' '\n' | head -n 1)
@@ -379,6 +382,11 @@ alias cedit='dotbare fedit'
 #function {{{
 function proxytest() {
     curl www.google.com >> /tmp/test
+    if "$USER" == "root"
+    then
+        chmod 777 /tmp/test
+    fi
+    
 }
 function _z() { _zlua "$@"; }
 function ffufr() {

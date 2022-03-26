@@ -20,7 +20,7 @@ return require('packer').startup(function()
   use {'wbthomason/packer.nvim'}
   use {'kyazdani42/nvim-tree.lua',
       config = function()
-          require('telescope').setup{
+          require'nvim-tree'.setup{
               -- disables netrw completely
               disable_netrw       = true,
               -- hijack netrw window on startup
@@ -71,6 +71,11 @@ return require('packer').startup(function()
                   cmd  = nil,
                   -- the command arguments as a list
                   args = {}
+              },
+              filters = {
+                  dotfiles = false,
+                  custom = {'.git','node_modules','.cache'},
+                  exclude = {},
               },
 
               view = {
