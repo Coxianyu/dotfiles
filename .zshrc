@@ -12,6 +12,7 @@ HISTFILE="${HOME}/.zsh_history"
 HISTSIZE=10000000
 SAVEHIST=10000000
 
+
 setopt BANG_HIST                 # Treat the '!' character specially during expansion.
 setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
 setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
@@ -218,6 +219,16 @@ zinit snippet https://raw.githubusercontent.com/junegunn/fzf/master/bin/fzf-tmux
 zinit ice wait='1' lucid as="null" id-as="gron"  from="gh-r" sbin="gron" bpick="*linux*"
 zinit light tomnomnom/gron
 
+# skm ssh key manager 
+zinit ice wait='1' lucid as="null" id-as="skm"  from="gh-r" sbin="skm" bpick="*linux*"
+zinit light TimothyYe/skm
+
+zinit ice wait='1' lucid as="null" id-as="ydict"  from="gh-r" sbin="ydict" bpick="*linux*"
+zinit light TimothyYe/ydict
+
+
+
+
 # ffuf  fast fuzzer
 zinit ice wait="1" lucid as="null" id-as="ffuf" from="gh-r" sbin="ffuf" bpick="*linux*"
 zinit light ffuf/ffuf
@@ -305,12 +316,14 @@ export LANG="zh_CN.UTF-8"
 PATH=${PATH}:${HOME}/.local/bin
 PATH=${PATH}:${GOPATH}/bin
 PATH=${PATH}:${HOME}/script
+PATH=${PATH}:${HOME}/.config/nvim/plugged/asynctasks.vim/bin
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8,bold,underline'
 ZSH_AUTOSUGGEST_STRATEGY=(history)
 ZSH_AUTOSUGGEST_HISTORY_IGNORE="clear*|echo *"
 #}}}
 ###alias {{{
+alias composer='php composer.phar'
 alias cl='clear'
 if [ -x "$(command -v exa)" ]; then
     alias ls="exa"
@@ -347,6 +360,7 @@ else
 fi
 # jf foo 使用 fzf 交互选择
 alias jf='j -I'
+alias tasks='asynctask -f'
 # jb foo
 alias jb='j -b'
 # jbf foo 使用 fzf 选择父目录
@@ -381,7 +395,7 @@ alias cedit='dotbare fedit'
 #}}}
 #function {{{
 function proxytest() {
-    curl www.google.com >> /tmp/test
+    proxychains4 curl www.google.com >> /tmp/test
     if "$USER" == "root"
     then
         chmod 777 /tmp/test
@@ -450,6 +464,8 @@ zshaddhistory() {
         return 1
     elif [[ $1 = " "* ]] ; then
         return 1
+    elif [[ $1 = "ydict"* ]] ; then
+        return 1
     fi
     # 不记录执行错误的命令， 但是 echoljlkjl;echo 1  会被记录
     whence ${${(z)1}[1]} >| /dev/null || return 1 
@@ -485,7 +501,7 @@ alias pdict=_pdict
 function _pdict(){
     fd . "${HOME}/dict" | fzf | tr -d '\n' |clipcopy
 }
-fucntion hcat(){
+function hcat(){
     file=$(fd . --full-path "${HOST_ROOT_PATH}" -t f| fzf | tr -d '\n')
     cat $file
 
@@ -501,7 +517,36 @@ function udf_pick(){
     # echo ${FILE_NAME%?}
     python3 $(locate cloak.py) -d -i $UDF_PATH  -o ${FILE_NAME%?}
 }
+function man(){
+	MAN="/usr/bin/man"
+	if [ -n "$1" ]; then
+		$MAN "$@"
+		return $?
+	else
+		$MAN -k . | fzf --reverse --preview="echo {1,2} | sed 's/ (/./' | sed -E 's/\)\s*$//' | xargs $MAN" | awk '{print $1 "." $2}' | tr -d '()' | xargs -r $MAN
+		return $?
+	fi
+}
 function ef(){
+    file=$(ls -a | fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}' )
+    if test -n "$file";then
+        $EDITOR $file
+    fi
+    
+}
+function efa(){
+    if [ $1 ];then
+        dir=$1
+    else
+        dir=.
+    fi
+    file=$(fd . --type=f --full-path "$dir" --color=always -H -E ".git"  -E ".vim"| fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}')
+    if test -n "$file";then
+        $EDITOR $file
+    fi
+}
+
+function efa(){
     if [ $1 ];then
         dir=$1
     else
@@ -540,6 +585,17 @@ function linux_shell(){
 }
 function wget_echo(){
     echo "wget http://$LOCAL_IP:8080/$1" | tee | clipcopy
+}
+# fkill - kill process
+fkill() {
+  local pid
+  # pid=$(ps -ef |grep -v ^root | sed 1d | fzf -m | awk '{print $2}')
+  pid=$(ps -ef |egrep -v '\[.*\]' | sed 1d | fzf -m | awk '{print $2}')
+
+  if [ "x$pid" != "x" ]
+  then
+    echo $pid | xargs kill -${1:-9}
+  fi
 }
 function ssht () {/usr/bin/ssh -t "$@" "tmux attach -s 'master' || tmux new -t 'master' ";}
 function src() {

@@ -1,14 +1,19 @@
 "插件{{{
 call plug#begin()
 
+Plug 'phaazon/hop.nvim'
 Plug 'nvim-telescope/telescope-vimspector.nvim'
+Plug 'mfussenegger/nvim-treehopper'
+Plug 'vim-autoformat/vim-autoformat'
+Plug 'mhinz/vim-startify'
+" Plug 'tpope/vim-obsession'
 Plug 'direnv/direnv.vim'
 Plug 'samoshkin/vim-mergetool'
 Plug 'szw/vim-maximizer'
 Plug 'puremourning/vimspector',{'dir':'~/.config/nvim/pack/vimspector/opt/vimspector'}
 Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'sudormrfbin/cheatsheet.nvim'
-Plug 'GustavoKatel/telescope-asynctasks.nvim'
+" Plug 'GustavoKatel/telescope-asynctasks.nvim'
 Plug 'TC72/telescope-tele-tabby.nvim'
 Plug 'nvim-telescope/telescope-symbols.nvim'
 Plug 'fhill2/telescope-ultisnips.nvim'
@@ -39,11 +44,12 @@ Plug 'liuchengxu/vim-which-key'
 "通过 :Asyncrun 这个命令，异步执行请求 shell 命令
 " theme
 " 文本对象
-Plug 'kana/vim-textobj-user' 
-Plug 'kana/vim-textobj-indent'
-Plug 'kana/vim-textobj-syntax'
-Plug 'kana/vim-textobj-function', { 'for':['c', 'cpp', 'vim', 'java'] }
-Plug 'sgur/vim-textobj-parameter'
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+" Plug 'kana/vim-textobj-user'
+" Plug 'kana/vim-textobj-indent'
+" Plug 'kana/vim-textobj-syntax'
+" Plug 'kana/vim-textobj-function', { 'for':['c', 'cpp', 'vim', 'java'] }
+" Plug 'sgur/vim-textobj-parameter'
 
 " 定义了几个文档对象 [,]-- 代表当前参数,[i] -- 代表当前所有缩进的代码 [f]--
 " 函数对象， 可以使用 dif 来改变一个函数的内容
@@ -63,7 +69,8 @@ Plug 'kien/rainbow_parentheses.vim'
 Plug 'lambdalisue/vim-pager'
 Plug 'lambdalisue/vim-manpager'
 Plug 'luochen1990/rainbow'
-Plug 'tpope/vim-commentary' 
+" Plug 'tpope/vim-commentary' 
+Plug 'preservim/nerdcommenter'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-surround' 
 Plug 'tpope/vim-repeat' 
@@ -156,7 +163,11 @@ nnoremap wb :bd<cr>
 nnoremap <leader>ss :set hlsearch!<cr>
 nnoremap <space> za
 nnoremap H 0
+nnoremap e :HopWord<cr>
+nnoremap b :HopLine<cr>
+nnoremap == :AutoformatLine<cr>
 nnoremap <leader> :Asyncrun
+nnoremap <f2> :Autoformat<cr>
 nnoremap L $
 nnoremap <leader>h <c-w>h
 nnoremap <leader>l <c-w>l
@@ -312,33 +323,92 @@ let g:Lf_PreviewResult = {
         \ 'Rg': 1,
         \ 'Gtags': 1
         \}
+
+" leaderf task{{{
+function! s:lf_task_source(...)
+	let rows = asynctasks#source(&columns * 48 / 100)
+	let source = []
+	for row in rows
+		let name = row[0]
+		let source += [name . '  ' . row[1] . '  : ' . row[2]]
+	endfor
+	return source
+endfunction
+
+
+function! s:lf_task_accept(line, arg)
+	let pos = stridx(a:line, '<')
+	if pos < 0
+		return
+	endif
+	let name = strpart(a:line, 0, pos)
+	let name = substitute(name, '^\s*\(.\{-}\)\s*$', '\1', '')
+	if name != ''
+		exec "AsyncTask " . name
+	endif
+endfunction
+
+function! s:lf_task_digest(line, mode)
+	let pos = stridx(a:line, '<')
+	if pos < 0
+		return [a:line, 0]
+	endif
+	let name = strpart(a:line, 0, pos)
+	return [name, 0]
+endfunction
+
+function! s:lf_win_init(...)
+	setlocal nonumber
+	setlocal nowrap
+endfunction
+
+
+let g:Lf_Extensions = get(g:, 'Lf_Extensions', {})
+let g:Lf_Extensions.task = {
+			\ 'source': string(function('s:lf_task_source'))[10:-3],
+			\ 'accept': string(function('s:lf_task_accept'))[10:-3],
+			\ 'get_digest': string(function('s:lf_task_digest'))[10:-3],
+			\ 'highlights_def': {
+			\     'Lf_hl_funcScope': '^\S\+',
+			\     'Lf_hl_funcDirname': '^\S\+\s*\zs<.*>\ze\s*:',
+			\ },
+			\ 'help' : 'navigate available tasks from asynctasks.vim',
+		\ }
+" }}}
 "leaderf keybinding {{{
-nnoremap <leader>fgr :<C-U><C-R>=printf("Leaderf! gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>    
-nnoremap <leader>fF :Leaderf! function<cr>
-nnoremap <leader>ff :Leaderf file<cr>
-nnoremap <c-m> :Leaderf! function<cr>
-nnoremap <leader>fb :Leaderf! buffer<cr>
-nnoremap <leader>fB :Leaderf! buffer --all<cr>
-nnoremap <leader>ftt :Leaderf! tag<cr>
-nnoremap <leader>fa :LeaderfFunction <cr>
-nnoremap <leader>fA :LeaderfFunctionAll <cr>
-nnoremap <leader>fl :LeaderfLine<cr>
-nnoremap <leader>fL :LeaderfLineAll<cr>
-nnoremap <leader>fh :LeaderfHistoryCmd<cr>
-nnoremap <leader>fH :LeaderfHistorySearch<cr>
-nnoremap <leader>fv :LeaderfHelp<cr>
-nnoremap <leader>fz :Leaderf snippet<cr>
-nnoremap <leader>fq :LeaderfQuickFix<cr>
+nnoremap <leader>fgr :<C-U><C-R>=printf("Leaderf gtags -r %s --auto-jump", expand("<cword>"))<CR><CR>
+nnoremap <leader>fp  :Leaderf --nowrap task<cr>
+nnoremap <leader>fF  :Leaderf function<cr>
+nnoremap <leader>ff  :Leaderf file<cr>
+nnoremap <c-m>       :Leaderf function<cr>
+nnoremap <leader>fb  :Leaderf buffer<cr>
+nnoremap <leader>fB  :Leaderf buffer --all<cr>
+nnoremap <leader>ftt :Leaderf tag<cr>
+nnoremap <leader>fa  :LeaderfFunction <cr>
+nnoremap <leader>fA  :LeaderfFunctionAll <cr>
+nnoremap <leader>fl  :LeaderfLine<cr>
+nnoremap <leader>fL  :LeaderfLineAll<cr>
+nnoremap <leader>fh  :LeaderfHistoryCmd<cr>
+nnoremap <leader>fH  :LeaderfHistorySearch<cr>
+nnoremap <leader>fv  :LeaderfHelp<cr>
+nnoremap <leader>fz  :Leaderf snippet<cr>
+nnoremap <leader>fq  :LeaderfQuickFix<cr>
 nnoremap <leader>fri :LeaderfRgInteractive<cr>
 nnoremap <leader>frI :LeaderfRgRecall<cr>
 nnoremap <leader>fi  :LeaderfFiletype<cr>
 nnoremap <leader>fs  :LeaderfCommand<cr>
 nnoremap <leader>fm  :Leaderf mru<cr>
 nnoremap <leader>fq  :LeaderfQuickFix<cr>
-nnoremap <leader>fj   :Leaderf! jumps<cr>
-nnoremap <leader>fgt :Leaderf! gtags<cr>
-nnoremap <leader>fw  :Leaderf! floaterm<cr>
-nnoremap <c-p>   :Leaderf command<cr>
+nnoremap <leader>fj  :Leaderf jumps<cr>
+nnoremap <leader>fgt :Leaderf gtags<cr>
+nnoremap <leader>fw  :Leaderf floaterm<cr>
+nnoremap <c-p>       :Leaderf command<cr>
+nnoremap <leader>f;  :execute VspLeaderFile()<cr>
+function VspLeaderFile()
+    :vsp
+    :Leaderf file
+endfunction
+" nnoremap <leader>fo  :Leaderf! 
 " LeaderfColorscheme 切换vim主题配色
 " LeaderfFiletype  改变当前文件的 FileType
 " LeaderCommand  查询vim内建的ex命令和用户定义的命令
@@ -603,9 +673,6 @@ let g:bookmark_highlight_lines = 1
 let g:bookmark_save_per_working_dir = 1
 let g:bookmark_auto_save = 1
 "}}}
-"coc.nvim{{{
-
-"}}}
 "coc.nvim config {{{
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? coc#_select_confirm() :
@@ -648,7 +715,7 @@ let g:coc_global_extensions = [
             \ "coc-sh",
             \ "coc-json",
             \ "coc-phpls"]
-xmap <leader>qf  <Plug>(coc-format-selected
+xmap <leader>qf  <Plug>(coc-format-selected)
 nmap <leader>qf  <Plug>(coc-format-selected)
 nmap <leader>qR <Plug>(coc-rename)
 nmap <leader>qF  <Plug>(coc-fix-current)
@@ -701,8 +768,8 @@ if has('nvim-0.4.0')
   vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 command! -nargs=0 Format :call CocAction('format')
-command! -nargs=? Fold :call     CocAction('fold', <f-args>)
-command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+command! -nargs=? Fold   :call CocAction('fold', <f-args>)
+command! -nargs=0 OR     :call CocAction('runCommand', 'editor.action.organizeImport')
 " }}}
 " neoformat 语言格式化插件{{{
 " }}}
@@ -800,6 +867,9 @@ lua<<EOF
     include_only_installed_plugins = true,
 })
 EOF
+lua<<EOF
+require("tsht").config.hint_keys = { "h", "j", "f", "d", "n", "v", "s", "l", "a" }
+EOF
 endif
 "}}}
 "vimspector {{{
@@ -859,6 +929,7 @@ nnoremap <leader>tB :Telescope vim_bookmarks all<cr>
 nnoremap <leader>tn :Telescope vim_bookmarks current_file<cr>
 nnoremap <leader>tv :Telescope ultisnips<cr>
 nnoremap <leader>td :TodoTelescope<cr>
+nnoremap <leader>ta :lua require('telescope').extensions.asynctasks.all()<cr>
 nnoremap <leader>tg :CocList floaterm<cr>
 nnoremap <leader>te :Telescope coc diagnostics<cr>
 nnoremap <leader>tE :Telescope coc workspace_diagnostics<cr>
@@ -895,6 +966,34 @@ require'nvim-treesitter.configs'.setup {
 }
 EOF
 " }}}
+" nerdcommenter 代码注释插件 {{{
+" Create default mappings
+let g:NERDCreateDefaultMappings = 1
+
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
+" Enable NERDCommenterToggle to check all selected lines is commented or not 
+let g:NERDToggleCheckAllLines = 1
+" }}}
 " vim-mergetool{{{
 let g:mergetool_layout = 'LmR'
 let g:mergetool_prefer_revision = 'local'
@@ -902,4 +1001,33 @@ nmap <leader>mt <plug>(MergetoolToggle)
 nnoremap <silent> <leader>mb :call mergetool#toggle_layout('LbR,m')<CR>
 nnoremap <silent> <leader>mr :call mergetool#toggle_layout('LmR')<CR>
 " }}}
+" vim-treesitter-textobject 添加的新的文本对象{{{
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  textobjects = {
+    select = {
+      enable = true,
+      -- Automatically jump forward to textobj, similar to targets.vim
+      lookahead = true,
+      keymaps = {
+        -- You can use the capture groups defined in textobjects.scm
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        ["ic"] = "@class.inner",
+      },
+    },
+  },
+}
+EOF
+
+" init.vim
+"
+" Use better keys for the bépo keyboard layout and set
+" a balanced distribution of terminal / sequence keys
+lua require'hop'.setup { keys = 'etovxqpdygfblzhckisuran', jump_on_sole_occurrence = false }
+
+" }}}
 helptags ~/.config/nvim/doc
+omap     <silent> m :<C-U>lua require('tsht').nodes()<CR>
+vnoremap <silent> m :lua require('tsht').nodes()<CR>

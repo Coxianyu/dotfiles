@@ -25,6 +25,8 @@ lan(){
     pip3 install --upgrade httpie
     # 安装 thefuck 纠正命令
     # pip install thefuck
+    # nginx 格式化工具
+    pip3 install nginxfmt
 
 
     # gf grep 的包装
@@ -77,6 +79,8 @@ apt-install(){
     apt install xclip
     apt install gpg
     apt install scdaemon
+    apt install clang-format
+
 }
 # apt install curl git wget python3 python3-pip proxychains v2ray unzip git-flow
 

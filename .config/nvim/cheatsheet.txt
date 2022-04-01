@@ -13,24 +13,27 @@
 跳转到片段下一个地方 jump to next snippet  | <c-n>
 跳转到片段上一个地方 jump to previous snippet| <c-p>
 
-## vim-signify 
+## vim-signify
 对比当前文件和暂存区的区别 diff workspace file and staged file | :SignifyDiff
 
 ## asyncrun
 异步执行命令 exec command | :AsyncRun {command}
 
-## vim-commentary 
+## vim-commentary
 快速注释 comment quickly | gcc
 
 ## vim-translator
 命令栏显示翻译结果 translator in command line| :Translate
 浮动窗口显示翻译结果 translator in float windows | :TranslateW
 用结果替换选择的文字 translator replace word | :TranslateR
+翻译当前光标下的单词 | <leader>w
+翻译选择的单词  | <leader>w
 
 
 ## muti
 打开 nvimtree | <f1>
-查看帮助     |K
+查看 coc 提供的当前光标下单词的帮助 | K
+查看 vim help 文件的帮助 | <leader>K
 
 ## indentLine
 关闭或者打开缩进线 close or open indentLine | :IndentLinesToggle
@@ -44,27 +47,27 @@
 
 ## leaderF
 
-查询当前路径下的文件       | <leader>ff
-查询当前缓冲区的函数       | <leader>fF
-查询缓冲区                 | <leader>fb
-查询所有缓冲区             | <leader>fB
-查询当前缓冲区的函数       | <leader>fa
-查询所有缓冲区中的函数     | <leader>fA
-查询当前缓冲区中的一行     | <leader>fl
-查询所有缓冲区中的一行     | <leader>fL
-执行vim历史命令            | <leader>fh
-执行vim /和？ 的搜索命令   | <leader>fH
-查询执行过的用户自定义命令 | <leader>fs
-查询执行过的用户自定义命令 | <c-p>
-查询 quickfix 窗口         | <leader>fq
-快速修改文件的类型         | <leader>fi
-查询jump跳转点             | <leader>f
-查询 help 信息             | <leader>fv
-查询 snippets              | <leader>fz
-查询真个项目中的函数定义和宏定义 | <leader>fgt
+查询当前路径下的文件             | <leader>ff
+查询当前缓冲区的函数             | <leader>fF
+查询缓冲区                       | <leader>fb
+查询所有缓冲区                   | <leader>fB
+查询当前缓冲区的函数             | <leader>fa
+查询所有缓冲区中的函数           | <leader>fA
+查询当前缓冲区中的一行           | <leader>fl
+查询所有缓冲区中的一行           | <leader>fL
+执行vim历史命令                  | <leader>fh
+执行vim /和？ 的搜索命令         | <leader>fH
+查询执行过的用户自定义命令       | <leader>fs
+查询执行过的用户自定义命令       | <c-p>
+查询 quickfix 窗口               | <leader>fq
+快速修改文件的类型               | <leader>fi
+查询jump跳转点                   | <leader>fj
+查询 help 信息                   | <leader>fv
+查询 snippets                    | <leader>fz
+查询整个项目中的函数定义和宏定义 | <leader>fgt
 查询光标下函数引用               | <leader>fgr
 
-## float 
+## float
 lazygit        | <leader>rg
 htop           | <leader>rh
 vsplit windows | <leader>rt
@@ -104,11 +107,11 @@ buffer                                        | <leader>tb
 help_tags                                     | <leader>ti
 
 ## todo-comment
-todo | TODO
-fix | FIX
-hack | HACK
-perf | PERF
-note | NOTE
+todo    | TODO
+fix     | FIX
+hack    | HACK
+perf    | PERF
+note    | NOTE
 warning | WARNING
 
 ## coc.nvim
@@ -159,6 +162,36 @@ stepout         | <leader>dk
 
 
 ## tips
-ww | 保存文件
-we | 不保存退出vim
-wq | 保存退出vim
+保存文件      | ww
+不保存退出vim | we
+保存退出vim   | wq
+关闭缓冲区    | wb
+
+## BufferSwitch
+跳转到数字对应的缓冲区 |  <leader>number
+
+
+## nerdcommenter 代码注释插件
+
+注释 [count]行代码                       | [count]<leader>cc
+取消 [count] 行的代码注释                | [count]<leader>cu
+切换 count 行的代码注释状态              | [count]<leader>c<space>
+使用多行注释的格式注释单行代码           | [count]<leader>ci
+从光标当前位置注释到行的末尾             | [count]<leader>c$
+跳转到行末， 插入注释然后进入编辑模式    | <leader>cA
+
+
+## textobjects
+
+
+## vim-surround
+将<pre>替换为<next>, example:cs'" 'test' --> "test"                     | cs<pre><next>
+将整行包裹的 pre 替换为 next example:cst<q>' <q>test</q> ---> 'test'    | cst<pre><next>
+删除 key ds"  example: "test"->test                                     | ds<key>
+对于一个textobject 添加 key, example:ysiw[   test -> [test]             | ys<text-object><key>
+输入 key 将选择的文本包裹                                               | 选择模式S<key>
+
+
+## hop
+跳转到屏幕上任何一个单词的开头  | e
+跳转到屏幕上某一行的开头 | b
