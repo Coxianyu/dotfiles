@@ -1,6 +1,17 @@
 "插件{{{
 call plug#begin()
+Plug 'booperlv/nvim-gomove'
+Plug 'haringsrob/nvim_context_vt'
+" 使用 tab 跳出括号等
+Plug 'abecodes/tabout.nvim'
+" 光标下划线
+Plug 'yamatsum/nvim-cursorline'
 
+Plug 'winston0410/cmd-parser.nvim'
+Plug 'winston0410/range-highlight.nvim'
+
+" 代码大纲插件
+Plug 'stevearc/aerial.nvim'
 Plug 'phaazon/hop.nvim'
 Plug 'nvim-telescope/telescope-vimspector.nvim'
 Plug 'mfussenegger/nvim-treehopper'
@@ -26,7 +37,7 @@ Plug 'voldikss/vim-translator'
 Plug 'glepnir/zephyr-nvim'
 " vim 浮动终端
 Plug 'voldikss/vim-floaterm'
-Plug 'sbdchd/neoformat'
+" Plug 'sbdchd/neoformat'
 Plug 'junegunn/vim-easy-align'
 Plug 'SirVer/ultisnips'
 Plug 'MattesGroeger/vim-bookmarks'
@@ -34,17 +45,20 @@ Plug 'rhysd/clever-f.vim'
 Plug 'skywind3000/asynctasks.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 'skywind3000/asyncrun.extra'
-Plug 'Yggdroot/indentLine'
+" Plug 'Yggdroot/indentLine'
+Plug 'lukas-reineke/indent-blankline.nvim'
 if !has('gui_running')
     Plug 'brglng/vim-im-select'
 endif
 Plug 'tpope/vim-unimpaired'
 "以 [] 开头
-Plug 'liuchengxu/vim-which-key'
+" Plug 'liuchengxu/vim-which-key'
 "通过 :Asyncrun 这个命令，异步执行请求 shell 命令
 " theme
 " 文本对象
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+" 突出显示函数参数的插件
+Plug 'm-demare/hlargs.nvim'
 " Plug 'kana/vim-textobj-user'
 " Plug 'kana/vim-textobj-indent'
 " Plug 'kana/vim-textobj-syntax'
@@ -70,7 +84,8 @@ Plug 'lambdalisue/vim-pager'
 Plug 'lambdalisue/vim-manpager'
 Plug 'luochen1990/rainbow'
 " Plug 'tpope/vim-commentary' 
-Plug 'preservim/nerdcommenter'
+" Plug 'preservim/nerdcommenter'
+Plug 'numToStr/Comment.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-surround' 
 Plug 'tpope/vim-repeat' 
@@ -88,6 +103,7 @@ call plug#end()
 " set packpath=~/.vim8,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim8/after,~/.config/nvim
 set splitright
 set mouse="a"
+set relativenumber
 set termguicolors
 set noshowmode 
 set termencoding=utf-8  "termencoding是Vim所工作的终端(或者 Windows的Console窗口)的字符编码方式 ，一般设置为utf8。 set encoding=utf8  "说明：encoding是Vim内部使用的字符编码方式，一般设置为utf8。
@@ -104,7 +120,6 @@ set incsearch
 "set textwidth=80
 set smartindent
 " set lines=35 columns=160
-set relativenumber
 set ignorecase
 set history=1024
 set autochdir
@@ -159,7 +174,7 @@ nnoremap <c-l> <c-w>l
 nnoremap ww :w<cr>
 nnoremap we :qa!<cr>
 nnoremap wq :wq<cr>
-nnoremap wb :bd<cr>
+nnoremap wb :bd!<cr>
 nnoremap <leader>ss :set hlsearch!<cr>
 nnoremap <space> za
 nnoremap H 0
@@ -296,7 +311,7 @@ let g:Lf_PreviewPopupWidth = 80
 let g:Lf_GtagsAutoGenerate = 0
 let g:Lf_GtasgsGutentags = 1
 let g:Lf_CacheDirectory = expand('~')
-let g:Lf_gutentags_cache_dir = $HOME."/.cache/tags"
+let g:Lf_gutentags_cache_dir = expand(g:Lf_CacheDirectory.'/.cache/tags')
 let g:Lf_Gtagslabel = 'native-pygments'
 let g:Lf_ReverseOrder = 1
 let g:Lf_ShortcutF = ''
@@ -501,134 +516,6 @@ au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
  
 "}}}
-"vim-whitch-key 配置{{{
-nnoremap <silent> <leader>      :<c-u>WhichKey ','<CR>
-let g:which_key_map={}
-let g:which_key_sep = '→'
-" set timeoutlen=100
-let g:which_key_map.f = {
-            \'name':'+leaderF',
-            \'f':'查询当前路径下的文件',
-            \'F':'查询当前缓冲区的函数',
-            \'b':'查询缓冲区',
-            \'B':'查询所有缓冲区',
-            \'a':'查询当前缓冲区的函数',
-            \'A':'查询所有缓冲区中的函数',
-            \'l':'查询当前缓冲区中的一行',
-            \'L':'查询所有缓冲区中的一行',
-            \'h':'执行vim历史命令',
-            \'H':'执行vim /和？ 的搜索命令',
-            \'s':'查询执行过的用户自定义命令',
-            \'q':'查询 quickfix 窗口',
-            \'i':'快速修改文件的类型',
-            \'j':'查询jump跳转点',
-            \'v':'查询 help 信息',
-            \'z':'查询 snippets '
-            \}
-let g:which_key_map.f.g = {
-            \'name':'+leaderf-gatgs',
-            \'t':'查询真个项目中的函数定义和宏定义',
-            \'r':'查询光标下函数引用',
-            \}
-let g:which_key_map.r = {
-            \'name':'+floaterm',
-            \'g':'lazygit',
-            \'h':'htop',
-            \'t':'vsplit windows',
-            \}
-let g:which_key_map.t = {
-            \'f':'查询文件',
-            \'F':'查询函数',
-            \'H':'查询执行过的用户自定义命令',
-            \'r':'grep 字符串',
-            \'l':'搜索行',
-            \'N':'git_files',
-            \'c':'git_commits',
-            \'C':'git_bcommits',
-            \'L':'git_branches',
-            \'s':'git_stash',
-            \'o':'command_history',
-            \'S':'search_history',
-            \'m':'man_pages',
-            \'M':'mark',
-            \'R':'寄存器',
-            \'p':'suggest_spell',
-            \'k':'tagstack',
-            \'y':'symbols',
-            \'Y':'git_status',
-            \'q':'quickfix',
-            \'B':'bookmarks all',
-            \'n':'bookmarks current_file',
-            \'v':'ultisnips',
-            \'d':'TODOlist',
-            \'g':'floaterm',
-            \'e':'diagnostics current_file',
-            \'E':'diagnostics all buffer',
-            \'b':'buffer',
-            \'u':'mru',
-            \'i':'help_tags',
-            \}
-let g:which_key_map.k="显示当前光标下的说明"
-let g:which_key_map.q = {
-            \'name':'+coc',
-            \'d':'跳转到定义',
-            \'D':'垂直分屏查询定义',
-            \'F':'Fix-current-buffer',
-            \'f':'格式化代码',
-            \'i':'查询implementaation',
-            \'r':'查询引用',
-            \'R':'重命名',
-            \'y':'查询type定义',
-            \'E':'查询函数引用'
-            \}
-let g:which_key_map.w = {
-            \'name':'+quit',
-            \'q':'不保存退出vim',
-            \'e':'保存退出vim',
-            \'w':'保存文件'
-            \}
-let g:which_key_map.d ={
-            \'name':'+vimspector',
-            \'SPC':'调试继续运行',
-            \'c':'运行到光标处',
-            \'d':'启动vimspector',
-            \'e':'关闭 vimspector',
-            \'j':'stepover',
-            \'k':'stepout',
-            \'L':'显示所有断点',
-            \'l':'单步调试',
-            \'p':'暂停调试',
-            \'r':'重启调试',
-            \'W':'删除watch',
-            \'w':'添加watch',
-            \'y':'清除所有断点',
-            \}
-let g:which_key_map.d.b = {
-            \'B':'设置条件断点',
-            \'b':'设置断点',
-            \'p':'设置函数断点',
-            \}
-let g:which_key_map.s = {
-            \'name':'+misc',
-            \'s':'关闭搜索高亮',
-            \'r':'Asyncrun 运行命令',
-            \'d':'显示ale错误详细信息',
-            \'f':'关闭ale',
-            \'n':'前往ale下一个错误',
-            \'p':'前往ale上一个错误',
-            \'v':'source .vimrc',
-            \}
-let g:which_key_map.c = {
-        \ 'name':'+csfind',
-        \}
-let g:which_key_map.ev = "edit .vimrc"
-call which_key#register(',',"g:which_key_map")
-" 隐藏状态栏
-autocmd! FileType which_key
-autocmd  FileType which_key set laststatus=0 noshowmode noruler
-  \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
-
-"}}}
 " vim-im-select 自动切换中英文{{{ 
 " linux 下开箱即用， windows 下需要安装 im-select.exe
 if has('win32')
@@ -653,9 +540,9 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 let g:UltiSnipsEditSplit="vertical"    
 "}}}
 " indentLine 缩进显示线 {{{
-let g:indentLine_setClors = 0
-let g:indentLine_char = '┊'
-"}}}
+" let g:indentLine_setClors = 0
+" let g:indentLine_char = '┊'
+" }}}
 " LeaderF-snippet 使用 leader 查找片段{{{
 " 设置预览
 let g:Lf_PreviewResult = get(g:, 'Lf_PreviewResult', {})
@@ -724,6 +611,8 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nmap <silent> <leader>qd <Plug>(coc-definition)
+nmap <leader>ql  <Plug>(coc-codelens-action)
+nmap <leader>qe :<C-u>CocList diagnostics<cr>
 " nnoremap <silent><nowait> <leader>qD :call CocActionAsync('jumpDefinition', v:false)<CR>
 nnoremap <silent><nowait> <leader>qD :call CocAction('jumpDefinition', 'vsplit')<CR>
 " nnoremap <silent><nowait> <leader>qE :call CocActionAsync('jumpReferences', v:false)<CR>
@@ -747,7 +636,7 @@ function! s:showdo()
 endfunction
 function! s:test()
     let @a=join(CocAction('getHover'))
-    execute 'vsp tmp'
+    execute 'vsp /tmp/tmp'
     execute 'set filetype=help'
     execute "put a"
 endfunction
@@ -775,6 +664,7 @@ command! -nargs=0 OR     :call CocAction('runCommand', 'editor.action.organizeIm
 " }}}
 " NVIMTREE {{{
 nnoremap <f1> :NvimTreeToggle<cr>
+nnoremap <f3> :AerialToggle right<cr>
 " NVIMTREE 宽度
 let g:nvim_tree_width = 25 "30 by default, can be width_in_columns or 'width_in_percent%'
 " 不显示的目录
@@ -802,14 +692,16 @@ let g:floaterm_width = 0.9
 let g:floaterm_height = 0.9
 " let g:floaterm_key_map_toggle = '<F12>'
 " hi Floaterm guibg=black
-hi Floaterm guibg=LightGra
+" hi Floaterm guibg=LightGra
 nnoremap <f12> :FloatermToggle main<cr>
-nnoremap <leader>rh :FloatermNew htop<cr>
-nnoremap <leader>rg :FloatermNew lazygit<cr>
+nnoremap <leader>rh :FloatermNew --name=htop htop<cr>
+" nnoremap <leader>rh :FloatermNew  htop<cr>
+nnoremap <leader>rg :FloatermNew --name=lazygit lazygit<cr>
 nnoremap <leader>rl :FloatermNew --wintype=vsplit --width=0.4<cr>
+nnoremap <leader>rr :FloatermNew --name=ranger ranger<cr>
 tnoremap <f12> <C-\><C-n>:FloatermToggle<cr>
-tnoremap <f2> <C-\><C-n>:FloatermToggle<cr>
-tnoremap <f3> <C-\><C-n>:FloatermToggle<cr>
+" tnoremap <f2> <C-\><C-n>:FloatermToggle<cr>
+" tnoremap <f3> <C-\><C-n>:FloatermToggle<cr>
 tnoremap ,, <c-\><c-n><c-w>h
 " nnoremap <leader>tj :Floaterm
 " hi FloatermBorder guibg=black
@@ -869,7 +761,34 @@ lua<<EOF
 EOF
 lua<<EOF
 require("tsht").config.hint_keys = { "h", "j", "f", "d", "n", "v", "s", "l", "a" }
+require("aerial").setup({
+  -- Priority list of preferred backends for aerial.
+  -- This can be a filetype map (see :help aerial-filetype-map)
+  backends = { "treesitter", "lsp", "markdown" }
+  })
+
 EOF
+lua<<EOF
+require('tabout').setup {
+    tabkey = '<Tab>', -- key to trigger tabout, set to an empty string to disable
+    backwards_tabkey = '<S-Tab>', -- key to trigger backwards tabout, set to an empty string to disable
+    act_as_tab = true, -- shift content if tab out is not possible
+    act_as_shift_tab = false, -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
+    enable_backwards = true, -- well ...
+    completion = true, -- if the tabkey is used in a completion pum
+    tabouts = {
+      {open = "'", close = "'"},
+      {open = '"', close = '"'},
+      {open = '`', close = '`'},
+      {open = '(', close = ')'},
+      {open = '[', close = ']'},
+      {open = '{', close = '}'}
+    },
+    ignore_beginning = true, --[[ if the cursor is at the beginning of a filled element it will rather tab out than shift the content ]]
+    exclude = {} -- tabout will ignore these filetypes
+}
+EOF
+
 endif
 "}}}
 "vimspector {{{
@@ -1026,8 +945,26 @@ EOF
 " Use better keys for the bépo keyboard layout and set
 " a balanced distribution of terminal / sequence keys
 lua require'hop'.setup { keys = 'etovxqpdygfblzhckisuran', jump_on_sole_occurrence = false }
+lua require("aerial").setup({ backends = { "treesitter", "lsp", "markdown"},manage_folds = true,link_folds_to_tree = true})
+lua require('hlargs').enable()
+lua require('range-highlight').setup{}
+lua << EOF
+require('Comment').setup({mappings = {
+        basic = true,
+        extra = true,
+        extended = true
+        }})
+EOF
 
+lua<<EOF
+vim.opt.list = true
+vim.opt.listchars:append("eol:↴")
+require("indent_blankline").setup {
+    show_end_of_line = true,
+}
+EOF
 " }}}
 helptags ~/.config/nvim/doc
 omap     <silent> m :<C-U>lua require('tsht').nodes()<CR>
 vnoremap <silent> m :lua require('tsht').nodes()<CR>
+

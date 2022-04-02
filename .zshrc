@@ -432,6 +432,8 @@ zshaddhistory() {
     # 以下写法太傻B了， 各位不要学习， 我懒得改了 
     if [[ $1 = "echo"* ]] ; then
         return 1
+    elif [[ $1 = "apt"* ]] ; then
+        return 1
     elif [[ $1 = "tmux select-pane"* ]] ; then
         return 1
     elif [[ $1 = "git clone"* ]] ; then
@@ -465,6 +467,8 @@ zshaddhistory() {
     elif [[ $1 = " "* ]] ; then
         return 1
     elif [[ $1 = "ydict"* ]] ; then
+        return 1
+    elif [[ $1 = "blackbox"* ]] ; then
         return 1
     fi
     # 不记录执行错误的命令， 但是 echoljlkjl;echo 1  会被记录
@@ -528,7 +532,7 @@ function man(){
 	fi
 }
 function ef(){
-    file=$(ls -a | fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}' )
+    file=$(fd -d 1 --type=f --full-path "." --color=always  | fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}' )
     if test -n "$file";then
         $EDITOR $file
     fi
@@ -540,7 +544,7 @@ function efa(){
     else
         dir=.
     fi
-    file=$(fd . --type=f --full-path "$dir" --color=always -H -E ".git"  -E ".vim"| fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}')
+    file=$(fd --type=f --full-path "$dir" --color=always -H -E ".git"  -E ".vim"| fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}')
     if test -n "$file";then
         $EDITOR $file
     fi

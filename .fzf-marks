@@ -16,5 +16,5 @@ v2ray : /usr/local/etc/v2ray
 nginx : /etc/nginx
 nginx-log : /var/log/nginx
 v2ray-log : /var/log/v2ray
-cheatsheet : ~/.local/share/navi/cheats/cheatsheet
 nvim : ~/.config/nvim
+cheatsheet : ~/.local/share/navi/cheats/cheatsheet

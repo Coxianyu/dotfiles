@@ -1,5 +1,5 @@
 ## vim-bookmark
-添加书签 make a mark| mm
+添加或者删除书签 make a mark| mm
 移除所有书签 clear all mark | mc
 添加注释书签 make a comment mark |mi
 跳转到下一个书签 jump to next mark |mn
@@ -71,6 +71,7 @@
 lazygit        | <leader>rg
 htop           | <leader>rh
 vsplit windows | <leader>rt
+ranger | <leader>rr
 打开浮动窗口   | <f12>
 
 ## telescope
@@ -115,17 +116,24 @@ note    | NOTE
 warning | WARNING
 
 ## coc.nvim
-跳转到下一个错误          | [g
-跳转到上一个错误          | ]h
-使用 lsp 跳转到定义       | <leader>qd
-垂直分屏查询定义          | <leader>qD
-Fix-current-buffer        | <leader>qF
-格式化代码                | <leader>qf
-查询implementaation(引用) | <leader>qi
-查询引用                  | <leader>qr
-重命名                    | <leader>qR
-查询type定义              | <leader>qy
-查询函数引用              | <leader>qE
+跳转到下一个错误                                  | [g
+跳转到上一个错误                                  | ]h
+使用 lsp 跳转到定义                               | <leader>qd
+垂直分屏查询定义                                  | <leader>qD
+Fix-current-buffer                                | <leader>qF
+格式化代码                                        | <leader>qf
+查询implementaation(实现)                         | <leader>qi
+查询引用(reference)                               | <leader>qr
+重命名                                            | <leader>qR
+查询type定义                                      | <leader>qy
+竖屏查询函数引用                                  | <leader>qE
+悬浮显示 lsp 和 vimhelp 的 document               | K
+只显示 vim help 的 document                       | <leader>i
+分屏幕显示 hover                                  | <leader>K
+格式化代码                                        | <leader>qf
+修复当前行                                        | <leader>qF
+codeaction 先导键, 后接motion example <leader>aiw | <leader>a
+在当前行使用 codeaction                           | <leader>ql
 
 ## misc
 关闭搜索高亮              | <leader>s
@@ -162,26 +170,43 @@ stepout         | <leader>dk
 
 
 ## tips
-保存文件      | ww
-不保存退出vim | we
-保存退出vim   | wq
-关闭缓冲区    | wb
+保存文件             | ww
+不保存退出vim        | we
+保存退出vim          | wq
+关闭缓冲区           | wb
+跳转到上次插入的地方 | gi
+关闭右边缓冲区       | tl
+
+
+## aerial 显示大纲的插件
+打开大纲         | <f3>
+竖屏显示函数     | <c-v>
+折叠或者打开代码 | o
+
 
 ## BufferSwitch
 跳转到数字对应的缓冲区 |  <leader>number
 
 
-## nerdcommenter 代码注释插件
+## comment 代码注释插件
 
-注释 [count]行代码                       | [count]<leader>cc
-取消 [count] 行的代码注释                | [count]<leader>cu
-切换 count 行的代码注释状态              | [count]<leader>c<space>
-使用多行注释的格式注释单行代码           | [count]<leader>ci
-从光标当前位置注释到行的末尾             | [count]<leader>c$
-跳转到行末， 插入注释然后进入编辑模式    | <leader>cA
+切换 [count]行代码的注释状态              | [count]gcc
+切换 [count]块代码的注释状态              | [count]gcb
+自定义注释代码块, 可以使用 y / 等移动命令 | gc{motion} example: gcf"
+在下一行产生注释, 然后进入插入模式        | gco
+在上一行产生注释, 然后进入插入模式        | gcO
+跳转到行末， 插入注释然后进入编辑模式     | gcA
+使用行注释对代码块进行注释                | g>[count]{motion}
+对当前行使用行注释                        | g>c
+对当前行使用块注释                        | g>b
+从当前光标注释到行末                      | gc$
+从光标当前位置注释到行的末尾              | [count]<leader>c$
 
 
 ## textobjects
+
+
+
 
 
 ## vim-surround
@@ -195,3 +220,12 @@ stepout         | <leader>dk
 ## hop
 跳转到屏幕上任何一个单词的开头  | e
 跳转到屏幕上某一行的开头 | b
+
+
+## gtags
+
+查看光标下符号的定义          | <leader>cg
+查看光标下符号的引用          | <leader>cs
+查看有哪些函数调用了该函数    | <leader>cc
+查找光标下的文件              | <leader>cf
+查找哪些文件 include 了本文件 | <leader>ci
