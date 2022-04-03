@@ -4,3 +4,6 @@ alias install="~/.config/install.sh"
 if test -f "${HOME}/.cargo/env";then
     . "$HOME/.cargo/env"
 fi
+function install-init(){
+    source ${HOME}/.config/install.sh
+}

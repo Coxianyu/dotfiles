@@ -62,24 +62,35 @@ font(){
     wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
     fc-cache
 }
-apt-install(){
-    apt install curl git wget unzip
-    apt install lua5.4
-    apt install python3
-    apt install python3-pip
-    apt install grc
-    apt install global
-    apt install uuid
-    apt install universal-ctags
-    apt install scd
-    apt install ruby
-    apt install golang
-    apt install tmux
-    # 连接系统和 tmux 剪切版
-    apt install xclip
-    apt install gpg
-    apt install scdaemon
-    apt install clang-format
+function install-init(){
+    source ${HOME}/.config/install.sh
+}
+packer-install(){
+    if [ -x "$(command -v delta)" ];then
+        PACKGER="apt"
+    elif [ -x "$(command -v yum)"  ];then
+        PACKGER="yum"
+    else
+        echo 'Error: Unknown package manager'
+        return 1
+    fi
+    $PACKGER install curl git wget unzip  -y
+    $PACKGER install lua5.4 -y
+    $PACKGER install python3 -y
+    $PACKGER install python3-pip -y
+    $PACKGER install grc -y
+    $PACKGER install global -y
+    $PACKGER install uuid -y
+    $PACKGER install universal-ctags -y
+    $PACKGER install scd -y
+    $PACKGER install ruby -y
+    $PACKGER install golang -y
+    $PACKGER install tmux -y
+    # 连接系统和 tmux 剪切版 -y
+    $PACKGER install xclip -y
+    $PACKGER install gpg -y
+    $PACKGER install scdaemon -y
+    $PACKGER install clang-format -y
 
 }
 # apt install curl git wget python3 python3-pip proxychains v2ray unzip git-flow

@@ -175,10 +175,10 @@ else
     touch "${HOME}/.config/.install.lock"
 fi
 
-zinit ice wait="1" lucid atclone="./configure --prefix=${ZPFX} --sysconfdir=${HOME}/.config;make && make install-config" atpull="%atclone" id-as="proxychains-ng"
-zinit light rofl0r/proxychains-ng
+# zinit ice wait="1" lucid atclone="./configure --prefix=${ZPFX} --sysconfdir=${HOME}/.config;make && make install-config" atpull="%atclone" id-as="proxychains-ng"
+# zinit light rofl0r/proxychains-ng
 
-zinit ice wait="1" lucid from="gh-r" mv="ri* -> rg" sbin="rg/rg" atclone="chown ${USERNAME}:${USERNAME} rg/complete/*;zinit creinstall rg" atpull="%atclone" id-as="rg"
+zinit ice wait="1" lucid from="gh-r" mv="ri* -> rg" sbin="rg/rg" atclone="chown ${USERNAME}:${USERNAME} rg/complete/*;zinit creinstall rg/complete" atpull="%atclone" id-as="rg"
 zinit light BurntSushi/ripgrep
 
 zinit ice wait="1" lucid from="gh-r" mv="fd* -> fd" sbin="fd/fd" atclone="chown ${USERNAME}:${USERNAME} fd/autocomplete/*;zinit creinstall fd" atpull="%atclone" id-as="fd"
@@ -469,6 +469,10 @@ zshaddhistory() {
     elif [[ $1 = " "* ]] ; then
         return 1
     elif [[ $1 = "ydict"* ]] ; then
+        return 1
+    elif [[ $1 = "docker"* ]] ; then
+        return 1
+    elif [[ $1 = "file"* ]] ; then
         return 1
     elif [[ $1 = "gpg"* ]] ; then
         return 1
