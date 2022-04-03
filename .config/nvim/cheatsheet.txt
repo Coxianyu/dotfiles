@@ -143,6 +143,8 @@ Asyncrun 运行命令         | <leader>sr
 前往ale下一个错误         | <leader>sn
 前往ale上一个错误         | <leader>sp
 source .vimrc             | <leader>sv
+数字加[count] | [count]<c-a>
+数字减[count] | [count]<c-x>
 
 
 ## asynctask

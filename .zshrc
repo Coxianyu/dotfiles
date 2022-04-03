@@ -434,6 +434,8 @@ zshaddhistory() {
         return 1
     elif [[ $1 = "apt"* ]] ; then
         return 1
+    elif [[ $1 = "msfvenom"* ]] ; then
+        return 1
     elif [[ $1 = "tmux select-pane"* ]] ; then
         return 1
     elif [[ $1 = "git clone"* ]] ; then
@@ -468,6 +470,8 @@ zshaddhistory() {
         return 1
     elif [[ $1 = "ydict"* ]] ; then
         return 1
+    elif [[ $1 = "gpg"* ]] ; then
+        return 1
     elif [[ $1 = "blackbox"* ]] ; then
         return 1
     fi
@@ -500,6 +504,12 @@ function cdh() {
 function rmv() {
     dir=$(fd -d 1  . --type=d --full-path ${HOME}/vulnhub --color=always |fzf --preview 'exa --icons  {}')
     rm -fr  $dir
+}
+function make-cache(){
+    msfvenom --list payload |tail -n +8 | sed 's/^ *//g'> ${HOME}/.cache/msf/payload
+    msfvenom --list format | tail -n +8 | sed 's/^ *//g'> ${HOME}/.cache/msf/format
+    echo "all done\n"
+    return 0
 }
 alias pdict=_pdict
 function _pdict(){

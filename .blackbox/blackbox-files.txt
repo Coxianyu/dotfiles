@@ -1,0 +1,2 @@
+.config/secret/.gitconfig
+.config/secret/config
