@@ -66,7 +66,7 @@ function install-init(){
     source ${HOME}/.config/install.sh
 }
 packer-install(){
-    if [ -x "$(command -v delta)" ];then
+    if [ -x "$(command -v apt)" ];then
         PACKGER="apt"
     elif [ -x "$(command -v yum)"  ];then
         PACKGER="yum"

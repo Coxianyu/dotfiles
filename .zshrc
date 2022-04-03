@@ -317,10 +317,12 @@ PATH=${PATH}:${HOME}/.local/bin
 PATH=${PATH}:${GOPATH}/bin
 PATH=${PATH}:${HOME}/script
 PATH=${PATH}:${HOME}/.config/nvim/plugged/asynctasks.vim/bin
+LINUX_FILETYPE=''
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8,bold,underline'
 ZSH_AUTOSUGGEST_STRATEGY=(history)
 ZSH_AUTOSUGGEST_HISTORY_IGNORE="clear*|echo *"
+
 #}}}
 ###alias {{{
 alias composer='php composer.phar'
@@ -430,60 +432,31 @@ function install-init(){
 # 不记录 ssh
 # 不记录 wget_echo
 # 不记录以空格开头的命令， 用于执行一些不希望被记住的命令
+export LIST=" apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm ls cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat"
+# 不想被记录的历史命令
+zsh_history_delete(){
+    list=$(echo $LIST | sed 's/^[[:space:]]//g')
+    array=("${(@s/ /)list}") # @ modifier
+    for i in $array
+    do
+        sed  -i "/;$i/d"  "${HOME}/.zsh_history"
+        sed  -i "/^$i/d"  "${HOME}/.bash_history"
+    done
+}
 zshaddhistory() {
     emulate -L zsh
-    # 以下写法太傻B了， 各位不要学习， 我懒得改了 
-    if [[ $1 = "echo"* ]] ; then
+    # echo $list | grep -w -q $x
+    echo $LIST | egrep -w -q "[[:space:]]$1.*$"
+    if test $? -eq 0;then
         return 1
-    elif [[ $1 = "apt"* ]] ; then
-        return 1
-    elif [[ $1 = "msfvenom"* ]] ; then
-        return 1
-    elif [[ $1 = "tmux select-pane"* ]] ; then
+    fi
+    if [[ $1 = "tmux select-pane"* ]] ; then
         return 1
     elif [[ $1 = "git clone"* ]] ; then
         return 1
-    elif [[ $1 = "curl"* ]] ; then
-        return 1
-    elif [[ $1 = "wget"* ]] ; then
-        return 1
-    elif [[ $1 = "rm"* ]] ; then
-        return 1
-    elif [[ $1 = "ls"* ]] ; then
-        return 1
-    elif [[ $1 = "cp"* ]] ; then
-        return 1
-    elif [[ $1 = "find"* ]] ; then
-        return 1
-    elif [[ $1 = "locate"* ]] ; then
-        return 1
-    elif [[ $1 = "mv"* ]] ; then
-        return 1
-    elif [[ $1 = "pass"* ]] ; then
-        return 1
-    elif [[ $1 = "x"* ]] ; then
-        return 1
-    elif [[ $1 = "whence"* ]] ; then
-        return 1
-    elif [[ $1 = "wget_echo"* ]] ; then
-        return 1
-    elif [[ $1 = "ssh"* ]] ; then
-        return 1
-    elif [[ $1 = " "* ]] ; then
-        return 1
-    elif [[ $1 = "ydict"* ]] ; then
-        return 1
-    elif [[ $1 = "docker"* ]] ; then
-        return 1
-    elif [[ $1 = "file"* ]] ; then
-        return 1
-    elif [[ $1 = "gpg"* ]] ; then
-        return 1
-    elif [[ $1 = "blackbox"* ]] ; then
-        return 1
     fi
-    # 不记录执行错误的命令， 但是 echoljlkjl;echo 1  会被记录
     whence ${${(z)1}[1]} >| /dev/null || return 1 
+    return 0
 }
 function cdg (){
     repo=$(gita ls | tr ' ' '\n' | fzf)
@@ -492,13 +465,11 @@ function cdg (){
     fi
 }
 function cde(){
-    if [ $1 ];then
-        dir=$1
-    else
-        dir=.
+    dir=$1
+    dir=$(fd . --type=d $dir --color=always |fzf --preview 'exa --icons  {}')
+    if test -n "$dir";then
+        cd $dir
     fi
-    dir=$(fd . --type=d --full-path "$dir" --color=always |fzf --preview 'exa --icons  {}')
-    cd $dir
 }
 function cdv() {
     dir=$(fd -d 1 . --type=d --full-path ${HOME}/vulnhub --color=always |fzf --preview 'exa --icons  {}')
@@ -549,19 +520,15 @@ function man(){
 	fi
 }
 function ef(){
-    file=$(fd -d 1 --type=f --full-path "." --color=always  | fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}' )
+    file=$(fd -d 1 --type=f  --color=always  | fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}' )
     if test -n "$file";then
         $EDITOR $file
     fi
     
 }
 function efa(){
-    if [ $1 ];then
-        dir=$1
-    else
-        dir=.
-    fi
-    file=$(fd --type=f --full-path "$dir" --color=always -H -E ".git"  -E ".vim"| fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}')
+    dir=$1
+    file=$(fd --type=f  "$dir" --color=always -H -E ".git"  -E ".vim"| fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}')
     if test -n "$file";then
         $EDITOR $file
     fi
