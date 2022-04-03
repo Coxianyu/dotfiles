@@ -178,7 +178,7 @@ fi
 # zinit ice wait="1" lucid atclone="./configure --prefix=${ZPFX} --sysconfdir=${HOME}/.config;make && make install-config" atpull="%atclone" id-as="proxychains-ng"
 # zinit light rofl0r/proxychains-ng
 
-zinit ice wait="1" lucid from="gh-r" mv="ri* -> rg" sbin="rg/rg" atclone="chown ${USERNAME}:${USERNAME} rg/complete/*;zinit creinstall rg/complete" atpull="%atclone" id-as="rg"
+zinit ice wait="1" lucid from="gh-r" mv="ri* -> rg" sbin="rg/rg" atclone="chown ${USERNAME}:${USERNAME} rg/complete/*;zinit creinstall rg" atpull="%atclone" id-as="rg"
 zinit light BurntSushi/ripgrep
 
 zinit ice wait="1" lucid from="gh-r" mv="fd* -> fd" sbin="fd/fd" atclone="chown ${USERNAME}:${USERNAME} fd/autocomplete/*;zinit creinstall fd" atpull="%atclone" id-as="fd"
@@ -411,6 +411,9 @@ function ffufb(){
     ffuf -reply-proxy http://127.0.0.1:8080 -w $(fzf)
 }
  
+function install-init(){
+    source ${HOME}/.config/install.sh
+}
 # 不记录错误的历史命令
 # 同时不记录 echo 开头的命令 
 # 不记录 tmux select-pane

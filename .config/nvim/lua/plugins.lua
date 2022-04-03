@@ -6,7 +6,7 @@ vim.cmd [[packadd packer.nvim]]
 --- 插件配置{{{
 return require('packer').startup(function()
   -- Packer can manage itself
-  use 'wbthomason/packer.nvim'
+  -- use 'wbthomason/packer.nvim'
   -- Simple plugins can be specified as strings
   -- use '9mm/vim-closer'
   -- Lazy loading:
@@ -152,13 +152,6 @@ return require('packer').startup(function()
       }
 
       -- }}}
-  -- treesitter {{{
-      use {
-        'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate'
-    }
-
-  -- }}}
   -- 状态栏插件{{{
   use {
      'glepnir/galaxyline.nvim',

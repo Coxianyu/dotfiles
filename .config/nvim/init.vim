@@ -1,5 +1,8 @@
 "插件{{{
 call plug#begin()
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'fannheyward/telescope-coc.nvim'
 Plug 'booperlv/nvim-gomove'
 Plug 'haringsrob/nvim_context_vt'
 " 使用 tab 跳出括号等
@@ -16,7 +19,7 @@ Plug 'phaazon/hop.nvim'
 Plug 'nvim-telescope/telescope-vimspector.nvim'
 Plug 'mfussenegger/nvim-treehopper'
 Plug 'vim-autoformat/vim-autoformat'
-Plug 'mhinz/vim-startify'
+" Plug 'mhinz/vim-startify'
 " Plug 'tpope/vim-obsession'
 Plug 'direnv/direnv.vim'
 Plug 'samoshkin/vim-mergetool'
@@ -28,7 +31,6 @@ Plug 'sudormrfbin/cheatsheet.nvim'
 Plug 'TC72/telescope-tele-tabby.nvim'
 Plug 'nvim-telescope/telescope-symbols.nvim'
 Plug 'fhill2/telescope-ultisnips.nvim'
-Plug 'fannheyward/telescope-coc.nvim'
 Plug 'tom-anders/telescope-vim-bookmarks.nvim'
 " Plug 'dbeniamine/cheat.sh-vim'
 " 翻译插件
@@ -86,7 +88,6 @@ Plug 'luochen1990/rainbow'
 " Plug 'tpope/vim-commentary' 
 " Plug 'preservim/nerdcommenter'
 Plug 'numToStr/Comment.nvim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-surround' 
 Plug 'tpope/vim-repeat' 
 Plug 'nelstrom/vim-visual-star-search' 
@@ -578,10 +579,9 @@ inoremap <silent><expr> <TAB>
             \ pumvisible() ? "\<C-n>" :
             \ <SID>check_back_space() ? "\<TAB>" :
             \ coc#refresh()
-
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+"                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 " <cr> 确认补全
 " let g:coc_snippet_next = '<c-n>'
 " let g:coc_snippet_prev = '<c-p>'
