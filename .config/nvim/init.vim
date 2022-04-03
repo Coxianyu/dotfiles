@@ -664,7 +664,7 @@ command! -nargs=0 OR     :call CocAction('runCommand', 'editor.action.organizeIm
 " }}}
 " NVIMTREE {{{
 nnoremap <f1> :NvimTreeToggle<cr>
-nnoremap <f3> :AerialToggle right<cr>
+nnoremap <f3> :AerialToggle left<cr>
 " NVIMTREE 宽度
 let g:nvim_tree_width = 25 "30 by default, can be width_in_columns or 'width_in_percent%'
 " 不显示的目录
@@ -764,9 +764,10 @@ require("tsht").config.hint_keys = { "h", "j", "f", "d", "n", "v", "s", "l", "a"
 require("aerial").setup({
   -- Priority list of preferred backends for aerial.
   -- This can be a filetype map (see :help aerial-filetype-map)
-  backends = { "treesitter", "lsp", "markdown" }
+  backends = { "treesitter", "lsp", "markdown" },
+  width = 40,
+  max_width = { 40, 0.2 }
   })
-
 EOF
 lua<<EOF
 require('tabout').setup {

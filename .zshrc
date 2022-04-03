@@ -131,8 +131,8 @@ zinit snippet OMZ::plugins/extract
 zinit ice lucid wait="0" id-as="bindkey"
 zinit snippet $(echo "${HOME}/.config/custom/bindkey.sh")
 
-zinit ice blockf lucid wait="0" atclone="zinit creinstall zshcompletions" id-as="rsh_zshcompletions" as="completion"
-zinit light https://github.com/rsherstnev/zshcompletions
+zinit ice blockf lucid wait="0" atclone="zinit creinstall rsh_zshcompletions" id-as="rsh_zshcompletions" as="completion"
+zinit light rsherstnev/zshcompletions
 
 zinit ice blockf lucid wait="0" atload='zpcompinit;zpcdreplay' atclone="zinit creinstall zsh-completions" id-as="zsh-completions" as="completion"
 zinit light zsh-users/zsh-completions
@@ -432,11 +432,10 @@ function install-init(){
 # 不记录 ssh
 # 不记录 wget_echo
 # 不记录以空格开头的命令， 用于执行一些不希望被记住的命令
-export LIST=" apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm ls cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat"
+export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom"
 # 不想被记录的历史命令
 zsh_history_delete(){
-    list=$(echo $LIST | sed 's/^[[:space:]]//g')
-    array=("${(@s/ /)list}") # @ modifier
+    array=("${(@s/ /)LIST}") # @ modifier
     for i in $array
     do
         sed  -i "/;$i/d"  "${HOME}/.zsh_history"
@@ -445,14 +444,16 @@ zsh_history_delete(){
 }
 zshaddhistory() {
     emulate -L zsh
-    # echo $list | grep -w -q $x
-    echo $LIST | egrep -w -q "[[:space:]]$1.*$"
+    tmp=$(echo $1 | tr -d '\n' | cut -d ' ' -f 1)
+    echo $LIST | egrep -w -q "$tmp"
     if test $? -eq 0;then
         return 1
     fi
     if [[ $1 = "tmux select-pane"* ]] ; then
         return 1
     elif [[ $1 = "git clone"* ]] ; then
+        return 1
+    elif [[ $1 = "blackbox"* ]] ; then
         return 1
     fi
     whence ${${(z)1}[1]} >| /dev/null || return 1 
