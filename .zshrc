@@ -527,7 +527,9 @@ function clash_start(){
     clash 1>/tmp/clash_log 2>/tmp/clash_error&
 }
 function clash_stop(){
-    killall clash
+    pid=$(ps | grep clash | sed 's/^[[:space:]]*//' | cut -d ' ' -f 1)
+    kill -9 $pid
+    rm -f /tmp/clash*
 }
 function ef(){
     file=$(fd -d 1 --type=f  --color=always  | fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}' )

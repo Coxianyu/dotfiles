@@ -10,3 +10,6 @@
 - 然后是 vim 输入 `PlugInstall` `PackerInstall`  `PackerCompile` 完成插件安装
 - 插入物理密钥, 运行 `gpg --card-edit`, 然后运行 'fetch' 取得公钥
 - 运行 `blacblackbox_decrypt_all` 解密所有文件
+- `src` 重新载入
+- 输入 `clash_config_download` 下载 clash 配置文件
+- 运行 clash 下载相应的文件， 同时启动 clash
