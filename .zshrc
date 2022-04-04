@@ -143,9 +143,12 @@ zinit ice wait="1" lucid id-as="autopair"
 zinit light hlissner/zsh-autopair
 
 
+# clash-premium
+zinit id-as='clash' as='readurl|command' extract dlink="/Dreamacro/clash/releases/download/premium/clash-linux-386-%VERSION%.gz" \
+    for \
+         https://github.com/Dreamacro/clash/releases/tag/premium
 zinit  as="null" wait="1" lucid from="gh-r" bpick="*linux*" for \
     id-as="delta"           mv="delta* -> delta"     sbin="delta/delta"               dandavison/delta\
-    id-as="clash"           mv="clash* -> clash"     sbin                             Dreamacro/clash \
     id-as="lazygit"                                  sbin                             jesseduffield/lazygit\
     id-as="navi"                                     sbin                             denisidoro/navi\
     id-as="fzf"                                      sbin                             junegunn/fzf 
@@ -396,13 +399,11 @@ alias pr='proxychains4 -q'
 alias cedit='dotbare fedit'
 #}}}
 #function {{{
+if test -f "${HOME}/.config/secret/clash-download.sh";then
+    source ${HOME}/.config/secret/clash-download.sh
+fi
 function proxytest() {
-    proxychains4 curl www.google.com >> /tmp/test
-    if "$USER" == "root"
-    then
-        chmod 777 /tmp/test
-    fi
-    
+    proxychains4 curl www.google.com >> /tmp/test$RANDOM
 }
 function _z() { _zlua "$@"; }
 function ffufr() {
@@ -432,8 +433,8 @@ function install-init(){
 # 不记录 ssh
 # 不记录 wget_echo
 # 不记录以空格开头的命令， 用于执行一些不希望被记住的命令
-export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom"
-# 不想被记录的历史命令
+export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql"
+# 删除不想被记录的历史命令
 zsh_history_delete(){
     array=("${(@s/ /)LIST}") # @ modifier
     for i in $array
@@ -454,6 +455,8 @@ zshaddhistory() {
     elif [[ $1 = "git clone"* ]] ; then
         return 1
     elif [[ $1 = "blackbox"* ]] ; then
+        return 1
+    elif [[ $1 = "alias"* ]] ; then
         return 1
     fi
     whence ${${(z)1}[1]} >| /dev/null || return 1 
@@ -519,6 +522,12 @@ function man(){
 		$MAN -k . | fzf --reverse --preview="echo {1,2} | sed 's/ (/./' | sed -E 's/\)\s*$//' | xargs $MAN" | awk '{print $1 "." $2}' | tr -d '()' | xargs -r $MAN
 		return $?
 	fi
+}
+function clash_start(){
+    clash 1>/tmp/clash_log 2>/tmp/clash_error&
+}
+function clash_stop(){
+    killall clash
 }
 function ef(){
     file=$(fd -d 1 --type=f  --color=always  | fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}' )

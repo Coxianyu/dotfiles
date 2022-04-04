@@ -17,5 +17,5 @@ nginx : /etc/nginx
 nginx-log : /var/log/nginx
 v2ray-log : /var/log/v2ray
 nvim : ~/.config/nvim
-secret : ~/.config/secret
 cheatsheet : ~/.local/share/navi/cheats/cheatsheet
+secret : ~/.config/secret
