@@ -178,8 +178,8 @@ else
     touch "${HOME}/.config/.install.lock"
 fi
 
-# zinit ice wait="1" lucid atclone="./configure --prefix=${ZPFX} --sysconfdir=${HOME}/.config;make && make install-config" atpull="%atclone" id-as="proxychains-ng"
-# zinit light rofl0r/proxychains-ng
+zinit ice wait="1" lucid atclone="./configure --prefix=${ZPFX} --sysconfdir=${HOME}/.config;make" atpull="%atclone" id-as="proxychains-ng" sbin="proxychains4"
+zinit light rofl0r/proxychains-ng
 
 zinit ice wait="1" lucid from="gh-r" mv="ri* -> rg" sbin="rg/rg" atclone="chown ${USERNAME}:${USERNAME} rg/complete/*;zinit creinstall rg" atpull="%atclone" id-as="rg"
 zinit light BurntSushi/ripgrep
@@ -192,6 +192,10 @@ zinit light @sharkdp/bat
 
 zinit ice wait="1" lucid from="gh-r"  sbin="bin/exa"  mv="completions/exa.zsh -> completions/_exa"  atclone="chown ${USERNAME}:${USERNAME} completions/*;zinit creinstall exa" atpull="%atclone" id-as="exa"
 zinit light ogham/exa
+
+# proxyman 快速设置代理
+# zinit ice wait="1" lucid atclone="./install" id-as="proxyman" atpull="%atclone" as="null"
+# zinit light himanshub16/ProxyMan
 
 
 # amass
@@ -276,6 +280,7 @@ export DOTBARE_TREE="${HOME}"
 # ips=$(ip -o addr show up primary scope global |while read -r num dev fam addr rest; do echo ${addr%/*}; done)
 # hostname -I | tr ' ' '\n' 
 export LOCAL_IP=$(hostname -I | tr ' ' '\n' | head -n 1)
+export PROXYCHAINS_CONF_FILE="${HOME}/.config/proxychains4.conf"
 export LISTEN_IP="0.0.0.0"
 export TARGET_IP=""
 export TARGET_URL=""
@@ -389,8 +394,9 @@ alias tsrc='tmux source ~/.tmux.conf'
 alias batcat='bat' 
 alias gitc='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 alias config='dotbare'
-alias zshconfig="${EDITOR} ~/.zshrc"
-alias vimconfig="${EDITOR} ~/.config/nvim/init.vim"
+alias zshconfig="${EDITOR} ${HOME}/.zshrc"
+alias vimconfig="${EDITOR} ${HOME}/.config/nvim/init.vim"
+alias vimproxy="${EDITOR} ${HOME}/.config/proxychains4.conf"
 alias exa='exa --icons'
 alias viminstall="${EDITOR} ~/.config/install.sh"
 alias install="~/.config/install.sh"

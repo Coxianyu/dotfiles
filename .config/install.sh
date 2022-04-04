@@ -74,7 +74,7 @@ packer-install(){
         echo 'Error: Unknown package manager'
         return 1
     fi
-    $PACKGER install curl git wget unzip  -y
+    $PACKGER install curl git wget unzip gcc make -y
     $PACKGER install lua5.4 -y
     $PACKGER install python3 -y
     $PACKGER install python3-pip -y
