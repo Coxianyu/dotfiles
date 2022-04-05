@@ -85,6 +85,9 @@ zinit light romkatv/powerlevel10k
 zinit ice id-as="cht" as="bin" mv="%ID% -> cht.sh" sbin="cht.sh"
 zinit snippet https://cht.sh/:cht.sh
 
+zinit ice id-as="czhttpd" as="bin="  sbin="czhttpd"
+zinit snippet https://raw.githubusercontent.com/jsks/czhttpd/master/czhttpd
+
 zinit  light-mode lucid wait="0"  for\
     id-as='fzf-tab'             "Aloxaf/fzf-tab" \
     id-as='syntax'              "zdharma-continuum/fast-syntax-highlighting" \
@@ -101,7 +104,6 @@ zinit  light-mode lucid wait="0"  for\
     id-as='alias-tips'          "djui/alias-tips" \
     id-as='fzf-marks'           "urbainvaes/fzf-marks" \
     id-as='dotbare'             "kazhala/dotbare" \
-    id-as='auto_env'            "nocttuam/autodotenv"\
     id-as='fz'                  "changyuheng/fz" \
     id-as='fzf-completion'      "https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh"\
     id-as='alias-finder'        "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/alias-finder/alias-finder.plugin.zsh" \
@@ -122,11 +124,15 @@ zinit  light-mode lucid wait="0"  for\
     id-as='clipbord'            "https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/clipboard.zsh" 
 
 # id-as="msfvenom"            as="completion" mv="%ID% ->_msfvenom" "https://raw.githubusercontent.com/Green-m/msfvenom-zsh-completion/master/_msfvenom" \
+# id-as='host-switch'         "LockonS/host-switch"
 zinit ice lucid wait="0" id-as="eval.zsh"
 zinit snippet $(echo "${HOME}/.config/custom/eval.zsh")
 
 zinit ice lucid depth"1" wait="0" id-as="extract"
 zinit snippet OMZ::plugins/extract
+
+zinit ice lucid depth="1" wait="0" id-as="dirhistory"
+zinit snippet OMZ::plugins/dirhistory
 
 zinit ice lucid wait="0" id-as="bindkey"
 zinit snippet $(echo "${HOME}/.config/custom/bindkey.sh")
@@ -233,6 +239,10 @@ zinit light TimothyYe/skm
 
 zinit ice wait='1' lucid as="null" id-as="ydict"  from="gh-r" sbin="ydict" bpick="*linux*"
 zinit light TimothyYe/ydict
+
+# 一个单二进制文件的用于快速备份文件的软件
+zinit ice wait='1' lucid as="null" id-as="restic"  mv="restic* -> restic" from="gh-r" sbin="restic" bpick="*linux*"
+zinit light restic/restic
 
 
 
@@ -395,7 +405,7 @@ alias tsrc='tmux source ~/.tmux.conf'
 alias batcat='bat' 
 alias gitc='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 alias config='dotbare'
-alias zshconfig="${EDITOR} ${HOME}/.zshrc"
+alias vimzsh="${EDITOR} ${HOME}/.zshrc"
 alias vimconfig="${EDITOR} ${HOME}/.config/nvim/init.vim"
 alias vimproxy="${EDITOR} ${HOME}/.config/proxychains4.conf"
 alias exa='exa --icons'
@@ -440,7 +450,7 @@ function install-init(){
 # 不记录 ssh
 # 不记录 wget_echo
 # 不记录以空格开头的命令， 用于执行一些不希望被记住的命令
-export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql journalctl chmod chown su sudo"
+export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql journalctl chmod chown su sudo asciinema czhttpd restic skm export"
 # 删除不想被记录的历史命令
 zsh_history_delete(){
     array=("${(@s/ /)LIST}") # @ modifier
@@ -477,6 +487,15 @@ function cdg (){
 }
 function vimservice(){
     file=$(\find ${HOME}/.config/service -type f | fzf)
+    if test -n "$file";then
+        $EDITOR $file
+    fi
+}
+function SSH_SOCK(){
+    eval $(ssh-agent) > /dev/null
+}
+function vimcheat(){
+    file=$(fd  . ${HOME}/.local/share/navi/cheats --type f | fzf)
     if test -n "$file";then
         $EDITOR $file
     fi

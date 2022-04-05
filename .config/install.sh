@@ -27,6 +27,9 @@ lan(){
     # pip install thefuck
     # nginx 格式化工具
     pip3 install nginxfmt
+    # 记录终端操作的命令
+    pip3 install asciinema
+
 
 
     # gf grep 的包装
