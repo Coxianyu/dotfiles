@@ -137,16 +137,17 @@ zinit light rsherstnev/zshcompletions
 zinit ice blockf lucid wait="0" atload='zpcompinit;zpcdreplay' atclone="zinit creinstall zsh-completions" id-as="zsh-completions" as="completion"
 zinit light zsh-users/zsh-completions
 
-
-
 zinit ice wait="1" lucid id-as="autopair"
 zinit light hlissner/zsh-autopair
 
+# docker-compose
+zinit ice from"gh-r" as"program" mv"docker* -> docker-compose" id-as="docker-compose"
+zinit light docker/compose
 
 # clash-premium
-zinit id-as='clash' as='readurl|command' extract dlink="/Dreamacro/clash/releases/download/premium/clash-linux-386-%VERSION%.gz" \
-    for \
-         https://github.com/Dreamacro/clash/releases/tag/premium
+zinit ice id-as='clash' as='null'  from="gh-r" ver="premium" mv="clash-* -> clash" atclone="cp -f clash* /usr/bin/clash" atpull="%atclone" sbin="clash"  bpick="*linux-amd64*"
+zinit light Dreamacro/clash
+
 zinit  as="null" wait="1" lucid from="gh-r" bpick="*linux*" for \
     id-as="delta"           mv="delta* -> delta"     sbin="delta/delta"               dandavison/delta\
     id-as="lazygit"                                  sbin                             jesseduffield/lazygit\
@@ -439,7 +440,7 @@ function install-init(){
 # 不记录 ssh
 # 不记录 wget_echo
 # 不记录以空格开头的命令， 用于执行一些不希望被记住的命令
-export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql"
+export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql journalctl chmod chown su sudo"
 # 删除不想被记录的历史命令
 zsh_history_delete(){
     array=("${(@s/ /)LIST}") # @ modifier
@@ -472,6 +473,12 @@ function cdg (){
     repo=$(gita ls | tr ' ' '\n' | fzf)
     if test -n "$repo";then
         cd $(gita ls "$repo")
+    fi
+}
+function vimservice(){
+    file=$(\find ${HOME}/.config/service -type f | fzf)
+    if test -n "$file";then
+        $EDITOR $file
     fi
 }
 function cde(){
@@ -543,6 +550,12 @@ function ef(){
         $EDITOR $file
     fi
     
+}
+function systemctl_link(){
+    for i in $(\find ${HOME}/.config/service/ -type f)
+    do
+        ln -s $i /etc/systemd/system/$(basename $i)
+    done
 }
 function efa(){
     dir=$1

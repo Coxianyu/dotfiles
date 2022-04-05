@@ -8,8 +8,8 @@ local : ~/.local
 bat : ~/.config/bat
 bin : ~/.local/bin
 ranger : ~/.config/ranger
-d : /mnt/d
-c : /mnt/c
+wsl-window-d : /mnt/d
+wsl-window-c : /mnt/c
 nginx-default-root: /usr/share/nginx/html
 tmuxinator : ~/.config/tmuxinator
 v2ray : /usr/local/etc/v2ray
@@ -17,5 +17,7 @@ nginx : /etc/nginx
 nginx-log : /var/log/nginx
 v2ray-log : /var/log/v2ray
 nvim : ~/.config/nvim
-cheatsheet : ~/.local/share/navi/cheats/cheatsheet
 secret : ~/.config/secret
+system-service : /etc/systemd/system
+my-service : ~/.config/service
+cheatsheet : ~/.local/share/navi/cheats/cheatsheet

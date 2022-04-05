@@ -12,4 +12,4 @@
 - 运行 `blacblackbox_decrypt_all` 解密所有文件
 - `src` 重新载入
 - 输入 `clash_config_download` 下载 clash 配置文件
-- 运行 clash 下载相应的文件， 同时启动 clash
+- 运行 `systemctl_link` 创建 service 符号链接，`systemctl start clash` 启动 clash
