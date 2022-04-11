@@ -53,44 +53,11 @@ zinit ice depth="1" id-as="vi-mode"
 zinit light jeffreytse/zsh-vi-mode
 
 
-# 安装 lua 环境
-# zinit id-as="lua" as='readurl|null' mv="%ID% -> lua.tar.gz"\
-#         atclone="ziextract --move lua.tar.gz;" make="all test" atpull="%atclone" \
-#         fbin="lua" dlink="/lua/lua/archive/refs/tags/v%VERSION%.tar.gz" for \
-#         "https://github.com/lua/lua/releases"
-#
-# 从 www.lua.org 安装 lua 不需要 libreadline 
-# zinit id-as="lua" as='null' mv="%ID% -> lua.tar.gz" pick="src/lua"\
-#         atclone="ziextract --move lua.tar.gz;" make atpull="%atclone" \
-#         sbin="src/lua" for \
-#                 "https://www.lua.org/ftp/lua-5.4.3.tar.gz"
-#
-# 编译 gtags
-# zinit id-as="gtags" as="readurl|null" mv="%ID% -> global.tar.gz" atclone="ziextract --move global.tar.gz;./configure --prefix=${LOCAL};make;make install" atpull="%atclone"\
-#     dlink='!global-%VERSION%.tar.gz~%global-6.6.tar.gz%'\
-#     for "https://ftp.gnu.org/pub/gnu/global/"
-
-
-#zinit light-mode   for \
-#id-as='z-a-rust'    zinit-zsh/z-a-rust \
-#id-as='z-a-monitor'    zinit-zsh/z-a-as-monitor \
-#id-as='z-a-patch'    zinit-zsh/z-a-patch-dl 
-
 zinit ice depth"1" id-as='pw10k'
 zinit light romkatv/powerlevel10k
 
-# zinit ice depth="1" id-as="vi-mode"
-# zinit light jeffreytse/zsh-vi-mode
 
-zinit ice id-as="cht" as="bin" mv="%ID% -> cht.sh" sbin="cht.sh"
-zinit snippet https://cht.sh/:cht.sh
 
-# 快速切换 host 文件的 zsh 脚本
-zinit ice id-as="dacuoxian" as="bin" mv="%ID% -> dacuoxian" sbin="dacuoxian"
-zinit snippet https://raw.githubusercontent.com/chenjianjx/dacuoxian/master/dacuoxian.sh
-
-zinit ice id-as="czhttpd" as="bin"  sbin="czhttpd"
-zinit snippet https://raw.githubusercontent.com/jsks/czhttpd/master/czhttpd
 zinit  light-mode lucid wait="0"  for\
     id-as='fzf-tab'             "Aloxaf/fzf-tab" \
     id-as='syntax'              "zdharma-continuum/fast-syntax-highlighting" \
@@ -148,11 +115,11 @@ zinit ice wait="1" lucid id-as="autopair"
 zinit light hlissner/zsh-autopair
 
 # docker-compose
-zinit ice from"gh-r" as"program" mv"docker* -> docker-compose" id-as="docker-compose"
+zinit ice from"gh-r" as"program" mv"docker* -> docker-compose" id-as="docker-compose" wait="1" lucid
 zinit light docker/compose
 
 # clash-premium
-zinit ice id-as='clash' as='null'  from="gh-r" ver="premium" mv="clash-* -> clash" atclone="cp -f clash* /usr/bin/clash" atpull="%atclone" sbin="clash"  bpick="*linux-amd64*"
+zinit ice id-as='clash' as='null'  from="gh-r" ver="premium" mv="clash-* -> clash" atclone="cp -f clash* /usr/bin/clash" atpull="%atclone" sbin="clash"  bpick="*linux-amd64*" wait="1" lucid
 zinit light Dreamacro/clash
 
 zinit  as="null" wait="1" lucid from="gh-r" bpick="*linux*" for \
@@ -160,10 +127,20 @@ zinit  as="null" wait="1" lucid from="gh-r" bpick="*linux*" for \
     id-as="lazygit"                                  sbin                             jesseduffield/lazygit\
     id-as="navi"                                     sbin                             denisidoro/navi\
     id-as="fzf"                                      sbin                             junegunn/fzf 
+
+zinit ice id-as="cht" as="bin" mv="%ID% -> cht.sh" sbin="cht.sh" wait="1" lucid
+zinit snippet https://cht.sh/:cht.sh
+
+# 快速切换 host 文件的 zsh 脚本
+zinit ice id-as="dacuoxian" as="bin" mv="%ID% -> dacuoxian" sbin="dacuoxian" lucid wait="1"
+zinit snippet https://raw.githubusercontent.com/chenjianjx/dacuoxian/master/dacuoxian.sh
+
+zinit ice id-as="czhttpd" as="bin"  sbin="czhttpd" lucid wait="1"
+zinit snippet https://raw.githubusercontent.com/jsks/czhttpd/master/czhttpd
     
 # zinit pack for fzf
 # direnv 进入目录的时候自动加载和卸载环境变量 
-zinit from"gh-r" as"program" mv"direnv* -> direnv" id-as="direnv" bpick="*linux*"\
+zinit from"gh-r" as"program" mv"direnv* -> direnv" id-as="direnv" bpick="*linux*" wait="1" lucid\
     atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone' \
     pick"direnv" src="zhook.zsh" for \
         direnv/direnv
@@ -204,9 +181,96 @@ zinit light @sharkdp/bat
 zinit ice wait="1" lucid from="gh-r"  sbin="bin/exa"  cp="completions/exa.zsh -> completions/_exa"  atclone="chown ${USERNAME}:${USERNAME} completions/*;zinit creinstall exa" atpull="%atclone" id-as="exa"
 zinit light ogham/exa
 
+
+# zoxide cd 的替代品
+zinit  ice wait="1" lucid from="gh-r" sbin="zoxide" id-as="zoxide"
+zinit light ajeetdsouza/zoxide
+
+# 使用预编译的 lua 二进制文件
+# https://github.com/philanc/slua/raw/master/bin/slua
+# https://raw.githubusercontent.com/philanc/slua/master/bin/slua
+# zinit ice id-as="lua" as="bin" mv="%ID% -> lua" sbin="lua"
+# zinit light https://raw.githubusercontent.com/philanc/slua/master/bin/slua
+
+# 使用预编译的 lua 二进制文件
+zinit ice as="program" id-as='lua'  run-atpull atclone="wget https://raw.githubusercontent.com/philanc/slua/master/bin/slua;mv slua lua" atpull="%atclone" sbin="lua" wait="1" lucid
+zinit light zdharma-continuum/null
+
+# python 区块{{{
+if [ -x "$(command -v pip3)" ]; then
+    # httpe wget 和 curl 的替代品
+    zinit ice as="null"  id-as='httpie' run-atpull atclone="pip3 install httpie" atpull="pip3 install --upgrade httpie"  wait="1" lucid
+    zinit light zdharma-continuum/null
+
+    zinit ice as="null"  id-as='ranger' run-atpull atclone="pip3 install ranger-fm" atpull="pip3 install --upgrade ranger-fm"  wait="1" lucid
+    zinit light zdharma-continuum/null
+
+    zinit ice as="null"  id-as='asciinema' run-atpull atclone="pip3 install asciinema" atpull="pip3 install --upgrade asciinema"  wait="1" lucid
+    zinit light zdharma-continuum/null
+
+    zinit ice as="null"  id-as='python-neovim' run-atpull atclone="pip3 install neovim" atpull="pip3 install --upgrade neovim" wait="1" lucid
+    zinit light zdharma-continuum/null
+
+    zinit ice as="null"  id-as='autopep8' run-atpull atclone="pip3 install autopep8" atpull="pip3 install --upgrade autopep8" wait="1" lucid
+    zinit light zdharma-continuum/null
+
+    zinit ice as="null"  id-as='glances' run-atpull atclone="pip3 install glances" atpull="pip3 install --upgrade glances" wait="1" lucid
+    zinit light zdharma-continuum/null
+
+    zinit ice as="null"  id-as='pyyaml' run-atpull atclone="pip3 install pyyaml" atpull="pip3 install --upgrade pyyaml" wait="1" lucid
+    zinit light zdharma-continuum/null
+
+    zinit ice as="null"  id-as='gita' run-atpull atclone="pip3 install gita" atpull="pip3 install --upgrade gita" wait="1" lucid
+    zinit light zdharma-continuum/null
+
+    zinit ice as="null"  id-as='nginxfmt' run-atpull atclone="pip3 install nginxfmt" atpull="pip3 install --upgrade nginxfmt" wait="1" lucid
+    zinit light zdharma-continuum/null
+fi
+# }}}
+#go 区块{{{
+
+#}}}
+#
+#node.js 区块 {{{
+if [ -x "$(command -v npm)" ]; then
+    zinit ice as="null"  id-as='yarn' run-atpull atclone="npm install yarn" atpull="npm update yarn" wait="1" lucid
+    zinit light zdharma-continuum/null
+
+    zinit ice as="null"  id-as='npm-neovim' run-atpull atclone="npm install neovim" atpull="npm update neovim" wait="1" lucid
+    zinit light zdharma-continuum/null
+
+    zinit ice as="null"  id-as='commitizen' run-atpull atclone="npm install commitizen" atpull="npm update commitizen" wait="1" lucid
+    zinit light zdharma-continuum/null
+
+    zinit ice as="null"  id-as='cz-customizable' run-atpull atclone="npm install cz-customizable" atpull="npm update cz-customizable" wait="1" lucid
+    zinit light zdharma-continuum/null
+
+    zinit ice as="null"  id-as='cz-conventional-changelog' run-atpull atclone="npm install cz-conventional-changelog" atpull="npm update cz-conventional-changelog" wait="1" lucid
+    zinit light zdharma-continuum/null
+fi
+#}}}
+# tpm tmux 插件管理器
+zinit ice as="null"  id-as='tpm' run-atpull atclone="git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm" atpull="cd ${HOME}/.tmux/plugins/tpm; git pull" wait="1" lucid
+zinit light zdharma-continuum/null
+
+# vim-plug vim 插件管理器
+zinit ice as="null"  id-as='nvim-plug' run-atpull atclone="curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim" wait="1" lucid
+zinit light zdharma-continuum/null
+
+# packer.nvim
+zinit ice as="null"  id-as='packer.nvim' run-atpull atclone="git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim" atpull="cd ${HOME}/.local/share/nvim/site/pack/packer/start/packer.nvim;git pull" wait="1" lucid
+zinit light zdharma-continuum/null
+
+# my navi cheatsheet
+zinit ice as="null"  id-as='navi-cheatsheet' run-atpull atclone="git clone https://github.com/Coxianyu/cheatsheet ~/.local/share/navi/cheats/cheatsheet" atpull="cd ${HOME}/.local/share/navi/cheats/cheatsheet; git pull" wait="1" lucid
+zinit light zdharma-continuum/null
+
+
+
 # 点文件管理器
-zinit ice wait="1" lucid from="gh-r" id-as="chezmoi" bpick="*linux_amd64.tar.gz*" sbin="chezmoi" cp="completions/chezmoi.zsh -> completions/_chezmoi" atclone="chown ${USERNAME}:${USERNAME} completions/*;zinit creinstall chezmoi" atpull="%atclone"
-zinit light twpayne/chezmoi
+# zinit ice wait="1" lucid from="gh-r" id-as="chezmoi" bpick="*linux_amd64.tar.gz*" sbin="chezmoi" cp="completions/chezmoi.zsh -> completions/_chezmoi" atclone="chown ${USERNAME}:${USERNAME} completions/*;zinit creinstall chezmoi" atpull="%atclone"
+# zinit light twpayne/chezmoi
+#
 
 
 
@@ -220,11 +284,11 @@ zinit light twpayne/chezmoi
 
 
 # amass
-zinit ice wait="1" lucid from="gh-r"  fbin="amass/amass"  mv="amass* -> amass"   id-as="amass" bpick="*amd64.zip"
+zinit ice wait="1" lucid from="gh-r"  fbin="amass/amass"  mv="amass* -> amass"   id-as="amass" bpick="*amd64.zip" lucid
 zinit light OWASP/Amass
 
 # tmxu-powerline
-zinit ice wait="1" lucid cloneonly id-as="tmux_theme" cloneopts="--depth 1" reset atpull="cp -f ${HOME}/.config/default.sh ${HOME}/.zinit/plugins/tmux_theme/themes/default.sh"  atclone="cp -f ~/.config/default.sh ${HOME}/.zinit/plugins/tmux_theme/themes/default.sh"
+zinit ice wait="1" lucid cloneonly id-as="tmux_theme" cloneopts="--depth 1" reset atpull="%atclone"  atclone="cp -f ~/.config/default.sh ${HOME}/.zinit/plugins/tmux_theme/themes/default.sh"
 zinit light erikw/tmux-powerline
 
 # git-flow
@@ -257,8 +321,6 @@ zinit light TimothyYe/ydict
 # 一个单二进制文件的用于快速备份文件的软件
 zinit ice wait='1' lucid as="null" id-as="restic"  mv="restic* -> restic" from="gh-r" sbin="restic" bpick="*linux*"
 zinit light restic/restic
-
-
 
 
 # ffuf  fast fuzzer
@@ -396,15 +458,14 @@ else
 fi
 # jf foo 使用 fzf 交互选择
 alias 'chezmoi add'='chezmoi add --create'
-alias jf='j -I'
+alias dw='j -I'
 alias tasks='asynctask -f'
-# jb foo
-alias jb='j -b'
 # jbf foo 使用 fzf 选择父目录
-alias jbf='j -b -I'
+alias de='j -b -I'
 # jh  使用 fzf 选择最近的 10 条路径
-alias jh='j -I -t .'
+alias dh='j -I -t .'
 # jc 跳转到当前路径下的子目录
+alias dc='j -c -I'
 alias gdh="git diff HEAD"
 alias vitmux="$EDITOR ${HOME}/.tmux.conf"
 alias gw="${HOME}/.local/go/bin/gf"
@@ -467,7 +528,7 @@ function install-init(){
 # 不记录 ssh
 # 不记录 wget_echo
 # 不记录以空格开头的命令， 用于执行一些不希望被记住的命令
-export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql journalctl chmod chown su sudo asciinema czhttpd restic skm export dacuoxian dig"
+export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql journalctl chmod chown su sudo asciinema czhttpd restic skm export dacuoxian dig http https"
 # 删除不想被记录的历史命令
 zsh_history_delete(){
     array=("${(@s/ /)LIST}") # @ modifier
@@ -491,6 +552,10 @@ zshaddhistory() {
     elif [[ $1 = "blackbox"* ]] ; then
         return 1
     elif [[ $1 = "alias"* ]] ; then
+        return 1
+    elif [[ $1 = "d "* ]] ; then
+        return 1
+    elif [[ $1 = "di"* ]] ; then
         return 1
     elif [[ $1 = "nc -nv"* ]] ; then
         return 1
@@ -521,6 +586,9 @@ function vimcheat(){
     if test -n "$file";then
         $EDITOR $file
     fi
+}
+function de(){
+    pwd | tr '/' '\n'
 }
 function cde(){
     dir=$1
