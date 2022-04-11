@@ -16,8 +16,8 @@ v2ray : /usr/local/etc/v2ray
 nginx : /etc/nginx
 nginx-log : /var/log/nginx
 v2ray-log : /var/log/v2ray
-nvim : ~/.config/nvim
 secret : ~/.config/secret
 system-service : /etc/systemd/system
 my-service : ~/.config/service
 cheatsheet : ~/.local/share/navi/cheats/cheatsheet
+nvim : ~/.config/nvim

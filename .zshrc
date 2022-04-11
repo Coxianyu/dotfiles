@@ -85,9 +85,12 @@ zinit light romkatv/powerlevel10k
 zinit ice id-as="cht" as="bin" mv="%ID% -> cht.sh" sbin="cht.sh"
 zinit snippet https://cht.sh/:cht.sh
 
-zinit ice id-as="czhttpd" as="bin="  sbin="czhttpd"
-zinit snippet https://raw.githubusercontent.com/jsks/czhttpd/master/czhttpd
+# 快速切换 host 文件的 zsh 脚本
+zinit ice id-as="dacuoxian" as="bin" mv="%ID% -> dacuoxian" sbin="dacuoxian"
+zinit snippet https://raw.githubusercontent.com/chenjianjx/dacuoxian/master/dacuoxian.sh
 
+zinit ice id-as="czhttpd" as="bin"  sbin="czhttpd"
+zinit snippet https://raw.githubusercontent.com/jsks/czhttpd/master/czhttpd
 zinit  light-mode lucid wait="0"  for\
     id-as='fzf-tab'             "Aloxaf/fzf-tab" \
     id-as='syntax'              "zdharma-continuum/fast-syntax-highlighting" \
@@ -131,8 +134,6 @@ zinit snippet $(echo "${HOME}/.config/custom/eval.zsh")
 zinit ice lucid depth"1" wait="0" id-as="extract"
 zinit snippet OMZ::plugins/extract
 
-zinit ice lucid depth="1" wait="0" id-as="dirhistory"
-zinit snippet OMZ::plugins/dirhistory
 
 zinit ice lucid wait="0" id-as="bindkey"
 zinit snippet $(echo "${HOME}/.config/custom/bindkey.sh")
@@ -194,19 +195,32 @@ zinit light BurntSushi/ripgrep
 zinit ice wait="1" lucid from="gh-r" mv="fd* -> fd" sbin="fd/fd" atclone="chown ${USERNAME}:${USERNAME} fd/autocomplete/*;zinit creinstall fd" atpull="%atclone" id-as="fd"
 zinit light @sharkdp/fd
 
-zinit ice wait="1" lucid from="gh-r" mv="bat* -> bat" sbin="bat/bat"   atclone="mv bat/autocomplete/bat.zsh bat/autocomplete/_bat;chown ${USERNAME}:${USERNAME} bat/autocomplete/*;zinit creinstall bat" atpull="%atclone" id-as="bat"
+zinit ice lucid depth="1" wait="1" id-as="dirhistory"
+zinit snippet OMZ::plugins/dirhistory
+
+zinit ice wait="1" lucid from="gh-r" mv="bat* -> bat" sbin="bat/bat"   atclone="cp bat/autocomplete/bat.zsh bat/autocomplete/_bat;chown ${USERNAME}:${USERNAME} bat/autocomplete/*;zinit creinstall bat" atpull="%atclone" id-as="bat"
 zinit light @sharkdp/bat
 
-zinit ice wait="1" lucid from="gh-r"  sbin="bin/exa"  mv="completions/exa.zsh -> completions/_exa"  atclone="chown ${USERNAME}:${USERNAME} completions/*;zinit creinstall exa" atpull="%atclone" id-as="exa"
+zinit ice wait="1" lucid from="gh-r"  sbin="bin/exa"  cp="completions/exa.zsh -> completions/_exa"  atclone="chown ${USERNAME}:${USERNAME} completions/*;zinit creinstall exa" atpull="%atclone" id-as="exa"
 zinit light ogham/exa
+
+# 点文件管理器
+zinit ice wait="1" lucid from="gh-r" id-as="chezmoi" bpick="*linux_amd64.tar.gz*" sbin="chezmoi" cp="completions/chezmoi.zsh -> completions/_chezmoi" atclone="chown ${USERNAME}:${USERNAME} completions/*;zinit creinstall chezmoi" atpull="%atclone"
+zinit light twpayne/chezmoi
+
+
+
+
 
 # proxyman 快速设置代理
 # zinit ice wait="1" lucid atclone="./install" id-as="proxyman" atpull="%atclone" as="null"
 # zinit light himanshub16/ProxyMan
+#
+# https://dev.yorhel.nl/download/
 
 
 # amass
-zinit ice wait="1" lucid from="gh-r"  fbin="amass/amass"  mv="amass* -> amass"   id-as="amass"
+zinit ice wait="1" lucid from="gh-r"  fbin="amass/amass"  mv="amass* -> amass"   id-as="amass" bpick="*amd64.zip"
 zinit light OWASP/Amass
 
 # tmxu-powerline
@@ -250,9 +264,9 @@ zinit light restic/restic
 # ffuf  fast fuzzer
 zinit ice wait="1" lucid as="null" id-as="ffuf" from="gh-r" sbin="ffuf" bpick="*linux*"
 zinit light ffuf/ffuf
-#
-# bindkey 
-
+# last.zsh 用于执行在最后加载的函数， 用于覆盖一些插件的函数
+# zinit ice lucid wait="1" id-as="last.zsh"
+# zinit snippet $(echo "${HOME}/.config/custom/last.zsh")
 #https://github.com/tomnomnom/gf 
 # End of Zinit's installer chunk
 # }}}
@@ -336,6 +350,7 @@ PATH=${PATH}:${HOME}/.local/bin
 PATH=${PATH}:${GOPATH}/bin
 PATH=${PATH}:${HOME}/script
 PATH=${PATH}:${HOME}/.config/nvim/plugged/asynctasks.vim/bin
+export PATH
 LINUX_FILETYPE=''
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8,bold,underline'
@@ -380,6 +395,7 @@ else
     alias delta="diff"
 fi
 # jf foo 使用 fzf 交互选择
+alias 'chezmoi add'='chezmoi add --create'
 alias jf='j -I'
 alias tasks='asynctask -f'
 # jb foo
@@ -415,7 +431,8 @@ alias prz='proxychains4 -q zsh'
 alias pr='proxychains4 -q'
 alias cedit='dotbare fedit'
 #}}}
-#function {{{
+#function{{{
+
 if test -f "${HOME}/.config/secret/clash-download.sh";then
     source ${HOME}/.config/secret/clash-download.sh
 fi
@@ -450,7 +467,7 @@ function install-init(){
 # 不记录 ssh
 # 不记录 wget_echo
 # 不记录以空格开头的命令， 用于执行一些不希望被记住的命令
-export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql journalctl chmod chown su sudo asciinema czhttpd restic skm export"
+export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql journalctl chmod chown su sudo asciinema czhttpd restic skm export dacuoxian dig"
 # 删除不想被记录的历史命令
 zsh_history_delete(){
     array=("${(@s/ /)LIST}") # @ modifier
@@ -475,6 +492,8 @@ zshaddhistory() {
         return 1
     elif [[ $1 = "alias"* ]] ; then
         return 1
+    elif [[ $1 = "nc -nv"* ]] ; then
+        return 1
     fi
     whence ${${(z)1}[1]} >| /dev/null || return 1 
     return 0
@@ -493,6 +512,9 @@ function vimservice(){
 }
 function SSH_SOCK(){
     eval $(ssh-agent) > /dev/null
+}
+function GPG_SOCK(){
+    export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 }
 function vimcheat(){
     file=$(fd  . ${HOME}/.local/share/navi/cheats --type f | fzf)

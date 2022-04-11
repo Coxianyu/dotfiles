@@ -102,6 +102,7 @@ call plug#end()
 
 " set runtimepath=~/.vim8,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim8/after
 " set packpath=~/.vim8,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim8/after,~/.config/nvim
+syntax on
 set splitright
 set mouse="a"
 set relativenumber
@@ -151,7 +152,6 @@ else
 endif
 set nocompatible
 set t_Co=256
-syntax on
 " syntax off
 "}}}
 "nnoremap common {{{
@@ -161,7 +161,7 @@ nnoremap k gk
 nnoremap Y y$
 nmap <leader>sa <Plug>(EasyAlign)
 xmap <leader>sa <plug>(EasyAlign)
-nnoremap <tab> V>
+" nnoremap <tab> V>
 nnoremap <s-tab> V<
 nnoremap tl <c-w>l:bd!<cr>
 nnoremap <tab>h <c-w>h
@@ -699,6 +699,7 @@ nnoremap <leader>rh :FloatermNew --name=htop htop<cr>
 nnoremap <leader>rg :FloatermNew --name=lazygit lazygit<cr>
 nnoremap <leader>rl :FloatermNew --wintype=vsplit --width=0.4<cr>
 nnoremap <leader>rr :FloatermNew --name=ranger ranger<cr>
+nnoremap <leader>rw :FloatermNew --name=
 tnoremap <f12> <C-\><C-n>:FloatermToggle<cr>
 " tnoremap <f2> <C-\><C-n>:FloatermToggle<cr>
 " tnoremap <f3> <C-\><C-n>:FloatermToggle<cr>
