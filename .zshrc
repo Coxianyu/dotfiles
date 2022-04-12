@@ -34,7 +34,7 @@ setopt HIST_REDUCE_BLANKS        # 删除多余的空格
     if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
     print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
     command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.zinit/bin" && \
+    command git clone --depth 1 https://github.com/zdharma-continuum/zinit "$HOME/.zinit/bin" && \
         print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
         print -P "%F{160}▓▒░ The clone has failed.%f%b"
 fi
@@ -199,31 +199,31 @@ zinit light zdharma-continuum/null
 # python 区块{{{
 if [ -x "$(command -v pip3)" ]; then
     # httpe wget 和 curl 的替代品
-    zinit ice as="null"  id-as='httpie' run-atpull atclone="pip3 install httpie" atpull="pip3 install --upgrade httpie"  wait="1" lucid
+    zinit ice as="null"  id-as='httpie' run-atpull atclone="pip3 install --user httpie" atpull="pip3 install --user --upgrade httpie"  wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='ranger' run-atpull atclone="pip3 install ranger-fm" atpull="pip3 install --upgrade ranger-fm"  wait="1" lucid
+    zinit ice as="null"  id-as='ranger' run-atpull atclone="pip3 install --user ranger-fm" atpull="pip3 install --user --upgrade ranger-fm"  wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='asciinema' run-atpull atclone="pip3 install asciinema" atpull="pip3 install --upgrade asciinema"  wait="1" lucid
+    zinit ice as="null"  id-as='asciinema' run-atpull atclone="pip3 install --user asciinema" atpull="pip3 install --user --upgrade asciinema"  wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='python-neovim' run-atpull atclone="pip3 install neovim" atpull="pip3 install --upgrade neovim" wait="1" lucid
+    zinit ice as="null"  id-as='python-neovim' run-atpull atclone="pip3 install --user neovim" atpull="pip3 install --user --upgrade neovim" wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='autopep8' run-atpull atclone="pip3 install autopep8" atpull="pip3 install --upgrade autopep8" wait="1" lucid
+    zinit ice as="null"  id-as='autopep8' run-atpull atclone="pip3 install --user autopep8" atpull="pip3 install --user --upgrade autopep8" wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='glances' run-atpull atclone="pip3 install glances" atpull="pip3 install --upgrade glances" wait="1" lucid
+    zinit ice as="null"  id-as='glances' run-atpull atclone="pip3 install --user glances" atpull="pip3 install --user --upgrade glances" wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='pyyaml' run-atpull atclone="pip3 install pyyaml" atpull="pip3 install --upgrade pyyaml" wait="1" lucid
+    zinit ice as="null"  id-as='pyyaml' run-atpull atclone="pip3 install --user pyyaml" atpull="pip3 install --user --upgrade pyyaml" wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='gita' run-atpull atclone="pip3 install gita" atpull="pip3 install --upgrade gita" wait="1" lucid
+    zinit ice as="null"  id-as='gita' run-atpull atclone="pip3 install --user gita" atpull="pip3 install --user --upgrade gita" wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='nginxfmt' run-atpull atclone="pip3 install nginxfmt" atpull="pip3 install --upgrade nginxfmt" wait="1" lucid
+    zinit ice as="null"  id-as='nginxfmt' run-atpull atclone="pip3 install --user nginxfmt" atpull="pip3 install --user --upgrade nginxfmt" wait="1" lucid
     zinit light zdharma-continuum/null
 fi
 # }}}
