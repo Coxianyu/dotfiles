@@ -402,8 +402,6 @@ if [ -x "$(command -v nvim)" ]; then
     export PAGER="nvim -c PAGER -"
 elif [ -x "$(command -v vim)" ]; then
     export EDITOR='vim'
-    export MANPAGER="vim -c MANPAGER -"
-    export PAGER="vim -c PAGER -"
 else
     export MANPAGER="less -RF"
     export PAGER="less -RF"
@@ -499,6 +497,7 @@ alias config='dotbare'
 alias vimzsh="${EDITOR} ${HOME}/.zshrc"
 alias vimconfig="${EDITOR} ${HOME}/.config/nvim/init.vim"
 alias vimproxy="${EDITOR} ${HOME}/.config/proxychains4.conf"
+alias vimark="${EDITOR} ${HOME}/.fzf-marks"
 alias exa='exa --icons'
 alias viminstall="${EDITOR} ~/.config/install.sh"
 alias install="~/.config/install.sh"
@@ -542,7 +541,7 @@ function install-init(){
 # 不记录 ssh
 # 不记录 wget_echo
 # 不记录以空格开头的命令， 用于执行一些不希望被记住的命令
-export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql journalctl chmod chown su sudo asciinema czhttpd restic skm export dacuoxian dig http mycli mysql cloc dc dh"
+export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql journalctl chmod chown su sudo asciinema czhttpd restic skm export dacuoxian dig http mycli mysql cloc kill nvim dd dw dh de dc"
 # 删除不想被记录的历史命令
 zsh_history_delete(){
     array=("${(@s/ /)LIST}") # @ modifier
@@ -568,8 +567,6 @@ zshaddhistory() {
     elif [[ $1 = "alias"* ]] ; then
         return 1
     elif [[ $1 = "d "* ]] ; then
-        return 1
-    elif [[ $1 = "di"* ]] ; then
         return 1
     elif [[ $1 = "nc -nv"* ]] ; then
         return 1
