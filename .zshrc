@@ -73,7 +73,7 @@ zinit  light-mode lucid wait="0"  for\
     id-as='tmuxinator_completion'   as="completion" mv="%ID% -> _tmuxinator"    "https://raw.githubusercontent.com/tmuxinator/tmuxinator/master/completion/tmuxinator.zsh"\
     id-as='alias-tips'          "djui/alias-tips" \
     id-as='fzf-marks'           "urbainvaes/fzf-marks" \
-    id-as='dotbare'             "kazhala/dotbare" \
+    id-as='dotbare' as="null" sbin="dotbare"    "kazhala/dotbare" \
     id-as='fz'                  "changyuheng/fz" \
     id-as='fzf-completion'      "https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh"\
     id-as='alias-finder'        "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/alias-finder/alias-finder.plugin.zsh" \
@@ -115,7 +115,7 @@ zinit ice wait="1" lucid id-as="autopair"
 zinit light hlissner/zsh-autopair
 
 # docker-compose
-zinit ice from"gh-r" as"program" mv"docker* -> docker-compose" id-as="docker-compose" wait="1" lucid
+zinit ice from"gh-r" as"null" mv"docker* -> docker-compose" id-as="docker-compose" wait="1" lucid sbin="docker-compose"
 zinit light docker/compose
 
 # clash-premium
@@ -132,7 +132,7 @@ zinit ice id-as="cht" as="bin" mv="%ID% -> cht.sh" sbin="cht.sh" wait="1" lucid
 zinit snippet https://cht.sh/:cht.sh
 
 # 快速切换 host 文件的 zsh 脚本
-zinit ice id-as="dacuoxian" as="bin" mv="%ID% -> dacuoxian" sbin="dacuoxian" lucid wait="1"
+zinit ice id-as="dacuoxian" as="bin"  sbin="dacuoxian" lucid wait="1"
 zinit snippet https://raw.githubusercontent.com/chenjianjx/dacuoxian/master/dacuoxian.sh
 
 zinit ice id-as="czhttpd" as="bin"  sbin="czhttpd" lucid wait="1"
@@ -140,9 +140,8 @@ zinit snippet https://raw.githubusercontent.com/jsks/czhttpd/master/czhttpd
     
 # zinit pack for fzf
 # direnv 进入目录的时候自动加载和卸载环境变量 
-zinit from"gh-r" as"program" mv"direnv* -> direnv" id-as="direnv" bpick="*linux*" wait="1" lucid\
-    atclone'./direnv hook zsh > zhook.zsh' atpull'%atclone' \
-    pick"direnv" src="zhook.zsh" for \
+zinit from"gh-r" as"null" mv"direnv* -> direnv" sbin="direnv" id-as="direnv" bpick="*linux*" wait="1" lucid\
+    for \
         direnv/direnv
 
 # 仅仅在 $(git --version) < 2.55 时可以使用
@@ -163,7 +162,7 @@ else
     touch "${HOME}/.config/.install.lock"
 fi
 
-zinit ice wait="1" lucid atclone="./configure --prefix=${ZPFX} --sysconfdir=${HOME}/.config;make" atpull="%atclone" id-as="proxychains-ng" sbin="proxychains4"
+zinit ice wait="1" as="null" lucid atclone="./configure --prefix=${ZPFX} --sysconfdir=${HOME}/.config;make" atpull="%atclone" id-as="proxychains-ng" sbin="proxychains4"
 zinit light rofl0r/proxychains-ng
 
 zinit ice wait="1" lucid from="gh-r" mv="ri* -> rg" sbin="rg/rg" atclone="chown ${USERNAME}:${USERNAME} rg/complete/*;zinit creinstall rg" atpull="%atclone" id-as="rg"
@@ -182,6 +181,7 @@ zinit ice wait="1" lucid from="gh-r"  sbin="bin/exa"  cp="completions/exa.zsh ->
 zinit light ogham/exa
 
 
+
 # zoxide cd 的替代品
 zinit  ice wait="1" lucid from="gh-r" sbin="zoxide" id-as="zoxide"
 zinit light ajeetdsouza/zoxide
@@ -193,7 +193,7 @@ zinit light ajeetdsouza/zoxide
 # zinit light https://raw.githubusercontent.com/philanc/slua/master/bin/slua
 
 # 使用预编译的 lua 二进制文件
-zinit ice as="program" id-as='lua'  run-atpull atclone="wget https://raw.githubusercontent.com/philanc/slua/master/bin/slua;mv slua lua" atpull="%atclone" sbin="lua" wait="1" lucid
+zinit ice as="null" id-as='lua'  run-atpull atclone="wget https://raw.githubusercontent.com/philanc/slua/master/bin/slua;mv slua lua" atpull="%atclone" sbin="lua" wait="1" lucid
 zinit light zdharma-continuum/null
 
 # python 区块{{{
@@ -201,6 +201,8 @@ if [ -x "$(command -v pip3)" ]; then
     # httpe wget 和 curl 的替代品
     zinit ice as="null"  id-as='httpie' run-atpull atclone="pip3 install --user httpie" atpull="pip3 install --user --upgrade httpie"  wait="1" lucid
     zinit light zdharma-continuum/null
+    # zinit ice as="null"  id-as='httpie' lucid wait="1" pip="httpie"
+    # zinit light zdharma-continuum/null
 
     zinit ice as="null"  id-as='ranger' run-atpull atclone="pip3 install --user ranger-fm" atpull="pip3 install --user --upgrade ranger-fm"  wait="1" lucid
     zinit light zdharma-continuum/null
@@ -239,13 +241,13 @@ if [ -x "$(command -v npm)" ]; then
     zinit ice as="null"  id-as='npm-neovim' run-atpull atclone="npm install neovim" atpull="npm update neovim" wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='commitizen' run-atpull atclone="npm install commitizen" atpull="npm update commitizen" wait="1" lucid
+    zinit ice as="null"  id-as='commitizen' run-atpull atclone="npm install -g commitizen" atpull="npm update commitizen" wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='cz-customizable' run-atpull atclone="npm install cz-customizable" atpull="npm update cz-customizable" wait="1" lucid
+    zinit ice as="null"  id-as='cz-customizable' run-atpull atclone="npm install -g cz-customizable" atpull="npm update cz-customizable" wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='cz-conventional-changelog' run-atpull atclone="npm install cz-conventional-changelog" atpull="npm update cz-conventional-changelog" wait="1" lucid
+    zinit ice as="null"  id-as='cz-conventional-changelog' run-atpull atclone="npm install -g cz-conventional-changelog" atpull="npm update cz-conventional-changelog" wait="1" lucid
     zinit light zdharma-continuum/null
 fi
 #}}}
@@ -412,7 +414,7 @@ PATH=${PATH}:${HOME}/.local/bin
 PATH=${PATH}:${GOPATH}/bin
 PATH=${PATH}:${HOME}/script
 PATH=${PATH}:${HOME}/.config/nvim/plugged/asynctasks.vim/bin
-export PATH
+
 LINUX_FILETYPE=''
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8,bold,underline'
