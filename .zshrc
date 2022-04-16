@@ -227,6 +227,15 @@ if [ -x "$(command -v pip3)" ]; then
 
     zinit ice as="null"  id-as='nginxfmt' run-atpull atclone="pip3 install --user nginxfmt" atpull="pip3 install --user --upgrade nginxfmt" wait="1" lucid
     zinit light zdharma-continuum/null
+
+    # mycli mysql 带语法提示的客户端
+    zinit ice as="null"  id-as='mycli' run-atpull atclone="pip3 install --user mycli" atpull="pip3 install --user --upgrade mycli" wait="1" lucid
+    zinit light zdharma-continuum/null
+
+    # http-prompt 交互式的 http 客户端
+    zinit ice as="null"  id-as='http-prompt' run-atpull atclone="pip3 install --user http-prompt" atpull="pip3 install --user --upgrade http-prompt" wait="1" lucid
+    zinit light zdharma-continuum/null
+
 fi
 # }}}
 #go 区块{{{
@@ -248,6 +257,10 @@ if [ -x "$(command -v npm)" ]; then
     zinit light zdharma-continuum/null
 
     zinit ice as="null"  id-as='cz-conventional-changelog' run-atpull atclone="npm install -g cz-conventional-changelog" atpull="npm update cz-conventional-changelog" wait="1" lucid
+    zinit light zdharma-continuum/null
+
+    # 统计代码行数的工具
+    zinit ice as="null"  id-as='cloc' run-atpull atclone="npm install -g cloc" atpull="npm update cloc" wait="1" lucid
     zinit light zdharma-continuum/null
 fi
 #}}}
@@ -460,19 +473,18 @@ else
 fi
 # jf foo 使用 fzf 交互选择
 alias 'chezmoi add'='chezmoi add --create'
-alias dw='j -I'
+alias dh='j -I'
 alias tasks='asynctask -f'
 # jbf foo 使用 fzf 选择父目录
 alias de='j -b -I'
 # jh  使用 fzf 选择最近的 10 条路径
-alias dh='j -I -t .'
+alias dw='j -I -t .'
 # jc 跳转到当前路径下的子目录
 alias dc='j -c -I'
 alias gdh="git diff HEAD"
 alias vitmux="$EDITOR ${HOME}/.tmux.conf"
 alias gw="${HOME}/.local/go/bin/gf"
 alias cht="cht.sh"
-alias jc='j -c -I'
 alias fgrep='fgrep --color=auto'
 alias mux='tmuxinator'
 alias nmap='grc nmap'
@@ -530,7 +542,7 @@ function install-init(){
 # 不记录 ssh
 # 不记录 wget_echo
 # 不记录以空格开头的命令， 用于执行一些不希望被记住的命令
-export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql journalctl chmod chown su sudo asciinema czhttpd restic skm export dacuoxian dig http https"
+export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql journalctl chmod chown su sudo asciinema czhttpd restic skm export dacuoxian dig http mycli mysql cloc dc dh"
 # 删除不想被记录的历史命令
 zsh_history_delete(){
     array=("${(@s/ /)LIST}") # @ modifier
