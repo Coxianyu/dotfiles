@@ -1,4 +1,6 @@
 zmodload zsh/zprof
+unset PATH
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 # history {{{
 #
 # Sets history options.
@@ -65,6 +67,7 @@ zinit  light-mode lucid wait="0"  for\
     id-as='autosuggestions'     atload='_zsh_autosuggest_start' 'zsh-users/zsh-autosuggestions' \
     id-as='search-command'      "zdharma-continuum/history-search-multi-word" \
     id-as='docker-completion'   as="completion" mv="%ID% -> _docker" "https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker"\
+    id-as='proxychains-ng_completion' mv="%ID% ->_proxychains" as="completion" "https://raw.githubusercontent.com/rofl0r/proxychains-ng/master/completions/_proxychains" \
     id-as='adb-completion'      as="completion" mv="%ID% -> _adb" "https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/adb/_adb"\
     id-as='autopep8-completion' as="completion" mv="%ID% -> _autopep8" "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/autopep8/_autopep8"\
     id-as='httpie-completion'   as="completion" mv="%ID% -> _httpie" "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/httpie/_httpie"\
@@ -244,10 +247,10 @@ fi
 #
 #node.js 区块 {{{
 if [ -x "$(command -v npm)" ]; then
-    zinit ice as="null"  id-as='yarn' run-atpull atclone="npm install yarn" atpull="npm update yarn" wait="1" lucid
+    zinit ice as="null"  id-as='yarn' run-atpull atclone="npm install -g yarn" atpull="npm update yarn" wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='npm-neovim' run-atpull atclone="npm install neovim" atpull="npm update neovim" wait="1" lucid
+    zinit ice as="null"  id-as='npm-neovim' run-atpull atclone="npm install -g neovim" atpull="npm update neovim" wait="1" lucid
     zinit light zdharma-continuum/null
 
     zinit ice as="null"  id-as='commitizen' run-atpull atclone="npm install -g commitizen" atpull="npm update commitizen" wait="1" lucid
@@ -425,6 +428,7 @@ PATH=${PATH}:${HOME}/.local/bin
 PATH=${PATH}:${GOPATH}/bin
 PATH=${PATH}:${HOME}/script
 PATH=${PATH}:${HOME}/.config/nvim/plugged/asynctasks.vim/bin
+export PATH
 
 LINUX_FILETYPE=''
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
@@ -492,6 +496,7 @@ alias diff='diff --color=auto'
 alias ip='ip --color=auto'
 alias tsrc='tmux source ~/.tmux.conf'
 alias batcat='bat' 
+alias proxychains='proxychains4'
 alias gitc='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 alias config='dotbare'
 alias vimzsh="${EDITOR} ${HOME}/.zshrc"
