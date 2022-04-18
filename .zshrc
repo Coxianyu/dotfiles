@@ -1,6 +1,13 @@
 zmodload zsh/zprof
 unset PATH
 PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PYENV_ROOT="${HOME}/.zinit/plugins/pyenv"
+PATH=${PATH}:${HOME}/.local/bin
+PATH=${PATH}:${GOPATH}/bin
+PATH=${PATH}:${HOME}/script
+PATH=${PATH}:${HOME}/.config/nvim/plugged/asynctasks.vim/bin
+PATH=${PYENV_ROOT}/shims:${PATH}
+export PATH
 # history {{{
 #
 # Sets history options.
@@ -428,15 +435,7 @@ export PYTHON_CONFIGURE_OPTS="--disable-ipv6"
 
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 export GPG_TTY=$(tty)
-export LOCAL="${HOME}/.local"
 export LANG="zh_CN.UTF-8"
-export PYENV_ROOT="${HOME}/.zinit/plugins/pyenv"
-PATH=${PATH}:${HOME}/.local/bin
-PATH=${PATH}:${GOPATH}/bin
-PATH=${PATH}:${HOME}/script
-PATH=${PATH}:${HOME}/.config/nvim/plugged/asynctasks.vim/bin
-
-export PATH
 
 LINUX_FILETYPE=''
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
