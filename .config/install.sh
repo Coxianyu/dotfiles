@@ -77,6 +77,11 @@ packer-install(){
         echo 'Error: Unknown package manager'
         return 1
     fi
+    # 通过 pyenv 编译 python3 安装需要的库
+    # $PACKGER install make build-essential libssl-dev zlib1g-dev \
+        # libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm \
+        # libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+
     $PACKGER install curl git wget unzip gcc make -y
     # $PACKGER install lua5.4 -y
     $PACKGER install python3 -y

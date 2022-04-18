@@ -19,5 +19,5 @@ v2ray-log : /var/log/v2ray
 system-service : /etc/systemd/system
 my-service : ~/.config/service
 nvim : ~/.config/nvim
-cheatsheet : ~/.local/share/navi/cheats/cheatsheet
 secret : ~/.config/secret
+cheatsheet : ~/.local/share/navi/cheats/cheatsheet

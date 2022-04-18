@@ -189,6 +189,10 @@ zinit light ogham/exa
 zinit  ice wait="1" lucid from="gh-r" sbin="zoxide" id-as="zoxide"
 zinit light ajeetdsouza/zoxide
 
+# pyenv python 虚拟环境
+zinit  ice wait="1" as='null' lucid depth="1"  sbin="bin/pyenv" id-as="pyenv" atclone="cp completions/pyenv.zsh completions/_pyenv; zinit creinstall pyenv"
+zinit light pyenv/pyenv
+
 # 使用预编译的 lua 二进制文件
 # https://github.com/philanc/slua/raw/master/bin/slua
 # https://raw.githubusercontent.com/philanc/slua/master/bin/slua
@@ -420,14 +424,18 @@ else
     export DELTA_PAGER="less --RAW-CONTROL-CHARS --quit-if-one-screen --mouse"
 fi
 
+export PYTHON_CONFIGURE_OPTS="--disable-ipv6"
+
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 export GPG_TTY=$(tty)
 export LOCAL="${HOME}/.local"
 export LANG="zh_CN.UTF-8"
+export PYENV_ROOT="${HOME}/.zinit/plugins/pyenv"
 PATH=${PATH}:${HOME}/.local/bin
 PATH=${PATH}:${GOPATH}/bin
 PATH=${PATH}:${HOME}/script
 PATH=${PATH}:${HOME}/.config/nvim/plugged/asynctasks.vim/bin
+
 export PATH
 
 LINUX_FILETYPE=''
@@ -783,3 +791,8 @@ if test "$?" -eq 0;then
    alias ssh="ssh.exe"
 fi
 # }}}
+#pyenv 设置{{{
+if command -v pyenv 1>/dev/null 2>&1;then
+    eval "$(pyenv init -)"
+fi
+#}}}
