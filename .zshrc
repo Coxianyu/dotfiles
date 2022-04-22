@@ -67,12 +67,12 @@ zinit light romkatv/powerlevel10k
 
 
 
+# id-as='search-command'      "zdharma-continuum/history-search-multi-word" \
 zinit  light-mode lucid wait="0"  for\
     id-as='fzf-tab'             "Aloxaf/fzf-tab" \
     id-as='syntax'              "zdharma-continuum/fast-syntax-highlighting" \
     id-as='evalcache'           "mroth/evalcache" \
     id-as='autosuggestions'     atload='_zsh_autosuggest_start' 'zsh-users/zsh-autosuggestions' \
-    id-as='search-command'      "zdharma-continuum/history-search-multi-word" \
     id-as='docker-completion'   as="completion" mv="%ID% -> _docker" "https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker"\
     id-as='proxychains-ng_completion' mv="%ID% ->_proxychains" as="completion" "https://raw.githubusercontent.com/rofl0r/proxychains-ng/master/completions/_proxychains" \
     id-as='adb-completion'      as="completion" mv="%ID% -> _adb" "https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/adb/_adb"\
@@ -172,9 +172,36 @@ else
     touch "${HOME}/.config/.install.lock"
 fi
 
+# gogs 轻量的 类似于 github 的系统
+zinit ice wait="1" lucid  from="gh-r"  sbin="gogs/gogs"  id-as="gogs"
+zinit light gogs/gogs
+
 zinit ice wait="1" as="null" lucid atclone="./configure --prefix=${ZPFX} --sysconfdir=${HOME}/.config;make" atpull="%atclone" id-as="proxychains-ng" sbin="proxychains4"
 zinit light rofl0r/proxychains-ng
 
+# socat 用于转发流量
+# http://www.dest-unreach.org/socat/download/socat-1.7.4.3.tar.gz
+#
+# zinit ice wait="1"  as="readurl" lucid extract id-as="socat" sbin="socat" dlink="/socat/download/socat-%VERSION%.tar.gz"
+# zinit snippet http://www.dest-unreach.org/socat/download
+#
+#atuin 使用 sqlite3 来保存 shell 命令历史, 并且可以在多台机器间加密同步命令历史
+zinit ice wait="1" lucid mv="atuin* -> atuin" from="gh-r" atpull="%atclone" atclone="chown ${USERNAME}:${USERNAME} atuin/completions/*;zinit creinstall atuin"  sbin="atuin/atuin" id-as="atuin"
+zinit light ellie/atuin
+
+
+# zsh_autosuggest 使用 atuin 的提示
+_zsh_autosuggest_strategy_atuin_suggest() {
+    local tmp=$(atuin search "$1" --cmd-only | tail -n 1)
+    suggestion=$tmp
+}
+ZSH_AUTOSUGGEST_STRATEGY=atuin_suggest
+#
+# sqlite3 已经编译好的静态二进制文件
+# zinit ice wait="1" lucid from="gh-r" sbin="sqlite3" id-as="sqlite3" bpick="sqlite3"
+# zinit light CompuRoot/static-sqlite3
+
+# histdb 将 zsh history 存储在 sqlite3 数据库中
 zinit ice wait="1" lucid from="gh-r" mv="ri* -> rg" sbin="rg/rg" atclone="chown ${USERNAME}:${USERNAME} rg/complete/*;zinit creinstall rg" atpull="%atclone" id-as="rg"
 zinit light BurntSushi/ripgrep
 
@@ -193,8 +220,8 @@ zinit light ogham/exa
 
 
 # zoxide cd 的替代品
-zinit  ice wait="1" lucid from="gh-r" sbin="zoxide" id-as="zoxide"
-zinit light ajeetdsouza/zoxide
+# zinit  ice wait="1" lucid from="gh-r" sbin="zoxide" id-as="zoxide"
+# zinit light ajeetdsouza/zoxide
 
 # pyenv python 虚拟环境
 zinit  ice wait="1" as='null' lucid depth="1"  sbin="bin/pyenv" id-as="pyenv" atclone="cp completions/pyenv.zsh completions/_pyenv; zinit creinstall pyenv"
@@ -213,42 +240,50 @@ zinit light zdharma-continuum/null
 # python 区块{{{
 if [ -x "$(command -v pip3)" ]; then
     # httpe wget 和 curl 的替代品
-    zinit ice as="null"  id-as='httpie' run-atpull atclone="pip3 install --user httpie" atpull="pip3 install --user --upgrade httpie"  wait="1" lucid
+    zinit ice as="null"  id-as='httpie' run-atpull atclone="pip3 install  httpie" atpull="pip3 install  --upgrade httpie"  wait="1" lucid
     zinit light zdharma-continuum/null
     # zinit ice as="null"  id-as='httpie' lucid wait="1" pip="httpie"
     # zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='ranger' run-atpull atclone="pip3 install --user ranger-fm" atpull="pip3 install --user --upgrade ranger-fm"  wait="1" lucid
+    zinit ice as="null"  id-as='ranger' run-atpull atclone="pip3 install  ranger-fm" atpull="pip3 install  --upgrade ranger-fm"  wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='asciinema' run-atpull atclone="pip3 install --user asciinema" atpull="pip3 install --user --upgrade asciinema"  wait="1" lucid
+    zinit ice as="null"  id-as='asciinema' run-atpull atclone="pip3 install  asciinema" atpull="pip3 install  --upgrade asciinema"  wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='python-neovim' run-atpull atclone="pip3 install --user neovim" atpull="pip3 install --user --upgrade neovim" wait="1" lucid
+    zinit ice as="null"  id-as='python-neovim' run-atpull atclone="pip3 install  neovim" atpull="pip3 install  --upgrade neovim" wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='autopep8' run-atpull atclone="pip3 install --user autopep8" atpull="pip3 install --user --upgrade autopep8" wait="1" lucid
+    zinit ice as="null"  id-as='autopep8' run-atpull atclone="pip3 install  autopep8" atpull="pip3 install  --upgrade autopep8" wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='glances' run-atpull atclone="pip3 install --user glances" atpull="pip3 install --user --upgrade glances" wait="1" lucid
+    zinit ice as="null"  id-as='glances' run-atpull atclone="pip3 install  glances" atpull="pip3 install  --upgrade glances" wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='pyyaml' run-atpull atclone="pip3 install --user pyyaml" atpull="pip3 install --user --upgrade pyyaml" wait="1" lucid
+    zinit ice as="null"  id-as='pyyaml' run-atpull atclone="pip3 install  pyyaml" atpull="pip3 install  --upgrade pyyaml" wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='gita' run-atpull atclone="pip3 install --user gita" atpull="pip3 install --user --upgrade gita" wait="1" lucid
+    zinit ice as="null"  id-as='gita' run-atpull atclone="pip3 install  gita" atpull="pip3 install  --upgrade gita" wait="1" lucid
     zinit light zdharma-continuum/null
 
-    zinit ice as="null"  id-as='nginxfmt' run-atpull atclone="pip3 install --user nginxfmt" atpull="pip3 install --user --upgrade nginxfmt" wait="1" lucid
+    zinit ice as="null"  id-as='nginxfmt' run-atpull atclone="pip3 install  nginxfmt" atpull="pip3 install  --upgrade nginxfmt" wait="1" lucid
     zinit light zdharma-continuum/null
 
     # mycli mysql 带语法提示的客户端
-    zinit ice as="null"  id-as='mycli' run-atpull atclone="pip3 install --user mycli" atpull="pip3 install --user --upgrade mycli" wait="1" lucid
+    zinit ice as="null"  id-as='mycli' run-atpull atclone="pip3 install  mycli" atpull="pip3 install  --upgrade mycli" wait="1" lucid
+    zinit light zdharma-continuum/null
+
+    # 类似于 tmuxinator 
+    zinit ice as="null"  id-as='tmuxp' run-atpull atclone="pip3 install  tmuxp" atpull="pip3 install  --upgrade tmuxp" wait="1" lucid
+    zinit light zdharma-continuum/null
+
+    # python 实现的类似 systemd 的服务管理软件
+    zinit ice as="null"  id-as='supervisor' run-atpull atclone="pip3 install  supervisor" atpull="pip3 install  --upgrade supervisor" wait="1" lucid
     zinit light zdharma-continuum/null
 
     # http-prompt 交互式的 http 客户端
-    zinit ice as="null"  id-as='http-prompt' run-atpull atclone="pip3 install --user http-prompt" atpull="pip3 install --user --upgrade http-prompt" wait="1" lucid
-    zinit light zdharma-continuum/null
+    # zinit ice as="null"  id-as='http-prompt' run-atpull atclone="pip3 install  http-prompt" atpull="pip3 install  --upgrade http-prompt" wait="1" lucid
+    # zinit light zdharma-continuum/null
 
 fi
 # }}}
@@ -356,8 +391,8 @@ zinit light restic/restic
 zinit ice wait="1" lucid as="null" id-as="ffuf" from="gh-r" sbin="ffuf" bpick="*linux*"
 zinit light ffuf/ffuf
 # last.zsh 用于执行在最后加载的函数， 用于覆盖一些插件的函数
-# zinit ice lucid wait="1" id-as="last.zsh"
-# zinit snippet $(echo "${HOME}/.config/custom/last.zsh")
+zinit ice lucid wait="1" id-as="last.zsh"
+zinit snippet $(echo "${HOME}/.config/custom/last.zsh")
 #https://github.com/tomnomnom/gf 
 # End of Zinit's installer chunk
 # }}}
@@ -440,7 +475,7 @@ export LANG="zh_CN.UTF-8"
 LINUX_FILETYPE=''
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8,bold,underline'
-ZSH_AUTOSUGGEST_STRATEGY=(history)
+# ZSH_AUTOSUGGEST_STRATEGY=(history)
 ZSH_AUTOSUGGEST_HISTORY_IGNORE="clear*|echo *"
 
 #}}}
@@ -507,6 +542,7 @@ alias proxychains='proxychains4'
 alias gitc='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 alias config='dotbare'
 alias vimzsh="${EDITOR} ${HOME}/.zshrc"
+alias vimtmux="${EDITOR} ${HOME}/.tmux.conf"
 alias vimconfig="${EDITOR} ${HOME}/.config/nvim/init.vim"
 alias vimproxy="${EDITOR} ${HOME}/.config/proxychains4.conf"
 alias vimark="${EDITOR} ${HOME}/.fzf-marks"
@@ -553,7 +589,7 @@ function install-init(){
 # 不记录 ssh
 # 不记录 wget_echo
 # 不记录以空格开头的命令， 用于执行一些不希望被记住的命令
-export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql journalctl chmod chown su sudo asciinema czhttpd restic skm export dacuoxian dig http mycli mysql cloc kill nvim dd dw dh de dc"
+export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql journalctl chmod chown su sudo asciinema czhttpd restic skm export dacuoxian dig http mycli mysql cloc kill nvim dd dw dh de dc pyenv tmuxp tmuxinator tmux socat atuin supervisorctl"
 # 删除不想被记录的历史命令
 zsh_history_delete(){
     array=("${(@s/ /)LIST}") # @ modifier
@@ -564,6 +600,7 @@ zsh_history_delete(){
     done
 }
 zshaddhistory() {
+    return 1
     emulate -L zsh
     tmp=$(echo $1 | tr -d '\n' | cut -d ' ' -f 1)
     echo $LIST | egrep -w -q "$tmp"
@@ -790,8 +827,3 @@ if test "$?" -eq 0;then
    alias ssh="ssh.exe"
 fi
 # }}}
-#pyenv 设置{{{
-if command -v pyenv 1>/dev/null 2>&1;then
-    eval "$(pyenv init -)"
-fi
-#}}}

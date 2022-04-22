@@ -84,15 +84,15 @@ packer-install(){
 
     $PACKGER install curl git wget unzip gcc make -y
     # $PACKGER install lua5.4 -y
-    $PACKGER install python3 -y
-    $PACKGER install python3-pip -y
+    # $PACKGER install python3 -y
+    # $PACKGER install python3-pip -y
     $PACKGER install grc -y
     $PACKGER install global -y
     $PACKGER install uuid -y
     $PACKGER install universal-ctags -y
     # $PACKGER install scd -y
-    $PACKGER install ruby -y
-    $PACKGER install golang -y
+    # $PACKGER install ruby -y
+    # $PACKGER install golang -y
     $PACKGER install tmux -y
     # 连接系统和 tmux 剪切版 -y
     $PACKGER install xclip -y

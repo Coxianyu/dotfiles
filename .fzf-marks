@@ -11,7 +11,6 @@ ranger : ~/.config/ranger
 wsl-window-d : /mnt/d
 wsl-window-c : /mnt/c
 nginx-default-root: /usr/share/nginx/html
-tmuxinator : ~/.config/tmuxinator
 v2ray : /usr/local/etc/v2ray
 nginx : /etc/nginx
 nginx-log : /var/log/nginx
@@ -20,4 +19,6 @@ system-service : /etc/systemd/system
 my-service : ~/.config/service
 nvim : ~/.config/nvim
 secret : ~/.config/secret
+tmuxinator : ~/.config/tmuxinator
 cheatsheet : ~/.local/share/navi/cheats/cheatsheet
+atuin : ~/.config/atuin

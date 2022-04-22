@@ -1,5 +1,8 @@
 # vim: set fenc=utf-8 ft=dosini:
 
+[python-http-server]
+command=python3 -m http.server 10086
+cwd=/tmp
 # define a new task named "file-build"
 [one-file-build]
 
