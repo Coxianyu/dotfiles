@@ -649,6 +649,12 @@ function vimcheat(){
         $EDITOR $file
     fi
 }
+function vimdockercompose(){
+    file=$(fd  . ${HOME}/.config/docker_compose/ --type f | fzf)
+    if test -n "$file";then
+        $EDITOR $file
+    fi
+}
 function symbol-link(){
     ln -s ${HOME}/.config/secret/daemon.json /etc/docker/daemon.json
 }
@@ -714,6 +720,15 @@ function clash_stop(){
     pid=$(ps | grep clash | sed 's/^[[:space:]]*//' | cut -d ' ' -f 1)
     kill -9 $pid
     rm -f /tmp/clash*
+}
+function docker_link(){
+    file=$(fd . ${HOME/}/.config/docker_compose/ -d 1 --type=f  --color=always  | fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}' )
+    if test -n "$file";then
+        rm -f ${HOME}/docker-compose.yaml
+        ln -s $file ${HOME}/docker-compose.yaml
+    fi
+
+    
 }
 function ef(){
     file=$(fd -d 1 --type=f  --color=always  | fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}' )

@@ -22,3 +22,4 @@ tmuxinator : ~/.config/tmuxinator
 atuin : ~/.config/atuin
 secret : ~/.config/secret
 cheatsheet : ~/.local/share/navi/cheats/cheatsheet
+my_docker_compose : ~/.config/docker_compose
