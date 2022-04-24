@@ -517,11 +517,12 @@ else
 fi
 # jf foo 使用 fzf 交互选择
 alias 'chezmoi add'='chezmoi add --create'
+# dh fzf 选择去过的路径
 alias dh='j -I'
 alias tasks='asynctask -f'
-# jbf foo 使用 fzf 选择父目录
+# de foo 使用 fzf 选择父目录
 alias de='j -b -I'
-# jh  使用 fzf 选择最近的 10 条路径
+# dw   使用 fzf 选择最近的 10 条路径
 alias dw='j -I -t .'
 # jc 跳转到当前路径下的子目录
 alias dc='j -c -I'
@@ -531,7 +532,7 @@ alias gw="${HOME}/.local/go/bin/gf"
 alias cht="cht.sh"
 alias fgrep='fgrep --color=auto'
 alias mux='tmuxinator'
-alias nmap='grc nmap'
+alias nmap='nmap'
 alias sqlmap='sqlmap --random-agent'
 alias egrep='egrep --color=auto'
 alias diff='diff --color=auto'
@@ -600,6 +601,7 @@ zsh_history_delete(){
     done
 }
 zshaddhistory() {
+    # 此处废弃, 不使用 zsh_history 文件记录历史命令, 而采用 atuin 存储历史命令
     return 1
     emulate -L zsh
     tmp=$(echo $1 | tr -d '\n' | cut -d ' ' -f 1)
@@ -647,8 +649,8 @@ function vimcheat(){
         $EDITOR $file
     fi
 }
-function de(){
-    pwd | tr '/' '\n'
+function symbol-link(){
+    ln -s ${HOME}/.config/secret/daemon.json /etc/docker/daemon.json
 }
 function cde(){
     dir=$1
@@ -726,14 +728,6 @@ function systemctl_link(){
         ln -s $i /etc/systemd/system/$(basename $i)
     done
 }
-function efa(){
-    dir=$1
-    file=$(fd --type=f  "$dir" --color=always -H -E ".git"  -E ".vim"| fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}')
-    if test -n "$file";then
-        $EDITOR $file
-    fi
-}
-
 function efa(){
     if [ $1 ];then
         dir=$1

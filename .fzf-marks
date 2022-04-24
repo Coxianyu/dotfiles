@@ -18,7 +18,7 @@ v2ray-log : /var/log/v2ray
 system-service : /etc/systemd/system
 my-service : ~/.config/service
 nvim : ~/.config/nvim
-secret : ~/.config/secret
 tmuxinator : ~/.config/tmuxinator
-cheatsheet : ~/.local/share/navi/cheats/cheatsheet
 atuin : ~/.config/atuin
+secret : ~/.config/secret
+cheatsheet : ~/.local/share/navi/cheats/cheatsheet

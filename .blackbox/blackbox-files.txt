@@ -2,3 +2,4 @@
 .config/secret/.gitconfig
 .config/secret/clash-download.sh
 .config/secret/config
+.config/secret/daemon.json
