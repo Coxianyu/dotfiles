@@ -60,7 +60,7 @@ Plug 'tpope/vim-unimpaired'
 " 文本对象
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 " 突出显示函数参数的插件
-Plug 'm-demare/hlargs.nvim'
+" Plug 'm-demare/hlargs.nvim'
 " Plug 'kana/vim-textobj-user'
 " Plug 'kana/vim-textobj-indent'
 " Plug 'kana/vim-textobj-syntax'
@@ -948,7 +948,7 @@ EOF
 " a balanced distribution of terminal / sequence keys
 lua require'hop'.setup { keys = 'etovxqpdygfblzhckisuran', jump_on_sole_occurrence = false }
 lua require("aerial").setup({ backends = { "treesitter", "lsp", "markdown"},manage_folds = true,link_folds_to_tree = true})
-lua require('hlargs').enable()
+" lua require('hlargs').enable()
 lua require('range-highlight').setup{}
 lua << EOF
 require('Comment').setup({mappings = {

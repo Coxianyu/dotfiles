@@ -9,4 +9,4 @@ services:
         ports:
           - "127.0.0.1:27701:27701"
         volumes:
-          - ./docker_data/anki_sync:/app/data
+          - ./.docker_data/anki_sync:/app/data

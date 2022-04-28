@@ -17,9 +17,9 @@ nginx-log : /var/log/nginx
 v2ray-log : /var/log/v2ray
 system-service : /etc/systemd/system
 my-service : ~/.config/service
-nvim : ~/.config/nvim
 tmuxinator : ~/.config/tmuxinator
-atuin : ~/.config/atuin
 secret : ~/.config/secret
-cheatsheet : ~/.local/share/navi/cheats/cheatsheet
 my_docker_compose : ~/.config/docker_compose
+atuin : ~/.config/atuin
+cheatsheet : ~/.local/share/navi/cheats/cheatsheet
+nvim : ~/.config/nvim

@@ -7,6 +7,6 @@ services:
         container_name: nextcloud-container
         restart: always
         ports:
-          - "127.0.0.1:8080:8080"
+          - "127.0.0.1:8080:80"
         volumes:
-          - ./docker_data/nextcloud:/var/www/html
+          - ./.docker_data/nextcloud:/var/www/html

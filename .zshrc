@@ -125,7 +125,7 @@ zinit ice wait="1" lucid id-as="autopair"
 zinit light hlissner/zsh-autopair
 
 # docker-compose
-zinit ice from"gh-r" as"null" mv"docker* -> docker-compose" id-as="docker-compose" wait="1" lucid sbin="docker-compose"
+zinit ice from"gh-r" as"null" mv"docker* -> docker-compose" id-as="docker-compose" wait="1" lucid sbin="docker-compose" bpick="*linux-86_64*"
 zinit light docker/compose
 
 # clash-premium
@@ -217,7 +217,9 @@ zinit light @sharkdp/bat
 zinit ice wait="1" lucid from="gh-r"  sbin="bin/exa"  cp="completions/exa.zsh -> completions/_exa"  atclone="chown ${USERNAME}:${USERNAME} completions/*;zinit creinstall exa" atpull="%atclone" id-as="exa"
 zinit light ogham/exa
 
-
+# git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git
+zinit ice wait="1" lucid depth="1"  cp="sqlmap.py => sqlmap" sbin="sqlmap" id-as="sqlmap"
+zinit light sqlmapproject/sqlmap
 
 # zoxide cd 的替代品
 # zinit  ice wait="1" lucid from="gh-r" sbin="zoxide" id-as="zoxide"
@@ -277,6 +279,10 @@ if [ -x "$(command -v pip3)" ]; then
     zinit ice as="null"  id-as='tmuxp' run-atpull atclone="pip3 install  tmuxp" atpull="pip3 install  --upgrade tmuxp" wait="1" lucid
     zinit light zdharma-continuum/null
 
+    # litecli 类似 mycli 的第 sqlite  客户端
+    zinit ice as="null"  id-as='litecli' run-atpull atclone="pip3 install  litecli" atpull="pip3 install  --upgrade litecli" wait="1" lucid
+    zinit light zdharma-continuum/null
+
     # python 实现的类似 systemd 的服务管理软件
     zinit ice as="null"  id-as='supervisor' run-atpull atclone="pip3 install  supervisor" atpull="pip3 install  --upgrade supervisor" wait="1" lucid
     zinit light zdharma-continuum/null
@@ -313,7 +319,6 @@ if [ -x "$(command -v npm)" ]; then
     zinit light zdharma-continuum/null
 fi
 #}}}
-# tpm tmux 插件管理器
 zinit ice as="null"  id-as='tpm' run-atpull atclone="git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm" atpull="cd ${HOME}/.tmux/plugins/tpm; git pull" wait="1" lucid
 zinit light zdharma-continuum/null
 
@@ -590,7 +595,7 @@ function install-init(){
 # 不记录 ssh
 # 不记录 wget_echo
 # 不记录以空格开头的命令， 用于执行一些不希望被记住的命令
-export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql journalctl chmod chown su sudo asciinema czhttpd restic skm export dacuoxian dig http mycli mysql cloc kill nvim dd dw dh de dc pyenv tmuxp tmuxinator tmux socat atuin supervisorctl"
+export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql journalctl chmod chown su sudo asciinema czhttpd restic skm export dacuoxian dig http mycli mysql cloc kill nvim dd dw dh de dc pyenv tmuxp tmuxinator tmux socat atuin supervisorctl sqlmap sqlite3 sqlite"
 # 删除不想被记录的历史命令
 zsh_history_delete(){
     array=("${(@s/ /)LIST}") # @ modifier
@@ -729,6 +734,16 @@ function docker_link(){
     fi
 
     
+}
+# 处理 sshd 包括设置公钥登录, 取消密码登录
+function my-ssh-config(){
+    sed '/PasswordAuthentication/d' /etc/ssh/sshd_config
+    sed '/PubkeyAuthentication/d'  /etc/ssh/sshd_config
+    echo '###################custom##############' >> /etc/ssh/sshd_config
+    echo 'PasswordAuthentication no '>> /etc/ssh/sshd_config
+    echo 'PubkeyAuthentication yes' >> /etc/ssh/sshd_config
+    echo 'StreamLocalBindUnlink yes '>> /etc/ssh/sshd_config
+    echo  '#######################################' >> /etc/ssh/sshd_config
 }
 function ef(){
     file=$(fd -d 1 --type=f  --color=always  | fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}' )

@@ -1,0 +1,6 @@
+session_name: common
+start_directory: /root
+windows:
+  panes:
+  - tmux select-pane -t 1.1 -T "common"
+  window_name: main
