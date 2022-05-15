@@ -125,7 +125,7 @@ zinit ice wait="1" lucid id-as="autopair"
 zinit light hlissner/zsh-autopair
 
 # docker-compose
-zinit ice from"gh-r" as"null" mv"docker* -> docker-compose" id-as="docker-compose" wait="1" lucid sbin="docker-compose" bpick="*linux-86_64*"
+zinit ice from"gh-r" as"null" mv"docker* -> docker-compose" id-as="docker-compose" wait="1" lucid sbin="docker-compose" bpick="docker-compose-linux-x86_64"
 zinit light docker/compose
 
 # clash-premium
@@ -208,6 +208,10 @@ zinit light BurntSushi/ripgrep
 zinit ice wait="1" lucid from="gh-r" mv="fd* -> fd" sbin="fd/fd" atclone="chown ${USERNAME}:${USERNAME} fd/autocomplete/*;zinit creinstall fd" atpull="%atclone" id-as="fd"
 zinit light @sharkdp/fd
 
+#  dig 的替代品, 用于查询 DNS
+zinit ice wait="1" lucid from="gh-r" sbin="bin/dog" atclone="chown ${USERNAME}:${USERNAME} dog/completions/*;cp completions/dog.zsh _dog;zinit creinstall dog" atpull="%atclone" id-as="dog"
+zinit light ogham/dog
+
 zinit ice lucid depth="1" wait="1" id-as="dirhistory"
 zinit snippet OMZ::plugins/dirhistory
 
@@ -220,6 +224,10 @@ zinit light ogham/exa
 # git clone --depth 1 https://github.com/sqlmapproject/sqlmap.git
 zinit ice wait="1" lucid depth="1"  cp="sqlmap.py => sqlmap" sbin="sqlmap" id-as="sqlmap"
 zinit light sqlmapproject/sqlmap
+
+# Openvpn 项目的 easy-rsa 工具, 用于创建一个 PKI,包括根证书和中间CA以及可以签署服务器证书
+zinit ice wait="1" from="gh-r" lucid depth="1"  sbin="easyrsa/easyrsa" id-as="easyrsa" bpick="*.tgz" mv="EasyRSA* => easyrsa"
+zinit light OpenVPN/easy-rsa
 
 # zoxide cd 的替代品
 # zinit  ice wait="1" lucid from="gh-r" sbin="zoxide" id-as="zoxide"
@@ -595,7 +603,7 @@ function install-init(){
 # 不记录 ssh
 # 不记录 wget_echo
 # 不记录以空格开头的命令， 用于执行一些不希望被记住的命令
-export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql journalctl chmod chown su sudo asciinema czhttpd restic skm export dacuoxian dig http mycli mysql cloc kill nvim dd dw dh de dc pyenv tmuxp tmuxinator tmux socat atuin supervisorctl sqlmap sqlite3 sqlite"
+export LIST="clang-format make g++ gcc clang apt-file awk sed echo apt rg grep find fd msfvenom curl wget rm cp find mv pass x whence wget_echo ssh ydict docker file gpg blackbox cat bat msfvenom alias mysql journalctl chmod chown su sudo asciinema czhttpd restic skm export dacuoxian dig http mycli mysql cloc kill nvim dd dw dh de dc pyenv tmuxp tmuxinator tmux socat atuin supervisorctl sqlmap sqlite3 sqlite openssl dog"
 # 删除不想被记录的历史命令
 zsh_history_delete(){
     array=("${(@s/ /)LIST}") # @ modifier
@@ -703,10 +711,10 @@ function hcd(){
 
 }
 function udf_pick(){
-    UDF_PATH=$(fd . --full-path "/usr/share/sqlmap/data/udf" -t f | fzf)
+    UDF_PATH=$(fd . --full-path "${HOME}/.zinit/plugins/sqlmap/data/udf" -t f | fzf)
     FILE_NAME=$(basename $UDF_PATH )
     # echo ${FILE_NAME%?}
-    python3 $(locate cloak.py) -d -i $UDF_PATH  -o ${FILE_NAME%?}
+    python3 ${HOME}/.zinit/plugins/sqlmap/extra/cloak/cloak.py -d -i $UDF_PATH  -o ${FILE_NAME%?}
 }
 function man(){
 	MAN="/usr/bin/man"
@@ -730,7 +738,7 @@ function docker_link(){
     file=$(fd . ${HOME/}/.config/docker_compose/ -d 1 --type=f  --color=always  | fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}' )
     if test -n "$file";then
         rm -f ${HOME}/docker-compose.yaml
-        ln -s $file ${HOME}/docker-compose.yaml
+        ln -s $file  ./
     fi
 
     
@@ -739,11 +747,19 @@ function docker_link(){
 function my-ssh-config(){
     sed '/PasswordAuthentication/d' /etc/ssh/sshd_config
     sed '/PubkeyAuthentication/d'  /etc/ssh/sshd_config
+    curl https://github.com/coxianyu.keys >> ${HOME}/.ssh/authorized_keys
     echo '###################custom##############' >> /etc/ssh/sshd_config
     echo 'PasswordAuthentication no '>> /etc/ssh/sshd_config
     echo 'PubkeyAuthentication yes' >> /etc/ssh/sshd_config
     echo 'StreamLocalBindUnlink yes '>> /etc/ssh/sshd_config
     echo  '#######################################' >> /etc/ssh/sshd_config
+    chmod 600 -R ${HOME}/.ssh
+}
+function cpv(){
+    file=$(fd . "${HOME}/.config/vimspector" -d 1 --type=f  --color=always  | fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}')
+    if test -n "$file";then
+        cp $file ./.vimspector.json
+    fi
 }
 function ef(){
     file=$(fd -d 1 --type=f  --color=always  | fzf --ansi --preview-window 'right:60%' --preview 'bat --color=always --style=header,grid --line-range :300 {}' )
