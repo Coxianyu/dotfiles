@@ -67,13 +67,13 @@ zinit light romkatv/powerlevel10k
 
 
 
-# id-as='search-command'      "zdharma-continuum/history-search-multi-word" \
 zinit  light-mode lucid wait="0"  for\
     id-as='fzf-tab'             "Aloxaf/fzf-tab" \
     id-as='syntax'              "zdharma-continuum/fast-syntax-highlighting" \
     id-as='evalcache'           "mroth/evalcache" \
     id-as='autosuggestions'     atload='_zsh_autosuggest_start' 'zsh-users/zsh-autosuggestions' \
     id-as='docker-completion'   as="completion" mv="%ID% -> _docker" "https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker"\
+    id-as='search-command'      "zdharma-continuum/history-search-multi-word" \
     id-as='proxychains-ng_completion' mv="%ID% ->_proxychains" as="completion" "https://raw.githubusercontent.com/rofl0r/proxychains-ng/master/completions/_proxychains" \
     id-as='adb-completion'      as="completion" mv="%ID% -> _adb" "https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/adb/_adb"\
     id-as='autopep8-completion' as="completion" mv="%ID% -> _autopep8" "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/autopep8/_autopep8"\
@@ -186,16 +186,15 @@ zinit light rofl0r/proxychains-ng
 # zinit snippet http://www.dest-unreach.org/socat/download
 #
 #atuin 使用 sqlite3 来保存 shell 命令历史, 并且可以在多台机器间加密同步命令历史
-zinit ice wait="1" lucid mv="atuin* -> atuin" from="gh-r" atpull="%atclone" atclone="chown ${USERNAME}:${USERNAME} atuin/completions/*;zinit creinstall atuin"  sbin="atuin/atuin" id-as="atuin"
-zinit light ellie/atuin
-
+# zinit ice wait="1" lucid mv="atuin* -> atuin" from="gh-r" atpull="%atclone" atclone="chown ${USERNAME}:${USERNAME} atuin/completions/*;zinit creinstall atuin"  sbin="atuin/atuin" id-as="atuin"
+# zinit light ellie/atuin
 
 # zsh_autosuggest 使用 atuin 的提示
-_zsh_autosuggest_strategy_atuin_suggest() {
-    local tmp=$(atuin search "$1" --cmd-only | tail -n 1)
-    suggestion=$tmp
-}
-ZSH_AUTOSUGGEST_STRATEGY=atuin_suggest
+# _zsh_autosuggest_strategy_atuin_suggest() {
+#     local tmp=$(atuin search "$1" --cmd-only | tail -n 1)
+#     suggestion=$tmp
+# }
+# ZSH_AUTOSUGGEST_STRATEGY=atuin_suggest
 #
 # sqlite3 已经编译好的静态二进制文件
 # zinit ice wait="1" lucid from="gh-r" sbin="sqlite3" id-as="sqlite3" bpick="sqlite3"
@@ -614,8 +613,6 @@ zsh_history_delete(){
     done
 }
 zshaddhistory() {
-    # 此处废弃, 不使用 zsh_history 文件记录历史命令, 而采用 atuin 存储历史命令
-    return 1
     emulate -L zsh
     tmp=$(echo $1 | tr -d '\n' | cut -d ' ' -f 1)
     echo $LIST | egrep -w -q "$tmp"

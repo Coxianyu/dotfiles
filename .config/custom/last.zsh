@@ -1,5 +1,5 @@
-bindkey  '^[OA' up-line-or-history
-bindkey  '^[[A' up-line-or-history
+# bindkey  '^[OA' up-line-or-history
+# bindkey  '^[[A' up-line-or-history
 # 修改 atuin 钩子函数, 不将错误的历史命令加入到 sqlite 数据库
 _atuin_preexec(){
     whence ${${(z)1}[1]} >| /dev/null || return 1 
