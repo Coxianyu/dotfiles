@@ -1,16 +1,37 @@
-
 version: "3"
 
 volumes:
   nextcloud_data:
     external: true
+  nextcloud_mysql_data:
+    external: true
+
+networks:
+  nextcloud:
 
 services:
     nextcloud_continer:
         image: nextcloud:latest
         container_name: nextcloud-container
+        depends_on:
+          - nextcloud_mysql_db
         restart: always
         ports:
           - "10.8.0.1:8080:80"
         volumes:
           - nextcloud_data:/var/www/html
+        networks:
+          - nextcloud
+    nextcloud_mysql_db:
+        image: mysql:latest
+        container_name: nextcloud_mysql_db
+        environment:
+          - MYSQL_ROOT_PASSWORD=root
+          - MYSQL_DATABASE=main
+        restart: always
+        ports:
+          - "3306"
+        volumes:
+          - nextcloud_mysql_data:/var/lib/mysql
+        networks:
+          - nextcloud
