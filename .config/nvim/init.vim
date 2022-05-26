@@ -75,9 +75,9 @@ Plug 'mhinz/vim-signify'
 " gutentags 的增强
 Plug 'skywind3000/gutentags_plus' 
 Plug 'ConradIrwin/vim-bracketed-paste' 
-if filereadable('/bin/gtags') || filereadable('/usr/local/bin/gtags') || filereadable(expand("$HOME/.local/bin/gtags"))
-    Plug 'ludovicchabant/vim-gutentags'
-endif
+" if filereadable('/bin/gtags') || filereadable('/usr/local/bin/gtags') || filereadable(expand("$HOME/.local/bin/gtags"))
+"     Plug 'ludovicchabant/vim-gutentags'
+" endif
 Plug 'yianwillis/vimcdoc'
 Plug 'w0rp/ale'
 " Plug 'vimwiki/vimwiki'

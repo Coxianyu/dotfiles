@@ -7,6 +7,6 @@ services:
         container_name: anki-container
         restart: always
         ports:
-          - "127.0.0.1:27701:27701"
+          - "10.8.0.1:27701:27701"
         volumes:
-          - ./.docker_data/anki_sync:/app/data
+          - anki_data:/app/data

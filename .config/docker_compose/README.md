@@ -1,0 +1,11 @@
+- 此为这里的 docker-compose 的文件的使用说明
+    - anki-compose.yaml  为 anki 软件的同步服务器
+        - 设置这个容器需要一个 docker 的命名卷 anki_data, 需要通过 `docker volume create anki-data` 进行创建
+        - `docker-compose ud -d` 启动 anki 同步服务器, 端口为 27701
+    - arl_compose.yaml  为 github 项目 [arl](https://github.com/TophantTechnology/ARL) 的 修改后的 docker-compose 配置文件
+        - 这个需要一个命名卷 arl_db
+    - nextcloud-compose.yaml nextcloud 的容器, 用户充当网盘和 zotero 同步书籍
+        - 需要一个数据卷 nextcloud_data
+        - 监听端口为 8080
+- 以上容器均设置监听 10.8.0.1 请自行修改监听 ip, 或者设置 vpn
+

@@ -20,7 +20,7 @@ tmuxinator : ~/.config/tmuxinator
 secret : ~/.config/secret
 atuin : ~/.config/atuin
 my_docker_compose : ~/.config/docker_compose
-cheatsheet : ~/.local/share/navi/cheats/cheatsheet
 openvpn-config : ~/.config/openvpn
 nvim : ~/.config/nvim
 vimspector : ~/.config/vimspector
+cheatsheet : ~/.local/share/navi/cheats/cheatsheet
