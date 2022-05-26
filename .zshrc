@@ -132,11 +132,15 @@ zinit light docker/compose
 zinit ice id-as='clash' as='null'  from="gh-r" ver="premium" mv="clash-* -> clash" atclone="cp -f clash* /usr/bin/clash" atpull="%atclone" sbin="clash"  bpick="*linux-amd64*" wait="1" lucid
 zinit light Dreamacro/clash
 
-zinit  as="null" wait="1" lucid from="gh-r" bpick="*linux*" for \
-    id-as="delta"           mv="delta* -> delta"     sbin="delta/delta"               dandavison/delta\
+zinit ice id-as="delta" mv="delta* -> delta" sbin="delta/delta" bpick="*x86_64*musl*" from="gh-r"
+zinit light dandavison/delta
+
+zinit ice id-as="fzf" from="gh-r" sbin bpick="*linux_amd64*"
+zinit light junegunn/fzf 
+
+zinit  as="null" wait="1" lucid from="gh-r" bpick="*x86_64*" for \
     id-as="lazygit"                                  sbin                             jesseduffield/lazygit\
     id-as="navi"                                     sbin                             denisidoro/navi\
-    id-as="fzf"                                      sbin                             junegunn/fzf 
 
 zinit ice id-as="cht" as="bin" mv="%ID% -> cht.sh" sbin="cht.sh" wait="1" lucid
 zinit snippet https://cht.sh/:cht.sh
@@ -204,7 +208,7 @@ zinit light rofl0r/proxychains-ng
 zinit ice wait="1" lucid from="gh-r" mv="ri* -> rg" sbin="rg/rg" atclone="chown ${USERNAME}:${USERNAME} rg/complete/*;zinit creinstall rg" atpull="%atclone" id-as="rg"
 zinit light BurntSushi/ripgrep
 
-zinit ice wait="1" lucid from="gh-r" mv="fd* -> fd" sbin="fd/fd" atclone="chown ${USERNAME}:${USERNAME} fd/autocomplete/*;zinit creinstall fd" atpull="%atclone" id-as="fd"
+zinit ice wait="1" lucid from="gh-r" mv="fd* -> fd" sbin="fd/fd" atclone="chown ${USERNAME}:${USERNAME} fd/autocomplete/*;zinit creinstall fd" atpull="%atclone" id-as="fd" bpick="*x86_64*"
 zinit light @sharkdp/fd
 
 #  dig 的替代品, 用于查询 DNS
@@ -214,7 +218,7 @@ zinit light ogham/dog
 zinit ice lucid depth="1" wait="1" id-as="dirhistory"
 zinit snippet OMZ::plugins/dirhistory
 
-zinit ice wait="1" lucid from="gh-r" mv="bat* -> bat" sbin="bat/bat"   atclone="cp bat/autocomplete/bat.zsh bat/autocomplete/_bat;chown ${USERNAME}:${USERNAME} bat/autocomplete/*;zinit creinstall bat" atpull="%atclone" id-as="bat"
+zinit ice wait="1" lucid from="gh-r" mv="bat* -> bat" sbin="bat/bat"   atclone="cp bat/autocomplete/bat.zsh bat/autocomplete/_bat;chown ${USERNAME}:${USERNAME} bat/autocomplete/*;zinit creinstall bat" atpull="%atclone" id-as="bat" bpick="*x86_64*linux*musl*"
 zinit light @sharkdp/bat
 
 zinit ice wait="1" lucid from="gh-r"  sbin="bin/exa"  cp="completions/exa.zsh -> completions/_exa"  atclone="chown ${USERNAME}:${USERNAME} completions/*;zinit creinstall exa" atpull="%atclone" id-as="exa"

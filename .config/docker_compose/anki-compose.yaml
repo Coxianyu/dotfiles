@@ -1,6 +1,9 @@
 
 version: "3"
 
+volumes:
+    anki_data:
+      external: true
 services:
     anki-container:
         image: kuklinistvan/anki-sync-server:latest

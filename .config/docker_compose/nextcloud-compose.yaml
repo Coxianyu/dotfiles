@@ -1,6 +1,10 @@
 
 version: "3"
 
+volumes:
+  nextcloud_data:
+    external: true
+
 services:
     nextcloud_continer:
         image: nextcloud:latest
