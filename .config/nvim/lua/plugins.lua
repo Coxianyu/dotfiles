@@ -79,7 +79,7 @@ return require('packer').startup(function()
                   -- width of the window, can be either a number (columns) or a string in `%`, for left or right side placement
                   width = 30,
                   -- height of the window, can be either a number (columns) or a string in `%`, for top or bottom side placement
-                  height = 30,
+                  -- height = 30,
                   -- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
                   side = 'left',
                   -- if true the tree will resize itself after opening a file
@@ -177,7 +177,8 @@ return require('packer').startup(function()
                   -- NOTE: this plugin is designed with this icon in mind,
                   -- and so changing this is NOT recommended, this is intended
                   -- as an escape hatch for people who cannot bear it for whatever reason
-                  indicator_icon = '▎',
+                  -- indicator_icon = '▎',
+                  -- indicator.icon= '▎',
                   buffer_close_icon = '',
                   modified_icon = '●',
                   close_icon = '',

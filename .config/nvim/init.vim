@@ -670,8 +670,8 @@ let g:nvim_tree_width = 25 "30 by default, can be width_in_columns or 'width_in_
 " 不显示的目录
 " let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ] "empty by default
 " let g:filters.custom = ['.git', 'node_modules', '.cache' ]
-let g:nvim_tree_git_hl = 0
-let g:nvim_tree_highlight_opened_files = 1
+" let g:nvim_tree_git_hl = 0
+" let g:nvim_tree_highlight_opened_files = 1
 highlight NvimTreeFolderIcon guibg=blue
 " }}}
 " lable {{{
