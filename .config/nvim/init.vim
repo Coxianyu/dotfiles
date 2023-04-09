@@ -533,7 +533,7 @@ endif
 " Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
 " - https://github.com/Valloric/YouCompleteMe
 " - https://github.com/nvim-lua/completion-nvim
-let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsExpandTrigger="<c-q>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " If you want :UltiSnipsEdit to split your window.
@@ -561,11 +561,8 @@ let g:bookmark_save_per_working_dir = 1
 let g:bookmark_auto_save = 1
 "}}}
 "coc.nvim config {{{
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+" <c-l> 确认补全
+inoremap <silent><expr> <c-l> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -573,15 +570,8 @@ function! s:check_back_space() abort
 endfunction
 let g:coc_snippet_next = '<tab>'
 let g:coc_snippet_prev = '<c-p>'
-
-inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-"                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-" <cr> 确认补全
+
 " let g:coc_snippet_next = '<c-n>'
 " let g:coc_snippet_prev = '<c-p>'
 autocmd FileType markdown let b:coc_pairs_disabled = ['`']
@@ -707,7 +697,7 @@ tnoremap ,, <c-\><c-n><c-w>h
 " hi FloatermBorder guibg=black
 " }}}
 " trans vim 翻译插件 {{{
-let g:translator_proxy_url = 'socks5://192.168.1.101:10808'
+let g:translator_proxy_url = 'socks5://192.168.16.101:10810'
 let g:translator_window_type = 'popup'
 nmap <leader>w <Plug>Translate
 xmap <leader>w <Plug>Translate
