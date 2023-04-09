@@ -9,7 +9,6 @@ Plug 'haringsrob/nvim_context_vt'
 Plug 'abecodes/tabout.nvim'
 " 光标下划线
 Plug 'yamatsum/nvim-cursorline'
-
 Plug 'winston0410/cmd-parser.nvim'
 Plug 'winston0410/range-highlight.nvim'
 
@@ -73,7 +72,7 @@ Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 " if has('nvim') || has('patch-8.0.902')
 Plug 'mhinz/vim-signify' 
 " gutentags 的增强
-Plug 'skywind3000/gutentags_plus' 
+" Plug 'skywind3000/gutentags_plus' 
 Plug 'ConradIrwin/vim-bracketed-paste' 
 " if filereadable('/bin/gtags') || filereadable('/usr/local/bin/gtags') || filereadable(expand("$HOME/.local/bin/gtags"))
 "     Plug 'ludovicchabant/vim-gutentags'

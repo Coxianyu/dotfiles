@@ -21,6 +21,6 @@ secret : ~/.config/secret
 atuin : ~/.config/atuin
 my_docker_compose : ~/.config/docker_compose
 openvpn-config : ~/.config/openvpn
-nvim : ~/.config/nvim
 vimspector : ~/.config/vimspector
 cheatsheet : ~/.local/share/navi/cheats/cheatsheet
+nvim : ~/.config/nvim
