@@ -22,5 +22,5 @@ my_docker_compose : ~/.config/docker_compose
 openvpn-config : ~/.config/openvpn
 vimspector : ~/.config/vimspector
 cheatsheet : ~/.local/share/navi/cheats/cheatsheet
-nvim : ~/.config/nvim
 doc : ~/.config/nvim/doc
+nvim : ~/.config/nvim
