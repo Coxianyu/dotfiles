@@ -783,7 +783,11 @@ EOF
 endif
 "}}}
 "vimspector {{{
-packadd! vimspector
+
+if (!has('win32'))
+    packadd! vimspector
+endif
+
 " let g:vimspector_enable_mappings = 'HUMAN'
 nnoremap <leader>dd :call vimspector#Launch()<cr>
 nnoremap <leader>de :call vimspector#Reset()<cr>
@@ -947,6 +951,7 @@ require('Comment').setup({mappings = {
         }})
 EOF
 
+if (!has('win32'))
 lua<<EOF
 vim.opt.list = true
 vim.opt.listchars:append("eol:↴")
@@ -954,8 +959,13 @@ require("indent_blankline").setup {
     show_end_of_line = true,
 }
 EOF
+endif
 " }}}
-helptags ~/.config/nvim/doc
+if has('win32')
+    helptags $HOMEPATH\AppData\Local\nvim\doc
+else
+    helptags $HOME/.config/nvim/doc
+endif
 omap     <silent> m :<C-U>lua require('tsht').nodes()<CR>
 vnoremap <silent> m :lua require('tsht').nodes()<CR>
 
