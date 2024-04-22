@@ -83,7 +83,6 @@ zinit  light-mode lucid wait="0"  for\
     id-as='tmuxinator_completion'   as="completion" mv="%ID% -> _tmuxinator"    "https://raw.githubusercontent.com/tmuxinator/tmuxinator/master/completion/tmuxinator.zsh"\
     id-as='alias-tips'          "djui/alias-tips" \
     id-as='fzf-marks'           "urbainvaes/fzf-marks" \
-    id-as='dotbare' as="null" sbin="dotbare"    "kazhala/dotbare" \
     id-as='fz'                  "changyuheng/fz" \
     id-as='fzf-completion'      "https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh"\
     id-as='alias-finder'        "https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/alias-finder/alias-finder.plugin.zsh" \
@@ -157,6 +156,12 @@ zinit snippet https://raw.githubusercontent.com/jsks/czhttpd/master/czhttpd
 zinit from"gh-r" as"null" mv"direnv* -> direnv" sbin="direnv" id-as="direnv" bpick="*linux*" wait="1" lucid\
     for \
         direnv/direnv
+
+zinit ice wait="1" lucid  from="gh-r"  sbin="asmfmt"  id-as="asmfmt" bpick="*Linux_x86_64*"
+zinit light klauspost/asmfmt
+
+zinit ice wait="1" lucid  from="gh-r" mv"shfmt* -> shfmt"  sbin="shfmt"  id-as="shfmt" bpick="*linux*amd64*"
+zinit light mvdan/sh
 
 # 仅仅在 $(git --version) < 2.55 时可以使用
 # zinit ice cloneopts="--depth 1 --filter=blob:none --sparse" atclone="git sparse-checkout set shell-completion/zsh" as="completion" id-as="systemd-completion" wait="0" lucid
@@ -311,6 +316,9 @@ fi
 #node.js 区块 {{{
 if [ -x "$(command -v npm)" ]; then
     zinit ice as="null"  id-as='yarn' run-atpull atclone="npm install -g yarn" atpull="npm update yarn" wait="1" lucid
+    zinit light zdharma-continuum/null
+
+    zinit ice as="null"  id-as='fixjson' run-atpull atclone="npm install -g fixjson" atpull="npm update fixjson" wait="1" lucid
     zinit light zdharma-continuum/null
 
     zinit ice as="null"  id-as='npm-neovim' run-atpull atclone="npm install -g neovim" atpull="npm update neovim" wait="1" lucid
@@ -557,7 +565,7 @@ alias tsrc='tmux source ~/.tmux.conf'
 alias batcat='bat' 
 alias proxychains='proxychains4'
 alias gitc='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
-alias config='dotbare'
+alias config='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 alias vimzsh="${EDITOR} ${HOME}/.zshrc"
 alias vimtmux="${EDITOR} ${HOME}/.tmux.conf"
 alias vimconfig="${EDITOR} ${HOME}/.config/nvim/init.vim"
@@ -568,7 +576,6 @@ alias viminstall="${EDITOR} ~/.config/install.sh"
 alias install="~/.config/install.sh"
 alias prz='proxychains4 -q zsh'
 alias pr='proxychains4 -q'
-alias cedit='dotbare fedit'
 #}}}
 #function{{{
 

@@ -23,7 +23,7 @@ return require('packer').startup(function()
               -- hijack netrw window on startup
               hijack_netrw        = true,
               -- open the tree when running this setup function
-              open_on_setup       = false,
+              -- open_on_setup       = false,
               -- will not open on setup if the filetype is in this list
               -- ignore_ft_on_setup  = {},
               -- closes neovim automatically when the tree is the last **WINDOW** in the view
@@ -84,13 +84,6 @@ return require('packer').startup(function()
                   side = 'left',
                   -- if true the tree will resize itself after opening a file
                   -- auto_resize = false,
-                  mappings = {
-                      -- custom only false will merge the list with the default mappings
-                      -- if true, it will only use your list to set the mappings
-                      custom_only = false,
-                      -- list of mappings to set on the tree manually
-                      list = {}
-                  }
               }
           }
       end
@@ -141,7 +134,6 @@ return require('packer').startup(function()
                       file_previewer = require'telescope.previewers'.vim_buffer_cat.new,
                       grep_previewer = require'telescope.previewers'.vim_buffer_vimgrep.new,
                       qflist_previewer = require'telescope.previewers'.vim_buffer_qflist.new,
-
                       -- Developer configurations: Not meant for general override
                       buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
                   }

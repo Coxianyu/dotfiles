@@ -1,5 +1,7 @@
 "插件{{{
 call plug#begin()
+
+Plug 'kshenoy/vim-signature'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'fannheyward/telescope-coc.nvim'
@@ -38,6 +40,7 @@ Plug 'voldikss/vim-translator'
 Plug 'glepnir/zephyr-nvim'
 " vim 浮动终端
 Plug 'voldikss/vim-floaterm'
+Plug 'voldikss/LeaderF-floaterm'
 " Plug 'sbdchd/neoformat'
 Plug 'junegunn/vim-easy-align'
 Plug 'SirVer/ultisnips'
@@ -120,6 +123,7 @@ hi Comment cterm=italic
 set incsearch
 "set textwidth=80
 set smartindent
+set smartcase
 " set lines=35 columns=160
 set ignorecase
 set history=1024
@@ -154,6 +158,7 @@ set t_Co=256
 " syntax off
 "}}}
 "nnoremap common {{{
+" let mapleader="<space>"
 let mapleader= ","
 nnoremap j gj
 nnoremap k gk
@@ -179,9 +184,9 @@ nnoremap <leader>ss :set hlsearch!<cr>
 nnoremap <space> za
 nnoremap H 0
 nnoremap e :HopWord<cr>
-nnoremap b :HopLine<cr>
+nnoremap b :HopLineStart<cr>
 nnoremap == :AutoformatLine<cr>
-nnoremap <leader> :Asyncrun
+nnoremap <leader> :AsyncRun!
 nnoremap <f2> :Autoformat<cr>
 nnoremap L $
 nnoremap <leader>h <c-w>h
@@ -563,15 +568,13 @@ let g:bookmark_auto_save = 1
 "coc.nvim config {{{
 " <c-l> 确认补全
 inoremap <silent><expr> <c-l> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 let g:coc_snippet_next = '<tab>'
-let g:coc_snippet_prev = '<c-p>'
+let g:coc_snippet_prev = '<S-tab>'
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
 " let g:coc_snippet_next = '<c-n>'
 " let g:coc_snippet_prev = '<c-p>'
 autocmd FileType markdown let b:coc_pairs_disabled = ['`']
@@ -925,10 +928,28 @@ require'nvim-treesitter.configs'.setup {
       lookahead = true,
       keymaps = {
         -- You can use the capture groups defined in textobjects.scm
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
+        ["a="] = { query = "@assignment.outer", desc = "Select outer part of an assignment" },
+        ["i="] = { query = "@assignment.inner", desc = "Select inner part of an assignment" },
+        ["l="] = { query = "@assignment.rhs", desc = "Select left hand side of an assignment" },
+        ["h="] = { query = "@assignment.lhs", desc = "Select right hand side of an assignment" },
+
+        ["aa"] = { query = "@parameter.outer", desc = "Select outer part of a parameter/argument" },
+        ["ia"] = { query = "@parameter.inner", desc = "Select inner part of a parameter/argument" },
+
+        ["ai"] = { query = "@conditional.outer", desc = "Select outer part of a conditional" },
+        ["ii"] = { query = "@conditional.inner", desc = "Select inner part of a conditional" },
+
+        ["al"] = { query = "@loop.outer", desc = "Select outer part of a loop" },
+        ["il"] = { query = "@loop.inner", desc = "Select inner part of a loop" },
+
+        ["af"] = { query = "@call.outer", desc = "Select outer part of a function call" },
+        ["if"] = { query = "@call.inner", desc = "Select inner part of a function call" },
+
+        ["am"] = { query = "@function.outer", desc = "Select outer part of a method/function definition" },
+        ["im"] = { query = "@function.inner", desc = "Select inner part of a method/function definition" },
+
+        ["ac"] = { query = "@class.outer", desc = "Select outer part of a class" },
+        ["ic"] = { query = "@class.inner", desc = "Select inner part of a class" },
       },
     },
   },
@@ -955,8 +976,7 @@ if (!has('win32'))
 lua<<EOF
 vim.opt.list = true
 vim.opt.listchars:append("eol:↴")
-require("indent_blankline").setup {
-    show_end_of_line = true,
+require("ibl").setup {
 }
 EOF
 endif
@@ -968,4 +988,3 @@ else
 endif
 omap     <silent> m :<C-U>lua require('tsht').nodes()<CR>
 vnoremap <silent> m :lua require('tsht').nodes()<CR>
-

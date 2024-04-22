@@ -99,6 +99,7 @@ packer-install(){
     $PACKGER install gpg -y
     $PACKGER install scdaemon -y
     $PACKGER install clang-format -y
+    $PACKGER install astyle -y
 
 }
 # apt install curl git wget python3 python3-pip proxychains v2ray unzip git-flow
