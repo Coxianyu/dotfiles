@@ -1,0 +1,1 @@
+/root/.zinit/plugins/z.lua/ranger_zlua.py

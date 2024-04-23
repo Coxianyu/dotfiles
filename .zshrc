@@ -141,16 +141,10 @@ zinit  as="null" wait="1" lucid from="gh-r" bpick="*x86_64*" for \
     id-as="lazygit"                                  sbin                             jesseduffield/lazygit\
     id-as="navi"                                     sbin                             denisidoro/navi\
 
-zinit ice id-as="cht" as="bin" mv="%ID% -> cht.sh" sbin="cht.sh" wait="1" lucid
-zinit snippet https://cht.sh/:cht.sh
-
 # 快速切换 host 文件的 zsh 脚本
 zinit ice id-as="dacuoxian" as="bin"  sbin="dacuoxian" lucid wait="1"
 zinit snippet https://raw.githubusercontent.com/chenjianjx/dacuoxian/master/dacuoxian.sh
 
-zinit ice id-as="czhttpd" as="bin"  sbin="czhttpd" lucid wait="1"
-zinit snippet https://raw.githubusercontent.com/jsks/czhttpd/master/czhttpd
-    
 # zinit pack for fzf
 # direnv 进入目录的时候自动加载和卸载环境变量 
 zinit from"gh-r" as"null" mv"direnv* -> direnv" sbin="direnv" id-as="direnv" bpick="*linux*" wait="1" lucid\
@@ -457,6 +451,7 @@ export DOTBARE_TREE="${HOME}"
 export LOCAL_IP=$(hostname -I | tr ' ' '\n' | head -n 1)
 export PROXYCHAINS_CONF_FILE="${HOME}/.config/proxychains4.conf"
 export LISTEN_IP="0.0.0.0"
+export RANGER_ZLUA="${HOME}/.zinit/plugins/z.lua/z.lua"
 export TARGET_IP=""
 export TARGET_URL=""
 export TARGET_HTTP_PORT="80"
@@ -539,7 +534,6 @@ if [ -x "$(command -v delta)" ];then
 else
     alias delta="diff"
 fi
-# jf foo 使用 fzf 交互选择
 alias 'chezmoi add'='chezmoi add --create'
 # dh fzf 选择去过的路径
 alias dh='j -I'
@@ -548,7 +542,7 @@ alias tasks='asynctask -f'
 alias de='j -b -I'
 # dw   使用 fzf 选择最近的 10 条路径
 alias dw='j -I -t .'
-# jc 跳转到当前路径下的子目录
+# dc 跳转到当前路径下的子目录
 alias dc='j -c -I'
 alias gdh="git diff HEAD"
 alias vitmux="$EDITOR ${HOME}/.tmux.conf"
@@ -569,6 +563,7 @@ alias config='/usr/bin/git --git-dir=$HOME/.myconfig/ --work-tree=$HOME'
 alias vimzsh="${EDITOR} ${HOME}/.zshrc"
 alias vimtmux="${EDITOR} ${HOME}/.tmux.conf"
 alias vimconfig="${EDITOR} ${HOME}/.config/nvim/init.vim"
+alias zshconfig=vimzsh
 alias vimproxy="${EDITOR} ${HOME}/.config/proxychains4.conf"
 alias vimark="${EDITOR} ${HOME}/.fzf-marks"
 alias exa='exa --icons'
