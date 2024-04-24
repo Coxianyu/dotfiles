@@ -1,0 +1,1 @@
+../../../.zinit/plugins/ranger_devicons/__init__.py

@@ -1,6 +1,7 @@
 "插件{{{
 call plug#begin()
 
+Plug 'kevinhwang91/rnvimr'
 Plug 'kshenoy/vim-signature'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -686,11 +687,12 @@ let g:floaterm_height = 0.9
 " hi Floaterm guibg=black
 " hi Floaterm guibg=LightGra
 nnoremap <f12> :FloatermToggle main<cr>
+nnoremap <F1>  :RnvimrToggle<cr>
+tnoremap <F1> <C-\><C-n>:RnvimrToggle<CR>
 nnoremap <leader>rh :FloatermNew --name=htop htop<cr>
 " nnoremap <leader>rh :FloatermNew  htop<cr>
 nnoremap <leader>rg :FloatermNew --name=lazygit lazygit<cr>
 nnoremap <leader>rl :FloatermNew --wintype=vsplit --width=0.4<cr>
-nnoremap <leader>rr :FloatermNew --name=ranger ranger<cr>
 nnoremap <leader>rw :FloatermNew --name=
 tnoremap <f12> <C-\><C-n>:FloatermToggle<cr>
 " tnoremap <f2> <C-\><C-n>:FloatermToggle<cr>

@@ -1,1 +1,1 @@
-/root/.zinit/plugins/z.lua/ranger_zlua.py
+../../../.zinit/plugins/z.lua/ranger_zlua.py

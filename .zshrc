@@ -245,6 +245,9 @@ zinit light pyenv/pyenv
 # zinit ice id-as="lua" as="bin" mv="%ID% -> lua" sbin="lua"
 # zinit light https://raw.githubusercontent.com/philanc/slua/master/bin/slua
 
+# ranger 插件, 用于显示文件图标
+zinit  ice wait="1" as='null' lucid depth="1"   id-as="ranger_devicons"
+zinit light alexanderjeurissen/ranger_devicons
 # 使用预编译的 lua 二进制文件
 zinit ice as="null" id-as='lua'  run-atpull atclone="wget https://raw.githubusercontent.com/philanc/slua/master/bin/slua;mv slua lua" atpull="%atclone" sbin="lua" wait="1" lucid
 zinit light zdharma-continuum/null
