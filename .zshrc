@@ -577,7 +577,7 @@ alias viminstall="${EDITOR} ~/.config/install.sh"
 alias install="~/.config/install.sh"
 alias prz='proxychains4 -q zsh'
 alias pr='proxychains4 -q'
-alias ssh="assh wrapper ssh --"
+# alias ssh="assh wrapper ssh --"
 alias asshb="assh config build > ~/.ssh/config"
 #}}}
 #function{{{
