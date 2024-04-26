@@ -18,9 +18,9 @@ my-service : ~/.config/service
 tmuxinator : ~/.config/tmuxinator
 secret : ~/.config/secret
 atuin : ~/.config/atuin
-my_docker_compose : ~/.config/docker_compose
 openvpn-config : ~/.config/openvpn
 vimspector : ~/.config/vimspector
 doc : ~/.config/nvim/doc
-cheatsheet : ~/.local/share/navi/cheats/cheatsheet
 nvim : ~/.config/nvim
+my_docker_compose : ~/.config/docker_compose
+cheatsheet : ~/.local/share/navi/cheats/cheatsheet

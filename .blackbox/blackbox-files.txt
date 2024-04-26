@@ -1,5 +1,6 @@
 .config/proxychains4.conf
 .config/secret/.gitconfig
+.config/secret/assh.yml
 .config/secret/clash-download.sh
-.config/secret/config
 .config/secret/daemon.json
+root/.config/secret/assh.yml

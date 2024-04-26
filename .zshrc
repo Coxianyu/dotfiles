@@ -179,6 +179,9 @@ fi
 zinit ice wait="1" lucid  from="gh-r"  sbin="gogs/gogs"  id-as="gogs"
 zinit light gogs/gogs
 
+zinit ice wait="1" lucid from="gh-r" id-as="assh" sbin="assh" bpick="*linux_amd64*"
+zinit light moul/assh
+
 # zinit ice wait="1" as="null" lucid atclone="./configure --prefix=${ZPFX} --sysconfdir=${HOME}/.config;make" atpull="%atclone" id-as="proxychains-ng" sbin="proxychains4"
 # zinit light rofl0r/proxychains-ng
 #
@@ -574,6 +577,8 @@ alias viminstall="${EDITOR} ~/.config/install.sh"
 alias install="~/.config/install.sh"
 alias prz='proxychains4 -q zsh'
 alias pr='proxychains4 -q'
+alias ssh="assh wrapper ssh --"
+alias asshb="assh config build > ~/.ssh/config"
 #}}}
 #function{{{
 
