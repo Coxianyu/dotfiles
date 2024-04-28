@@ -260,6 +260,8 @@ if [ -x "$(command -v pip3)" ]; then
     # httpe wget 和 curl 的替代品
     zinit ice as="null"  id-as='httpie' run-atpull atclone="pip3 install  httpie" atpull="pip3 install  --upgrade httpie"  wait="1" lucid
     zinit light zdharma-continuum/null
+    zinit ice as="null"  id-as='ansible' run-atpull atclone="pip3 install  ansible" atpull="pip3 install  --upgrade ansible"  wait="1" lucid
+    zinit light zdharma-continuum/null
     # zinit ice as="null"  id-as='httpie' lucid wait="1" pip="httpie"
     # zinit light zdharma-continuum/null
 
@@ -358,9 +360,12 @@ zinit light zdharma-continuum/null
 # 点文件管理器
 # zinit ice wait="1" lucid from="gh-r" id-as="chezmoi" bpick="*linux_amd64.tar.gz*" sbin="chezmoi" cp="completions/chezmoi.zsh -> completions/_chezmoi" atclone="chown ${USERNAME}:${USERNAME} completions/*;zinit creinstall chezmoi" atpull="%atclone"
 # zinit light twpayne/chezmoi
-#
-
-
+# 点文件管理器
+zinit ice wait="1" lucid from="gh-r" id-as="dotter" bpick="*linux-x64-musl*" sbin="dotter" mv="dotter* -> dotter" atpull="%atclone"
+zinit light SuperCuber/dotter
+# dotter 补全文件
+zinit ice wait="1" lucid from="gh-r" id-as="dotter-completions" bpick="completions.zip"  atpull="%atclone"  atclone="chown ${USERNAME}:${USERNAME} completions/*;zinit creinstall dotter-completions"
+zinit light SuperCuber/dotter
 
 
 
