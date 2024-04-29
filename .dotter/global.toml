@@ -1,0 +1,9 @@
+[helpers]
+
+[gitconfig.files]
+".config/secret/.gitconfig"="~/.gitconfig"
+".script/gpg.sh" = "~/.script/gpg.sh"
+
+[gpg.files]
+".gnupg/gpg.conf" = "~/.gnupg/.conf"
+".gnupg/gpg-agent.conf" = "~/.gnupg/gpg-agent.conf"
